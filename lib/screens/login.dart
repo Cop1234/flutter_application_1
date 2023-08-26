@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/login_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
 import 'package:flutter_application_1/model/login.dart';
-import 'package:flutter_application_1/screens/admin/add_room.dart';
+import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/student/view_student_subject.dart';
 import 'package:flutter_application_1/screens/teacher/view_subject.dart';
 import 'package:http/http.dart' as http;
@@ -168,7 +168,7 @@ class _loginScreenState extends State<LoginScreen>{
                                       Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         builder: (BuildContext context){
-                                          return const AddRoomScreen();}
+                                          return const ListRoom();}
                                       ));
                                     }
                                   }else if(response.statusCode == 409){
