@@ -26,7 +26,7 @@ class LoginController {
 
   }
 
-  Future get_ListRoom () async {
+  Future get_ListLogin () async {
 
     var url = Uri.parse(baseURL + '/login/list');
 

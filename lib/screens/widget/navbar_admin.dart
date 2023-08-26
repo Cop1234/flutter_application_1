@@ -4,17 +4,19 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/login.dart';
 
-class NavbarStudent extends StatefulWidget {
-  const NavbarStudent({super.key});
+class NavbarAdmin extends StatefulWidget {
+  const NavbarAdmin({super.key});
 
   @override
-  State<NavbarStudent> createState() => _NavbarStudentState();
+  State<NavbarAdmin> createState() => _NavbarAdminnState();
 }
 
-class _NavbarStudentState extends State<NavbarStudent> {
+class _NavbarAdminnState extends State<NavbarAdmin> {
   bool pressed1 = true;
   bool pressed2 = true;
   bool pressed3 = true;
+  bool pressed4 = true;
+  bool pressed5 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,42 @@ class _NavbarStudentState extends State<NavbarStudent> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                /*Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context){
+                      return subjectScreen();}
+                    ));*/
+                });
+            },
+            child: Icon(
+              Icons.room,
+                    color: Colors.white,
+                    size: 30.0,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 3,right: 30,top: 10,bottom: 10),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  pressed1 = !pressed1;
+                  /*Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return subjectScreen();}
+                      ));*/
+                });
+              },
+              child: Text("ห้อง",
+                    style: pressed1
+                    ? TextStyle(color: Colors.white,fontSize: 20,)
+                    : TextStyle(color:Colors.black,fontSize: 20),
+              ),
+            ),
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -44,7 +82,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  pressed1 = !pressed1;
+                  pressed2 = !pressed2;
                   /*Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context){
@@ -53,7 +91,43 @@ class _NavbarStudentState extends State<NavbarStudent> {
                 });
               },
               child: Text("รายวิชา",
-                    style: pressed1
+                    style: pressed2
+                    ? TextStyle(color: Colors.white,fontSize: 20,)
+                    : TextStyle(color:Colors.black,fontSize: 20),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                /*Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context){
+                      return subjectScreen();}
+                    ));*/
+                });
+            },
+            child: Icon(
+              Icons.school,
+                    color: Colors.white,
+                    size: 30.0,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 3,right: 30,top: 10,bottom: 10),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  pressed3 = !pressed3;
+                  /*Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return subjectScreen();}
+                      ));*/
+                });
+              },
+              child: Text("นักศึกษา",
+                    style: pressed3
                     ? TextStyle(color: Colors.white,fontSize: 20,)
                     : TextStyle(color:Colors.black,fontSize: 20),
               ),
@@ -70,9 +144,9 @@ class _NavbarStudentState extends State<NavbarStudent> {
                 });
               },
             child: Icon(
-              Icons.perm_contact_cal,
+              Icons.person,
                     color: Colors.white,
-                    size: 24.0,
+                    size: 30.0,
             ),
           ),
           Padding(
@@ -80,7 +154,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
             child: GestureDetector(
               onTap: (){
                 setState(() {
-                  pressed2 = !pressed2;
+                  pressed4 = !pressed4;
                   /*Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context){
@@ -88,8 +162,8 @@ class _NavbarStudentState extends State<NavbarStudent> {
                       ));*/
                 });
               },
-              child: Text("โปรไฟล์",
-              style: pressed2
+              child: Text("อาจารย์",
+              style: pressed4
                       ? TextStyle(color: Colors.white,fontSize: 20,)
                       : TextStyle(color:Colors.black,fontSize: 20),
               ),
@@ -98,11 +172,11 @@ class _NavbarStudentState extends State<NavbarStudent> {
           GestureDetector(
             onTap: (){
               setState(() {
-                /*Navigator.of(context).pushReplacement(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (BuildContext context){
                       return LoginScreen();}
-                  ));*/
+                  ));
               });
             },
             child: Icon(
@@ -116,7 +190,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
             child: GestureDetector(
               onTap: (){
                 setState(() {
-                  pressed3 = !pressed3;
+                  pressed5 = !pressed5;
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context){
@@ -125,7 +199,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
                 });
               },
               child: Text("ออกจากระบบ",
-              style: pressed3
+              style: pressed5
                       ? TextStyle(color: Colors.white,fontSize: 20,)
                       : TextStyle(color:Colors.black,fontSize: 20),
               ),

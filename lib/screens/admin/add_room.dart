@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
+import 'package:flutter_application_1/screens/widget/navbar_admin.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 
 class AddRoomScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
       body: Center(
         child: Column(
           children: [
-            NavbarTeacher(),
+            NavbarAdmin(),
             
           ]
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
-import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
+import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 
 class ViewStudentSubject extends StatefulWidget {
   const ViewStudentSubject({super.key});
@@ -20,7 +20,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
       body: Center(
         child: Column(
           children: [
-            NavbarTeacher(),
+            NavbarStudent(),
             
           ]
         ),

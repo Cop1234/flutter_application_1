@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/login_controller.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
 import 'package:flutter_application_1/model/login.dart';
+import 'package:flutter_application_1/screens/admin/add_room.dart';
+import 'package:flutter_application_1/screens/student/view_student_subject.dart';
 import 'package:flutter_application_1/screens/teacher/view_subject.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,9 +21,11 @@ class _loginScreenState extends State<LoginScreen>{
 
   bool? isLoaded = false;
   bool passToggle = true;
+  Login? logins;
 
   final _formfield = GlobalKey<FormState>();
   final LoginController loginController = LoginController();
+  final UserController userController = UserController();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passworldController = TextEditingController();
@@ -137,14 +144,33 @@ class _loginScreenState extends State<LoginScreen>{
                                   print("Data Added Successfully");
 
                                   http.Response response = await loginController.doLogin(usernameController.text, passworldController.text);
-                                  
+
                                   if (response.statusCode == 200){
                                     print("ผ่าน");
-                                    Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context){
-                                        return const subjectScreen();}
-                                  ));
+
+                                    //Check Role for Go Screen
+                                    var jsonResponse = jsonDecode(response.body);
+                                    List<dynamic> roles = jsonResponse['Role']; 
+                                    String roleName = roles[1]['role'];
+                                    if (roleName == "Student"){
+                                      Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context){
+                                          return const ViewStudentSubject();}
+                                      ));
+                                    }else if (roleName == "Teacher"){
+                                      Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context){
+                                          return const subjectScreen();}
+                                      ));
+                                    }else if (roleName == "Admin"){
+                                      Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context){
+                                          return const AddRoomScreen();}
+                                      ));
+                                    }
                                   }else if(response.statusCode == 409){
                                     print("ไม่เจอข้อมูล");
                                   }else{
