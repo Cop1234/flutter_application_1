@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
+import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/login.dart';
 
 class NavbarAdmin extends StatefulWidget {
@@ -28,11 +29,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (BuildContext context){
-                      return subjectScreen();}
-                    ));*/
+                      return ListRoomScreen();}
+                    ));
                 });
             },
             child: Icon(
@@ -47,11 +48,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed1 = !pressed1;
-                  /*Navigator.of(context).pushReplacement(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context){
-                        return subjectScreen();}
-                      ));*/
+                        return ListRoomScreen();}
+                      ));
                 });
               },
               child: Text("ห้อง",
