@@ -18,4 +18,10 @@ class CustomTextStyle {
     color: Color.fromARGB(255, 255, 255, 255),
     fontWeight: FontWeight.bold,
   );
+
+  static const TextStyle createFontStyle = TextStyle(
+    fontSize: 25,
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+  );
 }

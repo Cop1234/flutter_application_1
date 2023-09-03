@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
+import 'package:flutter_application_1/model/room.dart';
+import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_admin.dart';
 import 'package:http/http.dart' as http;
 
-class AddRoomScreen extends StatefulWidget {
-  const AddRoomScreen({super.key});
+class DetailRoomScreen extends StatefulWidget {
+  final String id;
+  const DetailRoomScreen({super.key, required this.id});
 
   @override
-  State<AddRoomScreen> createState() => _AddRoomScreenState();
+  State<DetailRoomScreen> createState() => _DetailRoomScreenState();
 }
 
-class _AddRoomScreenState extends State<AddRoomScreen> {
+class _DetailRoomScreenState extends State<DetailRoomScreen> {
+  Room? room;
   bool passToggle = true;
+  bool? isLoaded = false;
 
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   final RoomController roomController = RoomController();
@@ -23,6 +28,27 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   TextEditingController buildingController = TextEditingController();
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
+
+  void setDataToText() {
+    roomNameController.text = room?.roomName ?? "";
+    buildingController.text = room?.building ?? "";
+    latitudeController.text = room?.latitude.toString() ?? "";
+    longitudeController.text = room?.longitude.toString() ?? "";
+  }
+
+  void fetchData(String id) async {
+    room = await roomController.get_Room(id);
+    setDataToText();
+    setState(() {
+      isLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -241,10 +267,13 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    roomNameController.text = "";
-                                    buildingController.text = "";
-                                    latitudeController.text = "";
-                                    longitudeController.text = "";
+                                    await Future.delayed(Duration
+                                        .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return ListRoomScreen();
+                                    }));
                                   },
                                   child: Container(
                                       height: 35,
@@ -254,7 +283,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Center(
-                                        child: Text("รีเซ็ต",
+                                        child: Text("ยกเลิก",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
@@ -266,16 +295,31 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                 ),
                                 InkWell(
                                   onTap: () async {
+                                    double? latitude = double.tryParse(
+                                        latitudeController.text);
+                                    double? longitude = double.tryParse(
+                                        longitudeController.text);
+                                    Room updateRoom = Room(
+                                      id: room?.id,
+                                      roomName: roomNameController.text,
+                                      building: buildingController.text,
+                                      latitude: latitude,
+                                      longitude: longitude,
+                                    );
                                     if (_formfield.currentState!.validate()) {
                                       http.Response response =
-                                          await roomController.addRoom(
-                                              roomNameController.text,
-                                              buildingController.text,
-                                              latitudeController.text,
-                                              longitudeController.text);
+                                          (await roomController
+                                              .update_Room(updateRoom));
 
                                       if (response.statusCode == 200) {
-                                        print("บันทึกสำเร็จ");
+                                        print("แก้ไขสำเร็จ");
+                                        await Future.delayed(Duration
+                                            .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return ListRoomScreen();
+                                        }));
                                       }
                                     }
                                   },
@@ -287,7 +331,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Center(
-                                        child: Text("ยืนยัน",
+                                        child: Text("แก้ไข",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
