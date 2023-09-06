@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/admin/add_room.dart';
+import 'package:flutter_application_1/screens/admin/insert_DataStudent.dart';
+import 'package:flutter_application_1/screens/admin/list_Teacher.dart';
 import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: maincolor,
       ),
-      home: ListSubjectScreen(),
+      home: ListTeacher(),
       //home: LoginScreen(),
     );
   }
