@@ -51,4 +51,16 @@ class UserController {
 
     return response;
   }
+
+  Future updateTeacher(User user) async {
+    Map<String, dynamic> data = user.formUserToJson();
+
+    var body = json.encode(data);
+
+    var url = Uri.parse(baseURL + '/teacher/update');
+
+    http.Response response = await http.put(url, headers: headers, body: body);
+
+    return response;
+  }
 }

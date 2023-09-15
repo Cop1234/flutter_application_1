@@ -1,30 +1,406 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/login.dart';
+import 'package:intl/intl.dart';
+
+import '../../color.dart';
+import '../../controller/user_controller.dart';
+import '../../model/user.dart';
+import '../widget/mainTextStyle.dart';
+import '../widget/my_abb_bar.dart';
+import '../widget/navbar_admin.dart';
+import 'add_teacher.dart';
+import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+
+import 'list_Teacher.dart';
 
 class DetailTeacher extends StatefulWidget {
-  const DetailTeacher({super.key});
-
+  //const DetailTeacher({super.key});
+  final String id;
+  const DetailTeacher({super.key, required this.id});
   @override
   State<DetailTeacher> createState() => _DetailTeacherState();
 }
 
-class _DetailTeacherState extends State<DetailTeacher>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+class _DetailTeacherState extends State<DetailTeacher> {
+  final UserController userController = UserController();
+
+  List<Map<String, dynamic>> data = [];
+  bool? isLoaded = false;
+  //List<User>? users;
+
+  User? users;
+  Login? login;
+  TextEditingController useridController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController birthdateController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController loginidController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void setDataToText() {
+    useridController.text = users?.userid ?? "";
+    emailController.text = users?.email ?? "";
+    fnameController.text = users?.fname ?? "";
+    lnameController.text = users?.lname ?? "";
+    birthdateController.text = users?.birthdate ?? "";
+    genderController.text = users?.gender ?? "";
+    loginidController.text = login?.id ?? "";
+    usernameController.text = login?.username ?? "";
+    passwordController.text = login?.password ?? "";
+  }
+
+//ฟังชั่นโหลดข้อมูลเว็บ
+  void userData(String id) async {
+    users = await userController.get_User(id);
+    setState(() {
+      isLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
+    userData(widget.id);
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  DateTime selecteData = DateTime.now();
+
+  TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
+  TextEditingController timePicker = TextEditingController();
+  // final UserController userController = UserController();
+  final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
+  var items = ['ชาย', 'หญิง'];
+  String dropdownvalue = 'ชาย';
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: kMyAppBar,
+        backgroundColor: Colors.white,
+        body: ListView(children: [
+          Column(children: [
+            NavbarAdmin(),
+            Form(
+              key: _formfield,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Color.fromARGB(255, 226, 226, 226),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      width: 1000,
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //RoomName
+
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "อีเมล : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: emailController,
+                                        decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled:
+                                              true, // เปิดการใช้งานการเติมพื้นหลัง
+                                          fillColor: Colors.white,
+                                          border: InputBorder
+                                              .none, // กำหนดให้ไม่มีเส้นขอบ
+                                        ),
+                                        validator: (value) {
+                                          bool subjectNameValid = RegExp(
+                                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                                              .hasMatch(value!);
+                                          if (value.isEmpty) {
+                                            return "กรุณากรอกอีเมล*";
+                                          } else if (!subjectNameValid) {
+                                            return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "ชื่อ : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: fnameController,
+                                        decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled:
+                                              true, // เปิดการใช้งานการเติมพื้นหลัง
+                                          fillColor: Colors.white,
+                                          border: InputBorder
+                                              .none, // กำหนดให้ไม่มีเส้นขอบ
+                                        ),
+                                        validator: (value) {
+                                          bool subjectNameValid =
+                                              RegExp(r'^[ก-์]+$')
+                                                  .hasMatch(value!);
+                                          if (value.isEmpty) {
+                                            return "กรุณากรอกชื่อ*";
+                                          } else if (!subjectNameValid) {
+                                            return "ชื่อต้องเป็นภาษาไทยเท่านั้น";
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "นามกุล : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: lnameController,
+                                        decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled:
+                                              true, // เปิดการใช้งานการเติมพื้นหลัง
+                                          fillColor: Colors.white,
+                                          border: InputBorder
+                                              .none, // กำหนดให้ไม่มีเส้นขอบ
+                                        ),
+                                        validator: (value) {
+                                          bool subjectNameValid =
+                                              RegExp(r'^[ก-์]+$')
+                                                  .hasMatch(value!);
+                                          if (value.isEmpty) {
+                                            return "กรุณากรอกนามกุล*";
+                                          } else if (!subjectNameValid) {
+                                            return "ชื่อนามกุลต้องเป็นภาษาไทย";
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: <Widget>[
+                                  Text("วันเกิด : ",
+                                      style: CustomTextStyle.createFontStyle),
+                                  Text(
+                                      '${DateFormat('dd-MM-yyyy').format(selecteData)}',
+                                      style: CustomTextStyle.createFontStyle),
+                                  ElevatedButton(
+                                    child: const Text("Date"),
+                                    onPressed: () async {
+                                      final DateTime? dateTime =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: selecteData,
+                                              firstDate: DateTime(1000),
+                                              lastDate: DateTime(3000));
+                                      if (dateTime != null) {
+                                        setState(() {
+                                          selecteData = dateTime;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+
+                            //Longtitude
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "เพศ : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      //genderController
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 100,
+                                    height: 40,
+                                    alignment: AlignmentDirectional.centerStart,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    // dropdown below..
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      value: dropdownvalue,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                      items: items.map(
+                                        (String items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownvalue = newValue!;
+                                        });
+                                      },
+                                      icon: Icon(Icons.keyboard_arrow_down),
+                                      underline: SizedBox(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    useridController.text = "";
+                                    emailController.text = "";
+                                    fnameController.text = "";
+                                    lnameController.text = "";
+
+                                    genderController.text = "";
+                                  },
+                                  child: Container(
+                                      height: 35,
+                                      width: 110,
+                                      decoration: BoxDecoration(
+                                        color: maincolor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Center(
+                                        child: Text("ยกเลิก",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                      )),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    if (_formfield.currentState!.validate()) {
+                                      http.Response response =
+                                          await userController.addTeacher(
+                                              useridController.text,
+                                              emailController.text,
+                                              fnameController.text,
+                                              lnameController.text,
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(selecteData)
+                                                  .toString(),
+                                              genderController.text =
+                                                  dropdownvalue);
+
+                                      if (response.statusCode == 200) {
+                                        print("แก้ไขสำเร็จ");
+                                        await Future.delayed(Duration
+                                            .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return ListTeacher();
+                                        }));
+                                      }
+                                    }
+                                  },
+                                  child: Container(
+                                      height: 35,
+                                      width: 110,
+                                      decoration: BoxDecoration(
+                                        color: maincolor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Center(
+                                        child: Text("แก้ไข",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ]),
+        ]));
   }
 }

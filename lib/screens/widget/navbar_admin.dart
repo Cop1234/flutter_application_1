@@ -6,6 +6,8 @@ import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
 
+import '../admin/list_Teacher.dart';
+
 class NavbarAdmin extends StatefulWidget {
   const NavbarAdmin({super.key});
 
@@ -168,11 +170,10 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed4 = !pressed4;
-                  /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return EditProfileTeacherScreen();}
-                      ));*/
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return ListTeacher();
+                  }));
                 });
               },
               child: Text(

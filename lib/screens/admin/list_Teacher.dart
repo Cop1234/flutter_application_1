@@ -281,7 +281,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                 onTap: () async {
                                                   await Future.delayed(Duration
                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                  /*Navigator.of(context)
+                                                  Navigator.of(context)
                                                       .pushReplacement(
                                                           MaterialPageRoute(
                                                               builder:
@@ -290,8 +290,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                     return DetailTeacher(
                                                         id: row['id']
                                                             .toString());
-                                                  }))*/
-                                                  ;
+                                                  }));
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
