@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_admin.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 
 class DetailRoomScreen extends StatefulWidget {
@@ -48,6 +49,24 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
   void initState() {
     super.initState();
     fetchData(widget.id);
+  }
+
+  void showSuccessToChangeRoomAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "การแก้ไขห้องเรียนสำเร็จ",
+      text: "ข้อมูลห้องเรียนถูกแก้ไขเรียบร้อยแล้ว",
+      type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
+      onConfirmBtnTap: () {
+        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ListRoomScreen(),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -312,14 +331,8 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                               .update_Room(updateRoom));
 
                                       if (response.statusCode == 200) {
+                                        showSuccessToChangeRoomAlert();
                                         print("แก้ไขสำเร็จ");
-                                        await Future.delayed(Duration
-                                            .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return ListRoomScreen();
-                                        }));
                                       }
                                     }
                                   },
