@@ -1,8 +1,8 @@
 //ip เครื่องตัวเอง
 
 //ip หอ
-//const String ipv4 = '192.168.88.71';
-const String ipv4 = '192.168.20.130';
+const String ipv4 = '192.168.88.71';
+//const String ipv4 = '192.168.20.130';
 //
 
 //ip ม.
