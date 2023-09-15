@@ -58,7 +58,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
           allowedExtensions: ['xls', 'xlsx']);
 
       if (result != null) {
-        //final filePath = result.files.first.bytes;
+        // final filePath = result.files.first.bytes;
         uploadfile = result.files.single.bytes;
         fileName = result.files.first.name;
         //pickedFile = result.files.first;
