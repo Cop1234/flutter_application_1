@@ -26,12 +26,13 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
 
-  void showSuccessToAddSubjectAlert() {
+  void showSuccessToAddRoomAlert() {
     QuickAlert.show(
       context: context,
       title: "การเพิ่มห้องเรียนสำเร็จ",
       text: "ข้อมูลห้องเรียนถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
@@ -294,7 +295,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                               longitudeController.text);
 
                                       if (response.statusCode == 200) {
-                                        showSuccessToAddSubjectAlert();
+                                        showSuccessToAddRoomAlert();
                                         print("บันทึกสำเร็จ");
                                       }
                                     }

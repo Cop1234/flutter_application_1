@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/room_controller.dart';
+import 'package:flutter_application_1/controller/subject_controller.dart';
+import 'package:flutter_application_1/model/room.dart';
+import 'package:flutter_application_1/model/subject.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 
 class TeacherCreateSub extends StatefulWidget {
   const TeacherCreateSub({super.key});
@@ -12,28 +18,59 @@ class TeacherCreateSub extends StatefulWidget {
 }
 
 class _TeacherCreateSubState extends State<TeacherCreateSub> {
-  String dropdownvalue = '1';
-  String GroupStu = '1';
-  String NumberSubject = '1163';
-  String TypeSubject = 'LAB';
-  String NameRoom = 'ห้อง 1';
-  String Duration = '1';
+  final RoomController roomController = RoomController();
+  final SubjectController subjectController = SubjectController();
+
+  List<Map<String, dynamic>> dataSubject = [];
+  List<Map<String, dynamic>> dataRoom = [];
+
+  bool? isLoaded = false;
+  List<Room>? rooms;
+  List<Subject>? subjects;
+
+  void fetchData() async {
+    List<Room> fetchedRooms = await roomController.listAllRooms();
+    List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+
+    setState(() {
+      rooms = fetchedRooms;
+      subjects = fetchedSubjects;
+      //
+      dataRoom = fetchedRooms
+          .map((room) => {
+                'roomName': room.roomName,
+              })
+          .toList();
+      dataSubject = fetchedSubjects
+          .map((subject) => {
+                'subjectId': subject.subjectId,
+              })
+          .toList();
+      isLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  String selectedTerm = '1';
+  String selectedGroupStu = '1';
+  dynamic selectedSubjectId;
+  String selectedDuration = '1';
+  String selectedTypeSubject = 'LAB';
+  dynamic selectedRoom;
 
   TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
   TextEditingController timePicker = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // List of items in our dropdown menu
-  var items = ['1', '2'];
-
+  var Terms = ['1', '2'];
   var GStu = ['1', '2'];
-
-  var subjectnum = ['1163', '1164', '1165'];
-
   var typesub = ['LAB', 'Lecture'];
-
-  var NameR = ['ห้อง 1', 'ห้อว 2'];
-
   var durationTime = ['1', '2', '3'];
 
   @override
@@ -101,11 +138,11 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: dropdownvalue,
+                                      value: selectedTerm,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
-                                      items: items.map(
+                                      items: Terms.map(
                                         (String items) {
                                           return DropdownMenuItem(
                                             value: items,
@@ -115,7 +152,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       ).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          dropdownvalue = newValue!;
+                                          selectedTerm = newValue!;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -148,21 +185,20 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: NumberSubject,
+                                      value: selectedSubjectId,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
-                                      items: subjectnum.map(
-                                        (String subjectnum) {
-                                          return DropdownMenuItem(
-                                            value: subjectnum,
-                                            child: Text(subjectnum),
-                                          );
-                                        },
-                                      ).toList(),
+                                      items: dataSubject
+                                          .map((Map<String, dynamic> subject) {
+                                        return DropdownMenuItem<String>(
+                                          value: subject['subjectId'],
+                                          child: Text(subject['subjectId']),
+                                        );
+                                      }).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          NumberSubject = newValue!;
+                                          selectedSubjectId = newValue;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -195,7 +231,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: GroupStu,
+                                      value: selectedGroupStu,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -209,7 +245,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       ).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          GroupStu = newValue!;
+                                          selectedGroupStu = newValue!;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -295,7 +331,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: Duration,
+                                      value: selectedDuration,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -309,7 +345,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       ).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          Duration = newValue!;
+                                          selectedDuration = newValue!;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -346,7 +382,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: TypeSubject,
+                                      value: selectedTypeSubject,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -360,7 +396,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       ).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          TypeSubject = newValue!;
+                                          selectedTypeSubject = newValue!;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -393,21 +429,20 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                     // dropdown below..
                                     child: DropdownButton<String>(
                                       isExpanded: true,
-                                      value: NameRoom,
+                                      value: selectedRoom,
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
-                                      items: NameR.map(
-                                        (String NameR) {
-                                          return DropdownMenuItem(
-                                            value: NameR,
-                                            child: Text(NameR),
-                                          );
-                                        },
-                                      ).toList(),
+                                      items: dataRoom
+                                          .map((Map<String, dynamic> room) {
+                                        return DropdownMenuItem<String>(
+                                          value: room['roomName'],
+                                          child: Text(room['roomName']),
+                                        );
+                                      }).toList(),
                                       onChanged: (String? newValue) {
                                         setState(() {
-                                          NameRoom = newValue!;
+                                          selectedRoom = newValue;
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -430,7 +465,17 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       textStyle: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedTerm = "1";
+                                      selectedSubjectId = null;
+                                      selectedGroupStu = "1";
+                                      selectedDuration = "1";
+                                      timePicker.text = "";
+                                      selectedTypeSubject = "LAB";
+                                      selectedRoom = null;
+                                    });
+                                  },
                                   child: Text("รีเซ็ต"),
                                 ),
                                 SizedBox(

@@ -33,6 +33,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
       title: "การเพิ่มวิชาสำเร็จ",
       text: "ข้อมูลวิชาถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
