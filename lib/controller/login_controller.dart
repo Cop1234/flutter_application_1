@@ -4,51 +4,39 @@ import 'package:flutter_application_1/ws_config.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController {
-
-  Future doLogin (String username, String password) async {
-
-    Map data = {
-      "username" : username,
-      "password" : password
-    };
+  Future doLogin(String username, String password) async {
+    Map data = {"username": username, "password": password};
 
     var jsonData = json.encode(data);
     var url = Uri.parse(baseURL + "/login/do_login");
 
-    http.Response response = await http.post(
-      url,
-      headers: headers,
-      body: jsonData
-    );
+    http.Response response =
+        await http.post(url, headers: headers, body: jsonData);
 
     print(response.body);
     return response;
-
   }
 
-  Future get_ListLogin () async {
-
+  Future get_ListLogin() async {
     var url = Uri.parse(baseURL + '/login/list');
 
     http.Response response = await http.get(url);
 
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
-    List<Login> list = jsonResponse.map((e) => Login.formLoginToJson(e)).toList();
-    return list; 
-
+    List<Login> list =
+        jsonResponse.map((e) => Login.formJsonTOLogin(e)).toList();
+    return list;
   }
 
-  Future get_Login (String username) async{
-
+  Future get_Login(String username) async {
     var url = Uri.parse(baseURL + '/login/getbyusername/' + username);
 
     http.Response response = await http.get(url);
 
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Login login = Login.formLoginToJson(jsonResponse);
-    return login; 
+    Login login = Login.formJsonTOLogin(jsonResponse);
+    return login;
   }
-
 }

@@ -386,7 +386,7 @@ class _AddTeacherState extends State<AddTeacher>
                                                   .format(selecteData)
                                                   .toString(),
                                               genderController.text =
-                                                  dropdownvalue);
+                                                  dropdownvalue.toString());
 
                                       if (response.statusCode == 200) {
                                         showSuccessToAddTeacherAlert();

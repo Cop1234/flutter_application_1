@@ -42,6 +42,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.5
   http: ^0.13.5
   file_picker: ^4.0.0
+  flutter_session_manager: ^1.0.3
   
   
   

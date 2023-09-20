@@ -36,11 +36,13 @@ class _ListTeacherState extends State<ListTeacher>
       data = userteacher
           .map((user) => {
                 'id': user.id,
-                'userid': user.userid,
-                'fname': user.fname,
-                'lname': user.lname,
+                'userid': user.userid ?? "",
+                'fname': user.fname ?? "",
+                'lname': user.lname ?? "",
+                'login': user.login ?? "",
               })
           .toList();
+      //print(data);
       isLoaded = true;
     });
   }

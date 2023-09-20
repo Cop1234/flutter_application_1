@@ -1,29 +1,27 @@
 class Login {
-
-  String? id;
-  String? username;
+  int? id;
   String? password;
+  String? username;
 
   Login({
     this.id,
-    this.username,
     this.password,
+    this.username,
   });
 
-  Map<String, dynamic> formLoginToJson(){
+  Map<String, dynamic> formLoginToJson() {
     return <String, dynamic>{
-      'id' : id,
-      'username' : username,
-      'password' : password,
+      'id': id,
+      'password': password,
+      'username': username,
     };
   }
 
-  factory Login.formLoginToJson(Map<String, dynamic> json) {
+  factory Login.formJsonTOLogin(Map<String, dynamic> json) {
     return Login(
       id: json["id"],
-      username: json["username"],
       password: json["password"],
+      username: json["username"],
     );
   }
-
 }
