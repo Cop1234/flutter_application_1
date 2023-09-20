@@ -352,7 +352,6 @@ class _AddTeacherState extends State<AddTeacher>
                                     emailController.text = "";
                                     fnameController.text = "";
                                     lnameController.text = "";
-
                                     genderController.text = "";
                                   },
                                   child: Container(
