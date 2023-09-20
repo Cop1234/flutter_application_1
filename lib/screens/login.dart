@@ -8,6 +8,7 @@ import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/student/view_student_subject.dart';
 import 'package:flutter_application_1/screens/teacher/view_subject.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color.dart';
 
@@ -20,6 +21,7 @@ class _loginScreenState extends State<LoginScreen> {
   bool? isLoaded = false;
   bool passToggle = true;
   Login? logins;
+  String roleName = "";
 
   final _formfield = GlobalKey<FormState>();
   final LoginController loginController = LoginController();
@@ -142,12 +144,15 @@ class _loginScreenState extends State<LoginScreen> {
                                       passworldController.text);
 
                               if (response.statusCode == 200) {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setString(
+                                    'username', usernameController.text);
                                 print("ผ่าน");
-
                                 //Check Role for Go Screen
                                 var jsonResponse = jsonDecode(response.body);
-                                List<dynamic> roles = jsonResponse['Role'];
-                                String roleName = roles[1]['role'];
+                                List<dynamic> roles = jsonResponse['role'];
+                                roleName = roles[0]['role'];
                                 if (roleName == "Student") {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(

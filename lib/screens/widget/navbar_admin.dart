@@ -5,6 +5,7 @@ import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../admin/list_Teacher.dart';
 
@@ -206,7 +207,9 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
             padding:
                 const EdgeInsets.only(left: 3, right: 30, top: 10, bottom: 10),
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('username');
                 setState(() {
                   pressed5 = !pressed5;
                   Navigator.of(context).pushReplacement(
