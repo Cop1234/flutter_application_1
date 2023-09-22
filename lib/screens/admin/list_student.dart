@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/student_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
-import 'package:flutter_application_1/model/user.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 
 import '../../color.dart';
+import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
 import '../widget/navbar_admin.dart';
-import 'add_teacher.dart';
-import 'detail_teacher.dart';
+import 'detail_student.dart';
+import 'insert_DataStudent.dart';
 
-class ListTeacher extends StatefulWidget {
-  const ListTeacher({super.key});
+class ListStudent extends StatefulWidget {
+  const ListStudent({super.key});
 
   @override
-  State<ListTeacher> createState() => _ListTeacherState();
+  State<ListStudent> createState() => _ListStudentState();
 }
 
-class _ListTeacherState extends State<ListTeacher>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+class _ListStudentState extends State<ListStudent> {
+  final StudentController studentController = StudentController();
 
   final UserController userController = UserController();
-
   List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
   List<User>? users;
-
-//ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
-    List<User> userteacher = await userController.listAllTeacher();
+    List<User> userteacher = await studentController.listAllStudent();
     setState(() {
       users = userteacher;
       data = userteacher
@@ -47,7 +44,7 @@ class _ListTeacherState extends State<ListTeacher>
     });
   }
 
-  void showSureToDeleteTeacher(String id) {
+  void showSureToDeleteStudent(String id) {
     QuickAlert.show(
         context: context,
         title: "คุณแน่ใจหรือไม่ ? ",
@@ -59,16 +56,16 @@ class _ListTeacherState extends State<ListTeacher>
 
           if (response.statusCode == 200) {
             Navigator.pop(context);
-            showUpDeleteTeacherSuccessAlert();
+            showUpDeleteStudentSuccessAlert();
           } else {
-            showFailToDeleteTeacherAlert();
+            showFailToDeleteStudentAlert();
           }
         },
         cancelBtnText: "ยกเลิก",
         showCancelBtn: true);
   }
 
-  void showFailToDeleteTeacherAlert() {
+  void showFailToDeleteStudentAlert() {
     QuickAlert.show(
         context: context,
         title: "เกิดข้อผิดพลาด",
@@ -76,7 +73,7 @@ class _ListTeacherState extends State<ListTeacher>
         type: QuickAlertType.error);
   }
 
-  void showUpDeleteTeacherSuccessAlert() {
+  void showUpDeleteStudentSuccessAlert() {
     QuickAlert.show(
         context: context,
         title: "สำเร็จ",
@@ -85,7 +82,7 @@ class _ListTeacherState extends State<ListTeacher>
         confirmBtnText: "ตกลง",
         onConfirmBtnTap: () {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const ListTeacher()));
+              MaterialPageRoute(builder: (context) => const ListStudent()));
         });
   }
 
@@ -93,13 +90,6 @@ class _ListTeacherState extends State<ListTeacher>
   void initState() {
     super.initState();
     fetchData();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -139,7 +129,7 @@ class _ListTeacherState extends State<ListTeacher>
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return AddTeacher();
+                                        return InsertDataStudent();
                                       }));
                                     });
                                   },
@@ -151,7 +141,7 @@ class _ListTeacherState extends State<ListTeacher>
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Center(
-                                        child: Text("เพิ่มอาจารย์",
+                                        child: Text("เพิ่มนักศึกษา",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
@@ -176,7 +166,7 @@ class _ListTeacherState extends State<ListTeacher>
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'รหัสอาจารย์',
+                                      'รหัสนักศึกษา',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -289,7 +279,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                               builder:
                                                                   (BuildContext
                                                                       context) {
-                                                    return DetailTeacher(
+                                                    return DetailStudent(
                                                         id: row['id']
                                                             .toString());
                                                   }));
@@ -307,7 +297,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                 Future.delayed(
                                                     const Duration(seconds: 0),
                                                     () =>
-                                                        showSureToDeleteTeacher(
+                                                        showSureToDeleteStudent(
                                                             row['id']
                                                                 .toString()));
                                                 //String? gg = row['id'].toString() ?? "";
