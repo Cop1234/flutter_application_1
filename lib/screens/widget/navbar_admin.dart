@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/admin/list_room.dart';
+import 'package:flutter_application_1/screens/admin/list_student.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -131,11 +132,10 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed3 = !pressed3;
-                  /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return subjectScreen();}
-                      ));*/
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return ListStudent();
+                  }));
                 });
               },
               child: Text(

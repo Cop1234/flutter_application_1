@@ -4,14 +4,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/controller/student_controller.dart';
+import 'package:flutter_application_1/screens/admin/list_student.dart';
 import 'package:http/http.dart' as http;
+import '../../color.dart';
 import '../../controller/user_controller.dart';
 import '../widget/my_abb_bar.dart';
 import '../widget/navbar_admin.dart';
+import 'package:quickalert/quickalert.dart';
 
 class InsertDataStudent extends StatefulWidget {
   const InsertDataStudent({super.key});
@@ -20,6 +26,7 @@ class InsertDataStudent extends StatefulWidget {
 }
 
 class _InsertDataStudent extends State<InsertDataStudent> {
+  final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   TextEditingController _controller = new TextEditingController();
   final StudentController studentController = StudentController();
   File? fileToDisplay;
@@ -43,6 +50,52 @@ class _InsertDataStudent extends State<InsertDataStudent> {
     reader.readAsArrayBuffer(file);
   }
 
+  void showSuccessToAddStudentAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "การเพิ่มชื่อสำเร็จ",
+      text: "ข้อมูลชื่อถูกเพิ่มเรียบร้อยแล้ว",
+      type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
+      onConfirmBtnTap: () {
+        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ListStudent(),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickFile(BuildContext context) async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['xls', 'xlsx'],
+      );
+
+      if (result != null) {
+        uploadfile = result.files.single.bytes;
+        fileName = result.files.first.name;
+
+        _controller.text = fileName ?? "";
+
+        print(fileName);
+
+        // สามารถลบบรรทัดนี้ได้หากไม่ต้องการแสดงผล response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('File uploaded successfully')),
+        );
+      }
+    } catch (e) {
+      print("Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File upload failed: $e')),
+      );
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +104,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
     _controller.text = 'Complete the story from here...';
   }
 
+/*
   Future<void> _pickFile(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -74,7 +128,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
       print("Error: $e");
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,9 +180,16 @@ class _InsertDataStudent extends State<InsertDataStudent> {
                             child: Center(
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    var response = studentController
-                                        .uploadUint8ListFile(uploadfile!);
-                                    print(response);
+                                    if (uploadfile != null) {
+                                      print("Upload to API!");
+
+                                      var response = await studentController
+                                          .upload(uploadfile!, fileName);
+                                      if (response == 200) {
+                                        showSuccessToAddStudentAlert();
+                                        print("บันทึกสำเร็จ");
+                                      }
+                                    }
                                   },
                                   child: Text("เพิ่ม")),
                             ),
