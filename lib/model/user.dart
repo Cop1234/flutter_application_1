@@ -34,7 +34,6 @@ class User {
       'fname': fname,
       'gender': gender,
       'lname': lname,
-
       'typeuser': typeuser,
       'userid': userid,
     };
