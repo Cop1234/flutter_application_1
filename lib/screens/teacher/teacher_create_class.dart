@@ -1,25 +1,37 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/course_controller.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
+import 'package:flutter_application_1/controller/section_controller.dart';
 import 'package:flutter_application_1/controller/subject_controller.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
 import 'package:flutter_application_1/model/room.dart';
 import 'package:flutter_application_1/model/subject.dart';
+import 'package:flutter_application_1/model/user.dart';
+import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class TeacherCreateSub extends StatefulWidget {
-  const TeacherCreateSub({super.key});
+class TeacherCreateClass extends StatefulWidget {
+  const TeacherCreateClass({super.key});
 
   @override
-  State<TeacherCreateSub> createState() => _TeacherCreateSubState();
+  State<TeacherCreateClass> createState() => _TeacherCreateClassState();
 }
 
-class _TeacherCreateSubState extends State<TeacherCreateSub> {
+class _TeacherCreateClassState extends State<TeacherCreateClass> {
   final RoomController roomController = RoomController();
   final SubjectController subjectController = SubjectController();
+  final CourseController courseController = CourseController();
+  final SectionController sectionController = SectionController();
+  final UserController userController = UserController();
 
   List<Map<String, dynamic>> dataSubject = [];
   List<Map<String, dynamic>> dataRoom = [];
@@ -27,10 +39,20 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
   bool? isLoaded = false;
   List<Room>? rooms;
   List<Subject>? subjects;
+  User? userNow;
 
   void fetchData() async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    if (username != null) {
+      userNow = await userController.get_UserByUsername(username);
+      print("ชื่อผู้ใช้ขณะนี้ " + username);
+    } else {
+      print("ไม่พบข้อมูลผู้ใช้");
+    }
 
     setState(() {
       rooms = fetchedRooms;
@@ -38,11 +60,13 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
       //
       dataRoom = fetchedRooms
           .map((room) => {
+                'id': room.id,
                 'roomName': room.roomName,
               })
           .toList();
       dataSubject = fetchedSubjects
           .map((subject) => {
+                'id': subject.id,
                 'subjectId': subject.subjectId,
               })
           .toList();
@@ -62,6 +86,8 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
   String selectedDuration = '1';
   String selectedTypeSubject = 'LAB';
   dynamic selectedRoom;
+  String selectedSemesterNow = DateFormat(' yyyy ').format(DateTime.now());
+  dynamic formattedTime;
 
   TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
   TextEditingController timePicker = TextEditingController();
@@ -72,6 +98,24 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
   var GStu = ['1', '2'];
   var typesub = ['LAB', 'Lecture'];
   var durationTime = ['1', '2', '3'];
+
+  void showSuccessToCreateSubjectAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "การสร้างคลาสเรียนสำเร็จ",
+      text: "ข้อมูลคลาสเรียนถุกเพิ่มเรียบร้อยแล้ว",
+      type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
+      onConfirmBtnTap: () {
+        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ListClassScreen(),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +152,7 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                 children: [
                                   Text("ปีการศึกษา : ",
                                       style: CustomTextStyle.createFontStyle),
-                                  Text(
-                                      DateFormat(' yyyy ')
-                                          .format(DateTime.now()),
+                                  Text(selectedSemesterNow,
                                       style: CustomTextStyle.createFontStyle)
                                 ],
                               ),
@@ -173,38 +215,48 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                   ),
                                   //ปุ่มเลือกรหัสวิชา
                                   Container(
-                                    width: 150,
-                                    height: 40,
-                                    alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    // dropdown below..
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: selectedSubjectId,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                      items: dataSubject
-                                          .map((Map<String, dynamic> subject) {
-                                        return DropdownMenuItem<String>(
-                                          value: subject['subjectId'],
-                                          child: Text(subject['subjectId']),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          selectedSubjectId = newValue;
-                                        });
-                                      },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
-                                    ),
-                                  ),
+                                      width: 150,
+                                      height: 50,
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      // dropdown below..
+                                      child: DropdownButtonFormField<String>(
+                                        isExpanded: true,
+                                        value: selectedSubjectId,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                        items: dataSubject.map(
+                                            (Map<String, dynamic> subject) {
+                                          return DropdownMenuItem<String>(
+                                            value: subject['subjectId'],
+                                            child: Text(subject['subjectId']),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            selectedSubjectId = newValue;
+                                          });
+                                        },
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'กรุณาเลือกวิชา';
+                                          }
+                                          // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'กรุณาเลือกวิชา',
+                                          border: InputBorder.none,
+                                        ),
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                      )),
                                 ],
                               ),
                             ),
@@ -280,9 +332,8 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             bottom: 8, left: 5),
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none),
+                                        child: TextFormField(
+                                          controller: timePicker,
                                           onTap: () async {
                                             TimeOfDay? newTime =
                                                 await showTimePicker(
@@ -300,7 +351,18 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                               print(time.hour);
                                             });
                                           },
-                                          controller: timePicker,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'กรุณากรอกเวลาเริ่มเรียน';
+                                            }
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly, // บังคับให้กรอกแค่ตัวเลขเท่านั้น
+                                          ],
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none),
                                         ),
                                       ),
                                     ),
@@ -417,38 +479,48 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                   ),
                                   //ปุ่มเลือกห้องเรียน
                                   Container(
-                                    width: 300,
-                                    height: 40,
-                                    alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    // dropdown below..
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: selectedRoom,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                      items: dataRoom
-                                          .map((Map<String, dynamic> room) {
-                                        return DropdownMenuItem<String>(
-                                          value: room['roomName'],
-                                          child: Text(room['roomName']),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          selectedRoom = newValue;
-                                        });
-                                      },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
-                                    ),
-                                  ),
+                                      width: 300,
+                                      height: 50,
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      // dropdown below..
+                                      child: DropdownButtonFormField<String>(
+                                        isExpanded: true,
+                                        value: selectedRoom,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                        items: dataRoom
+                                            .map((Map<String, dynamic> room) {
+                                          return DropdownMenuItem<String>(
+                                            value: room['roomName'],
+                                            child: Text(room['roomName']),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            selectedRoom = newValue;
+                                          });
+                                        },
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'กรุณาเลือกห้องเรียน';
+                                          }
+                                          // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'กรุณาเลือกห้องเรียน',
+                                          border: InputBorder.none,
+                                        ),
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                      )),
                                 ],
                               ),
                             ),
@@ -488,7 +560,104 @@ class _TeacherCreateSubState extends State<TeacherCreateSub> {
                                       textStyle: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      print("ผ่าน");
+                                      String IdUser =
+                                          userNow?.id?.toString() ?? "";
+                                      // ค้นหา id ที่เกี่ยวข้องจาก dataSubject
+                                      var selectedSubject =
+                                          dataSubject.firstWhere(
+                                        (subject) =>
+                                            subject['subjectId'] ==
+                                            selectedSubjectId,
+                                      );
+                                      // ค้นหา id ที่เกี่ยวข้องจาก dataRoom
+                                      var selectedRoomName =
+                                          dataRoom.firstWhere(
+                                        (room) =>
+                                            room['roomName'] == selectedRoom,
+                                      );
+                                      // ตรวจสอบว่าพบ subjectId ที่เลือกหรือไม่
+                                      if (selectedSubject != null) {
+                                        var IdSubject = selectedSubject['id'];
+                                        print(
+                                            'คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
+
+                                        // เรียก addCourse และรอการตอบกลับ
+                                        http.Response response =
+                                            await courseController.addCourse(
+                                          IdSubject.toString(),
+                                          IdUser,
+                                          selectedTerm.toString(),
+                                          selectedSemesterNow.toString(),
+                                        );
+
+                                        if (response.statusCode == 200) {
+                                          // เรียก addCourse สำเร็จ
+
+                                          // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
+                                          Map<String, dynamic> responseBody =
+                                              json.decode(response.body);
+
+                                          // ดึง IdCourse ที่ได้รับจาก response ออกมา
+                                          var IdCourse = responseBody['id'];
+
+                                          if (selectedRoomName != null) {
+                                            var IdRoom = selectedRoomName['id'];
+                                            print(
+                                                'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
+                                            List<String> parts =
+                                                timePicker.text.split(':');
+
+                                            if (parts.length == 2) {
+                                              String hour = parts[0];
+                                              String minute = parts[1];
+
+                                              // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
+                                              if (int.parse(hour) < 10) {
+                                                hour = "0$hour";
+                                              }
+                                              if (int.parse(minute) < 10) {
+                                                minute = "0$minute";
+                                              }
+
+                                              // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
+                                              formattedTime = "$hour:$minute";
+                                              print(formattedTime);
+                                            } else {
+                                              print(
+                                                  "รูปแบบของข้อความไม่ถูกต้อง");
+                                            }
+
+                                            // เรียก addSection และรอการตอบกลับ
+                                            http.Response sectionResponse =
+                                                await sectionController
+                                                    .addSection(
+                                              formattedTime.toString(),
+                                              selectedDuration.toString(),
+                                              selectedGroupStu.toString(),
+                                              selectedTypeSubject.toString(),
+                                              IdUser.toString(),
+                                              IdCourse
+                                                  .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
+                                              IdRoom.toString(),
+                                            );
+
+                                            if (sectionResponse.statusCode ==
+                                                200) {
+                                              // เรียก addSection สำเร็จ
+                                              showSuccessToCreateSubjectAlert();
+                                              print("บันทึกสำเร็จ");
+                                            }
+                                          }
+                                        }
+                                      } else {
+                                        print(
+                                            'ไม่พบ subjectId: $selectedSubjectId ในรายการ');
+                                      }
+                                    }
+                                  },
                                   child: Text("ยืนยัน"),
                                 )
                               ],

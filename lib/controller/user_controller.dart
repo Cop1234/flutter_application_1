@@ -4,7 +4,7 @@ import 'package:flutter_application_1/model/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserController {
-  Future get_User(String username) async {
+  Future get_UserByUsername(String username) async {
     var url = Uri.parse(baseURL + '/user/getbyusername/' + username);
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);

@@ -35,8 +35,19 @@ class SubjectController {
     return list;
   }
 
-  Future get_Subject(String subjectId) async {
-    var url = Uri.parse(baseURL + '/subject/getbyid/' + subjectId);
+  Future get_Subject(String id) async {
+    var url = Uri.parse(baseURL + '/subject/getbyid/' + id);
+
+    http.Response response = await http.get(url);
+
+    final utf8Body = utf8.decode(response.bodyBytes);
+    var jsonResponse = json.decode(utf8Body);
+    Subject subject = Subject.formSubjectToJson(jsonResponse);
+    return subject;
+  }
+
+  Future get_SubjectBySubjectId(String SubjectId) async {
+    var url = Uri.parse(baseURL + '/subject/getbysubjectid/' + SubjectId);
 
     http.Response response = await http.get(url);
 

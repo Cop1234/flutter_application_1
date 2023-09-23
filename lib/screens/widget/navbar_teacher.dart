@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:flutter_application_1/screens/teacher/edit_teacher_profile.dart';
-import 'package:flutter_application_1/screens/teacher/teacher_create_subject.dart';
-import 'package:flutter_application_1/screens/teacher/view_subject.dart';
+import 'package:flutter_application_1/screens/teacher/teacher_create_class.dart';
+import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavbarTeacher extends StatefulWidget {
@@ -33,7 +33,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return subjectScreen();
+                  return ListClassScreen();
                 }));
               });
             },
@@ -52,7 +52,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed1 = !pressed1;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return subjectScreen();
+                    return ListClassScreen();
                   }));
                 });
               },
@@ -72,7 +72,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return TeacherCreateSub();
+                  return TeacherCreateClass();
                 }));
               });
             },
@@ -90,7 +90,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed2 = !pressed2;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return TeacherCreateSub();
+                    return TeacherCreateClass();
                   }));
                 });
               },
