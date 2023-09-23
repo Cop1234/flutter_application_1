@@ -1,18 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
-import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
-import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
+import 'package:flutter_application_1/screens/widget/navbar_student.dart';
+import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
+import '../../controller/student_controller.dart';
+import '../../model/user.dart';
+import '../widget/mainTextStyle.dart';
+import '../widget/my_abb_bar.dart';
+import 'detail_editstudentprofile.dart';
 
-class EditProfileTeacherScreen extends StatefulWidget {
-  const EditProfileTeacherScreen({super.key});
+class EditTeacherProfile extends StatefulWidget {
+  final String id;
+  const EditTeacherProfile({super.key, required this.id});
 
   @override
-  State<EditProfileTeacherScreen> createState() =>
-      _EditProfileTeacherScreenState();
+  State<EditTeacherProfile> createState() => _EditTeacherProfileState();
 }
 
-class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
-  bool passToggle = true;
+class _EditTeacherProfileState extends State<EditTeacherProfile> {
+  final StudentController studentController = StudentController();
+
+  //List<Map<String, dynamic>> data = [];
+  bool? isLoaded = false;
+  //List<User>? users;
+
+  User? users;
+
+  TextEditingController user_idController = TextEditingController();
+  TextEditingController useridController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  DateTime selecteData = DateTime.now();
+  TextEditingController birthdateController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController typeuserController = TextEditingController();
+  TextEditingController loginidController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void setDataToText() {
+    user_idController.text = users?.id.toString() ?? "";
+    useridController.text = users?.userid ?? "";
+    emailController.text = users?.email ?? "";
+    fnameController.text = users?.fname ?? "";
+    lnameController.text = users?.lname ?? "";
+    selecteData = DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "");
+    genderController.text = users?.gender ?? "";
+    typeuserController.text = users?.typeuser ?? "";
+    loginidController.text = users?.login?.id.toString() ?? "";
+    usernameController.text = users?.login?.username ?? "";
+    passwordController.text = users?.login?.password.toString() ?? "";
+  }
+
+//ฟังชั่นโหลดข้อมูลเว็บ
+
+//ฟังชั่นโหลดข้อมูลเว็บ
+  void userData(String id) async {
+    setState(() {
+      isLoaded = false;
+    });
+
+    users = await studentController.get_Userid(id);
+    setDataToText();
+
+    setState(() {
+      isLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // userData();
+    userData(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +83,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Column(children: [
-            NavbarTeacher(),
+            NavbarStudent(),
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -78,31 +140,31 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "ชื่อ : ",
+                                  "ชื่อ : ${users?.fname}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "นามสกุล : ",
+                                  "นามสกุล : ${users?.lname}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "รหัสอาจารย์ : ",
+                                  "รหัสนักศึกษา : ${users?.userid}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "อีเมล : ",
+                                  "อีเมล : ${users?.email}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "ชื่อผู้ใช้ : ",
+                                  "ชื่อผู้ใช้ : ${users?.login?.username}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "เพศ : ",
+                                  "เพศ : ${users?.gender}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "วัน เดือน ปี ที่เกิด : ",
+                                  "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 SizedBox(
@@ -110,7 +172,16 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await Future.delayed(Duration
+                                        .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return DetailEditStudentProfile(
+                                          id: '${users?.id.toString()}');
+                                    }));
+                                  },
                                   child: Text("แก้ไขรหัสผ่าน"),
                                 )
                               ],
