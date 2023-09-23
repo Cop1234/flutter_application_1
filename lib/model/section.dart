@@ -43,6 +43,7 @@ class Section {
       startTime: json["startTime"],
       duration: json["duration"],
       sectionNumber: json["sectionNumber"],
+      type: json["type"],
       user: User.formJsonToUser(json["user"]),
       course: Course.formCourseToJson(json["course"]),
       room: Room.formRoomToJson(json["room"]),

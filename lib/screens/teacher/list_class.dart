@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/course_controller.dart';
+import 'package:flutter_application_1/controller/room_controller.dart';
+import 'package:flutter_application_1/controller/section_controller.dart';
+import 'package:flutter_application_1/controller/subject_controller.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
+import 'package:flutter_application_1/model/course.dart';
+import 'package:flutter_application_1/model/room.dart';
+import 'package:flutter_application_1/model/section.dart';
+import 'package:flutter_application_1/model/subject.dart';
+import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/screens/teacher/teacher_import_student.dart';
 import 'package:flutter_application_1/screens/teacher/teacher_setting_subject.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_attendance%20.dart';
@@ -7,260 +17,343 @@ import 'package:flutter_application_1/screens/teacher/view_teacher_student.dart'
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../color.dart';
 
-class ListClassScreen extends StatelessWidget {
+class ListClassScreen extends StatefulWidget {
   const ListClassScreen({super.key});
 
   @override
+  State<ListClassScreen> createState() => _ListClassScreenState();
+}
+
+class _ListClassScreenState extends State<ListClassScreen> {
+  final SubjectController subjectController = SubjectController();
+  final CourseController courseController = CourseController();
+  final SectionController sectionController = SectionController();
+  final UserController userController = UserController();
+
+  List<Map<String, dynamic>> dataSubject = [];
+  List<Map<String, dynamic>> dataCourse = [];
+  List<Map<String, dynamic>> dataSection = [];
+  List<Map<String, dynamic>> combinedData = [];
+
+  bool? isLoaded = false;
+  List<Subject>? subjects;
+  List<Course>? courses;
+  List<Section>? sections;
+  User? userNow;
+
+  String? IdUser;
+
+  void fetchUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    //print(username);
+    if (username != null) {
+      User? user = await userController.get_UserByUsername(username);
+      if (user != null) {
+        IdUser = user.id.toString();
+        //print(IdUser);
+        // เมื่อค้นพบ id ของผู้ใช้ ให้ดึงรายการคอร์สและเซคชันต่อไป
+        fetchUserCourses(IdUser);
+      }
+    }
+  }
+
+  void fetchUserCourses(String? IdUser) async {
+    if (IdUser != null) {
+      // ค้นหาคอร์สของผู้ใช้โดยใช้ userId
+      List<Course> userCourses =
+          await courseController.listCoursesByUserId(IdUser);
+
+      // ค้นหาเซคชันที่เกี่ยวข้องโดยใช้รายการคอร์สที่ค้นพบ
+      List<Section> userSections =
+          await sectionController.listSectionsByUserId(IdUser);
+
+      // ตอนนี้คุณมีข้อมูล userCourses และ userSections
+      // สามารถใช้ข้อมูลเหล่านี้ในการสร้างตารางหรือแสดงข้อมูลอื่น ๆ ตามที่คุณต้องการ
+
+      fetchData(userCourses, userSections);
+    }
+  }
+
+  void fetchData(List<Course> userCourses, List<Section> userSections) {
+    setState(() {
+      // สร้างรายการข้อมูลที่ต้องการจาก userCourses และ userSections
+
+      for (Course course in userCourses) {
+        Section? section = userSections.firstWhere(
+          (s) => s.course?.id == course.id, // แก้ไขการเปรียบเทียบ ID ของ Course
+          orElse: () => Section(id: null, type: 'N/A'),
+        );
+        combinedData.add({
+          'id': course.id,
+          'subjectName': course.subject?.subjectName,
+          'subjectId': course.subject?.subjectId,
+          'type': section.type,
+        });
+      }
+
+      // ทำอะไรกับ combinedData ต่อไปได้ตามที่คุณต้องการ
+      // เช่น นำข้อมูลไปแสดงใน DataTable
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserId();
+    print(combinedData);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool standardSelected = false;
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          NavbarTeacher(),
           Column(
             children: [
-              Form(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Card(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: Color.fromARGB(255, 226, 226, 226),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: SizedBox(
-                        width: 1200,
-                        child: Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: Column(
-                            children: <Widget>[
-                              Table(
-                                  //border: TableBorder.all(), // Allows to add a border decoration around your table
-                                  children: [
-                                    TableRow(
-                                        decoration: const BoxDecoration(
-                                          color: maincolor,
-                                        ),
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'รหัสวิชา',
-                                              style:
-                                                  CustomTextStyle.TextHeadBar,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('ชื่อวิชา',
-                                                style:
-                                                    CustomTextStyle.TextHeadBar,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('ประเภท',
-                                                style:
-                                                    CustomTextStyle.TextHeadBar,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('จัดการ',
-                                                style:
-                                                    CustomTextStyle.TextHeadBar,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ]),
-                                    //เพิ่ม Table
-                                    TableRow(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.black,
-                                        ),
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'IT001',
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('xxxxxxxx',
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('LAB',
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: PopupMenuButton(
-                                              icon: Icon(
-                                                Icons.settings,
-                                                color: Colors.white,
-                                              ),
-                                              itemBuilder: (context) => [
-                                                PopupMenuItem(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                          Icons
-                                                              .inventory_outlined,
-                                                          color: Colors.black),
-                                                      SizedBox(width: 10.0),
-                                                      Text('การเข้าเรียน'),
-                                                    ],
-                                                  ),
-                                                  onTap: () async {
-                                                    final navigator =
-                                                        Navigator.of(context);
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    navigator.push(
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              TeacherAtten()),
-                                                    );
-                                                  },
-                                                ),
-                                                PopupMenuItem(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                          Icons.qr_code_scanner,
-                                                          color: Colors.black),
-                                                      SizedBox(width: 10.0),
-                                                      Text('QR CODE'),
-                                                    ],
-                                                  ),
-                                                  onTap: () async {
-                                                    final navigator =
-                                                        Navigator.of(context);
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    navigator.push(
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              TeacherQR()),
-                                                    );
-                                                  },
-                                                ),
-                                                PopupMenuItem(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.people_alt,
-                                                          color: Colors.black),
-                                                      SizedBox(width: 10.0),
-                                                      Text('แก้ไขนักศึกษา'),
-                                                    ],
-                                                  ),
-                                                  onTap: () async {
-                                                    final navigator =
-                                                        Navigator.of(context);
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    navigator.push(
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              TeacherViewStudent()),
-                                                    );
-                                                  },
-                                                ),
-                                                PopupMenuItem(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                          Icons
-                                                              .subject_outlined,
-                                                          color: Colors.black),
-                                                      SizedBox(width: 10.0),
-                                                      Text('แก้ไขวิชา'),
-                                                    ],
-                                                  ),
-                                                  onTap: () async {
-                                                    final navigator =
-                                                        Navigator.of(context);
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    navigator.push(
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              TeacherSettingSubject()),
-                                                    );
-                                                  },
-                                                ),
-                                                PopupMenuItem(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.group_add,
-                                                          color: Colors.black),
-                                                      SizedBox(width: 10.0),
-                                                      Text('เพิ่มนักศึกษา'),
-                                                    ],
-                                                  ),
-                                                  onTap: () async {
-                                                    final navigator =
-                                                        Navigator.of(context);
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    navigator.push(
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              TeacherImportStu()),
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ]),
-                                  ]),
-                            ],
+              NavbarTeacher(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              ),
+              Card(
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                color: Color.fromARGB(255, 226, 226, 226),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    width: 1100,
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
+                          DataTable(
+                            headingRowColor: MaterialStateColor.resolveWith(
+                                (states) => maincolor),
+                            dataRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.black),
+                            columns: const <DataColumn>[
+                              DataColumn(
+                                label: SizedBox(
+                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'รหัสวิชา',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: SizedBox(
+                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'ชื่อวิชา',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: SizedBox(
+                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'ประเภท',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: SizedBox(
+                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'จัดการ',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Add more DataColumn as needed
+                            ],
+                            rows: (combinedData ?? [])
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              int index = entry.key + 1; // นับลำดับเริ่มจาก 1
+                              Map<String, dynamic> row = entry.value;
+                              return DataRow(
+                                cells: <DataCell>[
+                                  DataCell(
+                                    Container(
+                                      width: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          row['subjectId'],
+                                          style: CustomTextStyle.TextGeneral,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      width: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          row['subjectName'],
+                                          style: CustomTextStyle.TextGeneral,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Container(
+                                      width: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          row['type'],
+                                          style: CustomTextStyle.TextGeneral,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: Container(
+                                      width: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: PopupMenuButton(
+                                          icon: Icon(
+                                            Icons.settings,
+                                            color: Colors.white,
+                                          ),
+                                          itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                        Icons
+                                                            .inventory_outlined,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 10.0),
+                                                    Text('การเข้าเรียน'),
+                                                  ],
+                                                ),
+                                                onTap: () async {
+                                                  await Future.delayed(Duration
+                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                    return TeacherAtten();
+                                                  }));
+                                                }),
+                                            PopupMenuItem(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.qr_code_scanner,
+                                                      color: Colors.black),
+                                                  SizedBox(width: 10.0),
+                                                  Text('QR CODE'),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Future.delayed(
+                                                    const Duration(seconds: 0),
+                                                    () => TeacherQR());
+                                              },
+                                            ),
+                                            PopupMenuItem(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.people_alt,
+                                                      color: Colors.black),
+                                                  SizedBox(width: 10.0),
+                                                  Text('แก้ไขนักศึกษา'),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Future.delayed(
+                                                    const Duration(seconds: 0),
+                                                    () => TeacherViewStudent());
+                                              },
+                                            ),
+                                            PopupMenuItem(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.settings,
+                                                      color: Colors.black),
+                                                  SizedBox(width: 10.0),
+                                                  Text('แก้ไขคลาสเรียน'),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Future.delayed(
+                                                    const Duration(seconds: 0),
+                                                    () =>
+                                                        TeacherSettingSubject());
+                                              },
+                                            ),
+                                            PopupMenuItem(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.group_add,
+                                                      color: Colors.black),
+                                                  SizedBox(width: 10.0),
+                                                  Text('เพิ่มนักศึกษา'),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Future.delayed(
+                                                    const Duration(seconds: 0),
+                                                    () => TeacherImportStu());
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                                  // Add more DataCell as needed
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
-
-  void setState(Null Function() param0) {}
-}
-
-class Constants {
-  static const String FirstItem = 'การเข้าห้องเรียน';
-  static const String SecondItem = 'เปิด QR Code';
-  static const String ThirdItem = 'จัดการนักเรียน';
-  static const String FourItem = 'จัดการวิชา';
-  static const String FiveItem = 'เพิ่มนักเรียน';
-
-  static const List<String> choices = <String>[
-    FirstItem,
-    SecondItem,
-    ThirdItem,
-    FourItem,
-    FiveItem
-  ];
 }

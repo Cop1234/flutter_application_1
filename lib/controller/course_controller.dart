@@ -18,6 +18,17 @@ class CourseController {
     return list;
   }
 
+  Future listCoursesByUserId(String IdUser) async {
+    var url = Uri.parse(baseURL + '/course/listbyiduser/' + IdUser);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<Course> list =
+        jsonResponse.map((e) => Course.formCourseToJson(e)).toList();
+    print(list);
+    return list;
+  }
+
   Future get_Course(String id) async {
     var url = Uri.parse(baseURL + '/course/getbyid/' + id);
     http.Response response = await http.get(url);
