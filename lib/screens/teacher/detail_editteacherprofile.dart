@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/student/view_student_subject.dart';
-import 'package:flutter_application_1/screens/widget/navbar_student.dart';
-import 'package:intl/intl.dart';
-import 'package:quickalert/quickalert.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
+import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:quiver/strings.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../../color.dart';
-import '../../controller/student_controller.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
-import 'edit_student_profile.dart';
+import 'edit_teacher_profile.dart';
 
-class DetailEditStudentProfile extends StatefulWidget {
+class DetailEditTeacherProfile extends StatefulWidget {
   final String id;
-
-  const DetailEditStudentProfile({super.key, required this.id});
+  const DetailEditTeacherProfile({super.key, required this.id});
 
   @override
-  State<DetailEditStudentProfile> createState() =>
-      _DetailEditStudentProfileState();
+  State<DetailEditTeacherProfile> createState() =>
+      _DetailEditTeacherProfileState();
 }
 
-class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
-  final StudentController studentController = StudentController();
+class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
+  final UserController userController = UserController();
 
   //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
@@ -68,7 +66,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
       isLoaded = false;
     });
 
-    users = await studentController.get_Userid(id);
+    users = await userController.get_Userid(id);
     setDataToText();
     setState(() {
       user_id = id.toString();
@@ -103,7 +101,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => EditStudentProfile(),
+            builder: (context) => EditProfileTeacherScreen(),
           ),
         );
       },
@@ -118,7 +116,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
         body: Form(
           key: _formfield,
           child: Column(children: [
-            NavbarStudent(),
+            NavbarTeacher(),
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -264,7 +262,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(builder:
                                                 (BuildContext context) {
-                                          return EditStudentProfile();
+                                          return EditProfileTeacherScreen();
                                         }));
                                       },
                                       child: Container(
@@ -293,7 +291,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                         if (_formfield.currentState!
                                             .validate()) {
                                           http.Response response =
-                                              await studentController.updateStudent(
+                                              await userController.updateTeacher(
                                                   user_idController.text,
                                                   emailController.text,
                                                   fnameController.text,

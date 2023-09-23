@@ -55,22 +55,6 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
   }
 
   String? IdUser;
-/*
-  void fetchUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    //print(username);
-    if (username != null) {
-      User? user = await userController.get_UserByUsername(username);
-      if (user != null) {
-        IdUser = user.id.toString();
-        //print(IdUser);
-        // เมื่อค้นพบ id ของผู้ใช้ ให้ดึงรายการคอร์สและเซคชันต่อไป
-        fetchUserCourses(IdUser);
-      }
-    }
-  }*/
-
 //ฟังชั่นโหลดข้อมูลเว็บ
   void userData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -78,16 +62,9 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
-        //IdUser = user.id.toString();
-        //print(IdUser);
-        // เมื่อค้นพบ id ของผู้ใช้ ให้ดึงรายการคอร์สและเซคชันต่อไป
-        //fetchUserCourses(IdUser);
-
         users = await studentController.get_Userid(user.id.toString());
       }
     }
-
-    //users = await studentController.get_Userid(id);
     setDataToText();
 
     setState(() {
@@ -98,7 +75,6 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
   @override
   void initState() {
     super.initState();
-    // userData();
     userData();
   }
 
