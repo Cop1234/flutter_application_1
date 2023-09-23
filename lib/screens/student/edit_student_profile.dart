@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
 import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/student_controller.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
 import 'detail_editstudentprofile.dart';
 
-class EditTeacherProfile extends StatefulWidget {
-  final String id;
-  const EditTeacherProfile({super.key, required this.id});
+class EditStudentProfile extends StatefulWidget {
+  const EditStudentProfile({super.key});
 
   @override
-  State<EditTeacherProfile> createState() => _EditTeacherProfileState();
+  State<EditStudentProfile> createState() => _EditStudentProfileState();
 }
 
-class _EditTeacherProfileState extends State<EditTeacherProfile> {
+class _EditStudentProfileState extends State<EditStudentProfile> {
   final StudentController studentController = StudentController();
-
+  final UserController userController = UserController();
   //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
   //List<User>? users;
@@ -53,15 +54,40 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
     passwordController.text = users?.login?.password.toString() ?? "";
   }
 
-//ฟังชั่นโหลดข้อมูลเว็บ
+  String? IdUser;
+/*
+  void fetchUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    //print(username);
+    if (username != null) {
+      User? user = await userController.get_UserByUsername(username);
+      if (user != null) {
+        IdUser = user.id.toString();
+        //print(IdUser);
+        // เมื่อค้นพบ id ของผู้ใช้ ให้ดึงรายการคอร์สและเซคชันต่อไป
+        fetchUserCourses(IdUser);
+      }
+    }
+  }*/
 
 //ฟังชั่นโหลดข้อมูลเว็บ
-  void userData(String id) async {
-    setState(() {
-      isLoaded = false;
-    });
+  void userData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    if (username != null) {
+      User? user = await userController.get_UserByUsername(username);
+      if (user != null) {
+        //IdUser = user.id.toString();
+        //print(IdUser);
+        // เมื่อค้นพบ id ของผู้ใช้ ให้ดึงรายการคอร์สและเซคชันต่อไป
+        //fetchUserCourses(IdUser);
 
-    users = await studentController.get_Userid(id);
+        users = await studentController.get_Userid(user.id.toString());
+      }
+    }
+
+    //users = await studentController.get_Userid(id);
     setDataToText();
 
     setState(() {
@@ -73,7 +99,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
   void initState() {
     super.initState();
     // userData();
-    userData(widget.id);
+    userData();
   }
 
   @override

@@ -4,12 +4,14 @@ import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
+import 'package:quiver/strings.dart';
 
 import '../../color.dart';
 import '../../controller/student_controller.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
+import 'edit_student_profile.dart';
 
 class DetailEditStudentProfile extends StatefulWidget {
   final String id;
@@ -101,7 +103,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ViewStudentSubject(),
+            builder: (context) => EditStudentProfile(),
           ),
         );
       },
@@ -431,37 +433,6 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                /*Text(
-                                  "ชื่อ : ${users?.fname}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "นามสกุล : ${users?.lname}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "รหัสนักศึกษา : ${users?.userid}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "อีเมล : ${users?.email}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "ชื่อผู้ใช้ : ${users?.login?.username}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "เพศ : ${users?.gender}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),*/
                                 Row(
                                   children: [
                                     Text(
@@ -510,38 +481,37 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                       "ยืนยันรหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-
                                     SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
+                                      width: 10,
+                                    ),
                                     Container(
                                       width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: passwordController,
-                                          decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
-                                          validator: (value) {
-                                            bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
-                                                .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกรหัสผ่าน*";
-                                            } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
-                                            }
-                                          },
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        obscureText:
+                                            true, // To hide the confirmation password input
+                                        decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: InputBorder.none,
                                         ),
+                                        validator: (value) {
+                                          // bool aa.hasMatch(value!);
+                                          //bool get isEmpty(value!);
+                                          if (value!.isEmpty) {
+                                            return "กรุณายืนยันรหัสผ่าน*";
+                                          } else if (value !=
+                                              passwordController.text) {
+                                            return "รหัสผ่านไม่ตรงกัน";
+                                          }
+                                        },
                                       ),
                                     ),
                                   ],
+                                ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,

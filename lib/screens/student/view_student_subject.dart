@@ -275,6 +275,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                   ],
                                                 ),
                                                 onTap: () async {
+                                                  /*
                                                   await Future.delayed(Duration
                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
                                                   Navigator.of(context)
@@ -287,6 +288,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                         id: row['id']
                                                             .toString());
                                                   }));
+                                                */
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
