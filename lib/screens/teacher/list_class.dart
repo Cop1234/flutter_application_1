@@ -385,7 +385,10 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),
-                                                    () => TeacherImportStu());
+                                                    () => TeacherImportStu(
+                                                        sectionId:
+                                                            row['sectionId']
+                                                                .toString()));
                                               },
                                             ),
                                           ],
