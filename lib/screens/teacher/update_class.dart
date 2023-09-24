@@ -9,7 +9,9 @@ import 'package:flutter_application_1/controller/room_controller.dart';
 import 'package:flutter_application_1/controller/section_controller.dart';
 import 'package:flutter_application_1/controller/subject_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
+import 'package:flutter_application_1/model/course.dart';
 import 'package:flutter_application_1/model/room.dart';
+import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/subject.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/screens/teacher/list_class.dart';
@@ -43,11 +45,19 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   bool? isLoaded = false;
   List<Room>? rooms;
   List<Subject>? subjects;
+  Course? course;
+  Section? section;
   User? userNow;
+  String? selectedTerm;
 
-  void fetchData() async {
+  void fetchData(String courseId, String sectionId) async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+
+    course = await courseController.get_Course(courseId);
+    section = await sectionController.get_Section(sectionId);
+
+    selectedTerm = course?.term.toString();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
@@ -81,10 +91,10 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    fetchData(widget.courseId, widget.sectionId);
   }
 
-  String selectedTerm = '1';
+  //String selectedTerm = '1';
   String selectedGroupStu = '1';
   dynamic selectedSubjectId;
   String selectedDuration = '1';

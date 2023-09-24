@@ -89,9 +89,11 @@ class _ListClassScreenState extends State<ListClassScreen> {
           (s) => s.course?.id == course.id, // แก้ไขการเปรียบเทียบ ID ของ Course
           orElse: () => Section(id: null, type: 'N/A'),
         );
+        // ตรวจสอบว่า section ไม่เป็น null ก่อนที่จะเข้าถึง section.id
+        int sectionId = section != null ? section.id ?? 0 : 0;
         combinedData.add({
           'courseId': course.id,
-          'sectingId': course.id,
+          'sectionId': sectionId,
           'subjectName': course.subject?.subjectName,
           'subjectId': course.subject?.subjectId,
           'type': section.type,
@@ -352,6 +354,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                 ],
                                               ),
                                               onTap: () async {
+                                                print(row['courseId']);
+                                                print(row['sectionId']);
                                                 await Future.delayed(Duration
                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
                                                 Navigator.of(context)
