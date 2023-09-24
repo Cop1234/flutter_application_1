@@ -49,6 +49,14 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   Section? section;
   User? userNow;
   String? selectedTerm;
+  String? selectedGroupStu;
+  dynamic selectedSubjectId;
+  String? selectedDuration;
+  String? selectedTypeSubject;
+  dynamic selectedRoom;
+  String? selectedSemesterNow;
+  dynamic formattedTime;
+  TextEditingController timePicker = TextEditingController();
 
   void fetchData(String courseId, String sectionId) async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
@@ -58,6 +66,13 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     section = await sectionController.get_Section(sectionId);
 
     selectedTerm = course?.term.toString();
+    selectedGroupStu = section?.sectionNumber.toString();
+    selectedSubjectId;
+    selectedDuration = section?.duration.toString();
+    selectedTypeSubject = section?.type;
+    selectedRoom;
+    selectedSemesterNow = course?.semester.toString();
+    timePicker.text = section?.startTime ?? "";
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
@@ -94,17 +109,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     fetchData(widget.courseId, widget.sectionId);
   }
 
-  //String selectedTerm = '1';
-  String selectedGroupStu = '1';
-  dynamic selectedSubjectId;
-  String selectedDuration = '1';
-  String selectedTypeSubject = 'LAB';
-  dynamic selectedRoom;
-  String selectedSemesterNow = DateFormat(' yyyy ').format(DateTime.now());
-  dynamic formattedTime;
-
   TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
-  TextEditingController timePicker = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // List of items in our dropdown menu
@@ -165,7 +170,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                 children: [
                                   Text("ปีการศึกษา : ",
                                       style: CustomTextStyle.createFontStyle),
-                                  Text(selectedSemesterNow,
+                                  Text(selectedSemesterNow!,
                                       style: CustomTextStyle.createFontStyle)
                                 ],
                               ),

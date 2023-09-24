@@ -354,8 +354,6 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                 ],
                                               ),
                                               onTap: () async {
-                                                print(row['courseId']);
-                                                print(row['sectionId']);
                                                 await Future.delayed(Duration
                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
                                                 Navigator.of(context)

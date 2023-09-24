@@ -17,7 +17,7 @@ class Login {
     };
   }
 
-  factory Login.formJsonTOLogin(Map<String, dynamic> json) {
+  factory Login.formJsonToLogin(Map<String, dynamic> json) {
     return Login(
       id: json["id"],
       password: json["password"],

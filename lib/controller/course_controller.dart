@@ -13,7 +13,7 @@ class CourseController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Course> list =
-        jsonResponse.map((e) => Course.formCourseToJson(e)).toList();
+        jsonResponse.map((e) => Course.formJsonToCourse(e)).toList();
     //print(list);
     return list;
   }
@@ -24,7 +24,7 @@ class CourseController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Course> list =
-        jsonResponse.map((e) => Course.formCourseToJson(e)).toList();
+        jsonResponse.map((e) => Course.formJsonToCourse(e)).toList();
     print(list);
     return list;
   }
@@ -34,7 +34,7 @@ class CourseController {
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Course course = Course.formCourseToJson(jsonResponse);
+    Course course = Course.formJsonToCourse(jsonResponse);
     return course;
   }
 

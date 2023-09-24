@@ -37,7 +37,7 @@ class Section {
     };
   }
 
-  factory Section.formSectionToJson(Map<String, dynamic> json) {
+  factory Section.formJsonToSection(Map<String, dynamic> json) {
     return Section(
       id: json["id"],
       startTime: json["startTime"],
@@ -45,8 +45,8 @@ class Section {
       sectionNumber: json["sectionNumber"],
       type: json["type"],
       user: User.formJsonToUser(json["user"]),
-      course: Course.formCourseToJson(json["course"]),
-      room: Room.formRoomToJson(json["room"]),
+      course: Course.formJsonToCourse(json["course"]),
+      room: Room.formJsonToRoom(json["room"]),
     );
   }
 }

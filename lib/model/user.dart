@@ -43,7 +43,7 @@ class User {
     return User(
       birthdate: json["birthdate"],
       id: json["id"],
-      login: Login.formJsonTOLogin(json["login"]), // แปลง JSON เป็น Login
+      login: Login.formJsonToLogin(json["login"]), // แปลง JSON เป็น Login
       email: json["email"],
       fname: json["fname"],
       gender: json["gender"],
