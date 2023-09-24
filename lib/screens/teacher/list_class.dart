@@ -10,7 +10,7 @@ import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/subject.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/screens/teacher/teacher_import_student.dart';
-import 'package:flutter_application_1/screens/teacher/teacher_setting_subject.dart';
+import 'package:flutter_application_1/screens/teacher/update_class.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_attendance%20.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_qrcode.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_student.dart';
@@ -90,10 +90,12 @@ class _ListClassScreenState extends State<ListClassScreen> {
           orElse: () => Section(id: null, type: 'N/A'),
         );
         combinedData.add({
-          'id': course.id,
+          'courseId': course.id,
+          'sectingId': course.id,
           'subjectName': course.subject?.subjectName,
           'subjectId': course.subject?.subjectId,
           'type': section.type,
+          'sectionNumber': section.sectionNumber,
         });
       }
 
@@ -108,6 +110,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
     fetchUserId();
     print(combinedData);
   }
+
+  static const double columnWidth = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +133,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                 color: Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    width: 1100,
+                  child: IntrinsicWidth(
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: Column(
@@ -146,7 +149,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width:
+                                      columnWidth, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -158,7 +162,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width:
+                                      columnWidth, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -170,7 +175,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width:
+                                      columnWidth, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -182,7 +188,21 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width:
+                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'กลุ่ม',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: SizedBox(
+                                  width:
+                                      columnWidth, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -204,7 +224,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                 cells: <DataCell>[
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: columnWidth,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -216,7 +236,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: columnWidth,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -228,7 +248,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: columnWidth,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -238,10 +258,22 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                       ),
                                     ),
                                   ),
+                                  DataCell(
+                                    Container(
+                                      width: columnWidth,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          row['sectionNumber'],
+                                          style: CustomTextStyle.TextGeneral,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: columnWidth,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
@@ -297,10 +329,17 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Text('แก้ไขนักศึกษา'),
                                                 ],
                                               ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () => TeacherViewStudent());
+                                              onTap: () async {
+                                                /*await Future.delayed(Duration
+                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                  return TeacherUpdateClass();
+                                                }));*/
                                               },
                                             ),
                                             PopupMenuItem(
@@ -312,11 +351,22 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Text('แก้ไขคลาสเรียน'),
                                                 ],
                                               ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () =>
-                                                        TeacherSettingSubject());
+                                              onTap: () async {
+                                                await Future.delayed(Duration
+                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                  return TeacherUpdateClass(
+                                                      courseId: row['courseId']
+                                                          .toString(),
+                                                      sectionId:
+                                                          row['sectionId']
+                                                              .toString());
+                                                }));
                                               },
                                             ),
                                             PopupMenuItem(

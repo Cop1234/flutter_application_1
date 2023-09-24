@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/controller/course_controller.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
 import 'package:flutter_application_1/controller/section_controller.dart';
@@ -14,19 +17,20 @@ import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/services.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class TeacherCreateClass extends StatefulWidget {
-  const TeacherCreateClass({super.key});
+class TeacherUpdateClass extends StatefulWidget {
+  final String courseId, sectionId;
+  const TeacherUpdateClass(
+      {super.key, required this.courseId, required this.sectionId});
 
   @override
-  State<TeacherCreateClass> createState() => _TeacherCreateClassState();
+  State<TeacherUpdateClass> createState() => _TeacherUpdateClassState();
 }
 
-class _TeacherCreateClassState extends State<TeacherCreateClass> {
+class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   final RoomController roomController = RoomController();
   final SubjectController subjectController = SubjectController();
   final CourseController courseController = CourseController();
@@ -119,7 +123,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
 
   @override
   Widget build(BuildContext context) {
-    //final format = DateFormat("yyyy-MM-dd HH:mm");
     return Scaffold(
         appBar: kMyAppBar,
         backgroundColor: Colors.white,
@@ -532,23 +535,40 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               children: [
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 15),
-                                      textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold)),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    primary: Colors.blue,
+                                  ),
                                   onPressed: () {
                                     setState(() {
-                                      selectedTerm = "1";
-                                      selectedSubjectId = null;
-                                      selectedGroupStu = "1";
-                                      selectedDuration = "1";
-                                      timePicker.text = "";
-                                      selectedTypeSubject = "LAB";
-                                      selectedRoom = null;
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return ListClassScreen();
+                                      }));
                                     });
                                   },
-                                  child: Text("รีเซ็ต"),
+                                  child: Text("ยกเลิก"),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    primary: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
+                                  child: Text("ลบ"),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -658,7 +678,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       }
                                     }
                                   },
-                                  child: Text("ยืนยัน"),
+                                  child: Text("แก้ไข"),
                                 )
                               ],
                             ),
@@ -672,6 +692,5 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
             )
           ]),
         ]));
-    ;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:flutter_application_1/screens/teacher/edit_teacher_profile.dart';
-import 'package:flutter_application_1/screens/teacher/teacher_create_class.dart';
+import 'package:flutter_application_1/screens/teacher/create_class.dart';
 import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
