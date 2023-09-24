@@ -26,10 +26,10 @@ class Course {
     };
   }
 
-  factory Course.formCourseToJson(Map<String, dynamic> json) {
+  factory Course.formJsonToCourse(Map<String, dynamic> json) {
     return Course(
       id: json["id"],
-      subject: Subject.formSubjectToJson(json["subject"]),
+      subject: Subject.formJsonToSubject(json["subject"]),
       user: User.formJsonToUser(json["user"]),
       term: json["term"],
       semester: json["semester"],

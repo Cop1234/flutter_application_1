@@ -23,7 +23,7 @@ class Subject {
     };
   }
 
-  factory Subject.formSubjectToJson(Map<String, dynamic> json) {
+  factory Subject.formJsonToSubject(Map<String, dynamic> json) {
     return Subject(
       id: json["id"],
       subjectId: json["subjectId"],

@@ -30,7 +30,7 @@ class RoomController {
 
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
-    List<Room> list = jsonResponse.map((e) => Room.formRoomToJson(e)).toList();
+    List<Room> list = jsonResponse.map((e) => Room.formJsonToRoom(e)).toList();
     return list;
   }
 
@@ -41,7 +41,7 @@ class RoomController {
 
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Room room = Room.formRoomToJson(jsonResponse);
+    Room room = Room.formJsonToRoom(jsonResponse);
     return room;
   }
 

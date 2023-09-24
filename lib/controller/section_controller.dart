@@ -13,7 +13,7 @@ class SectionController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Section> list =
-        jsonResponse.map((e) => Section.formSectionToJson(e)).toList();
+        jsonResponse.map((e) => Section.formJsonToSection(e)).toList();
     //print(list);
     return list;
   }
@@ -24,7 +24,7 @@ class SectionController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Section> list =
-        jsonResponse.map((e) => Section.formSectionToJson(e)).toList();
+        jsonResponse.map((e) => Section.formJsonToSection(e)).toList();
     print(list);
     return list;
   }
@@ -34,7 +34,7 @@ class SectionController {
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Section section = Section.formSectionToJson(jsonResponse);
+    Section section = Section.formJsonToSection(jsonResponse);
     return section;
   }
 

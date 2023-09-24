@@ -31,7 +31,7 @@ class SubjectController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Subject> list =
-        jsonResponse.map((e) => Subject.formSubjectToJson(e)).toList();
+        jsonResponse.map((e) => Subject.formJsonToSubject(e)).toList();
     return list;
   }
 
@@ -42,7 +42,7 @@ class SubjectController {
 
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Subject subject = Subject.formSubjectToJson(jsonResponse);
+    Subject subject = Subject.formJsonToSubject(jsonResponse);
     return subject;
   }
 
@@ -53,7 +53,7 @@ class SubjectController {
 
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Subject subject = Subject.formSubjectToJson(jsonResponse);
+    Subject subject = Subject.formJsonToSubject(jsonResponse);
     return subject;
   }
 

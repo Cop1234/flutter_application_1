@@ -25,7 +25,7 @@ class LoginController {
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Login> list =
-        jsonResponse.map((e) => Login.formJsonTOLogin(e)).toList();
+        jsonResponse.map((e) => Login.formJsonToLogin(e)).toList();
     return list;
   }
 
@@ -36,7 +36,7 @@ class LoginController {
 
     final utf8Body = utf8.decode(response.bodyBytes);
     var jsonResponse = json.decode(utf8Body);
-    Login login = Login.formJsonTOLogin(jsonResponse);
+    Login login = Login.formJsonToLogin(jsonResponse);
     return login;
   }
 }

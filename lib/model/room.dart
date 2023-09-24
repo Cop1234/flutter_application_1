@@ -5,7 +5,7 @@ class Room {
   double? latitude;
   double? longitude;
 
-  Room ({
+  Room({
     this.id,
     this.roomName,
     this.building,
@@ -13,17 +13,17 @@ class Room {
     this.longitude,
   });
 
-  Map<String, dynamic> formRoomToJson(){
+  Map<String, dynamic> formRoomToJson() {
     return <String, dynamic>{
-      'id' : id,
-      'roomName' : roomName,
-      'building' : building,
-      'latitude' : latitude,
-      'longitude' : longitude,
+      'id': id,
+      'roomName': roomName,
+      'building': building,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
-  factory Room.formRoomToJson(Map<String, dynamic> json) {
+  factory Room.formJsonToRoom(Map<String, dynamic> json) {
     return Room(
       id: json["id"],
       roomName: json["roomName"],
