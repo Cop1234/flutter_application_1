@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
-import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
-import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
+import 'package:flutter_application_1/controller/user_controller.dart';
+import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../controller/user_controller.dart';
+import '../../controller/student_controller.dart';
 import '../../model/user.dart';
-import 'detail_editteacherprofile.dart';
+import '../widget/mainTextStyle.dart';
+import '../widget/my_abb_bar.dart';
+import 'detail_editstudentprofile.dart';
 
-class EditProfileTeacherScreen extends StatefulWidget {
-  const EditProfileTeacherScreen({super.key});
+class EditStudentProfile extends StatefulWidget {
+  const EditStudentProfile({super.key});
 
   @override
-  State<EditProfileTeacherScreen> createState() =>
-      _EditProfileTeacherScreenState();
+  State<EditStudentProfile> createState() => _EditStudentProfileState();
 }
 
-class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
-  bool passToggle = true;
-
+class _EditStudentProfileState extends State<EditStudentProfile> {
+  final StudentController studentController = StudentController();
   final UserController userController = UserController();
   //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
@@ -55,7 +55,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
   }
 
   String? IdUser;
-
 //ฟังชั่นโหลดข้อมูลเว็บ
   void userData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,10 +62,9 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
-        users = await userController.get_Userid(user.id.toString());
+        users = await studentController.get_Userid(user.id.toString());
       }
     }
-
     setDataToText();
 
     setState(() {
@@ -77,7 +75,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
   @override
   void initState() {
     super.initState();
-    // userData();
     userData();
   }
 
@@ -88,7 +85,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Column(children: [
-            NavbarTeacher(),
+            NavbarStudent(),
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -153,7 +150,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "รหัสอาจารย์ : ${users?.userid}",
+                                  "รหัสนักศึกษา : ${users?.userid}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
@@ -161,7 +158,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "ชื่อผู้ใช้ : ${users?.userid}",
+                                  "ชื่อผู้ใช้ : ${users?.login?.username}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
@@ -183,7 +180,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (BuildContext context) {
-                                      return DetailEditTeacherProfile(
+                                      return DetailEditStudentProfile(
                                           id: '${users?.id.toString()}');
                                     }));
                                   },

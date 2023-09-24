@@ -5,6 +5,8 @@ import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../student/edit_student_profile.dart';
+
 class NavbarStudent extends StatefulWidget {
   const NavbarStudent({super.key});
 
@@ -87,11 +89,10 @@ class _NavbarStudentState extends State<NavbarStudent> {
               onTap: () {
                 setState(() {
                   pressed2 = !pressed2;
-                  /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return EditProfileTeacherScreen();}
-                      ));*/
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return EditStudentProfile();
+                  }));
                 });
               },
               child: Text(

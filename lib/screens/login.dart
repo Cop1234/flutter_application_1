@@ -117,17 +117,17 @@ class _loginScreenState extends State<LoginScreen> {
                                     : Icons.visibility_off),
                               )),
                           validator: (value) {
-                            bool passwordValid = RegExp(
-                                //ตรวจเช็ค email
-                                //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                //ตรวจเช็ค username
-                                r"^[MJU]+@+[0-9]").hasMatch(value!);
+                            //bool passwordValid = RegExp(
+                            //ตรวจเช็ค email
+                            //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            //ตรวจเช็ค username
+                            //  r"^[MJU]+@+[0-9]").hasMatch(value!);
                             //กรณีไม่ใส่ Password
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return "Enter Password";
                             }
                             //กรณีใส่ Password ผิด
-                            else if (!passwordValid) {
+                            else if (value != passworldController.text) {
                               return "Password Must be MJU@วันเดือนปีเกิดของนักศึกษา";
                             }
                           },
