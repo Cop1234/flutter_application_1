@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-
+import 'package:http/http.dart' as http;
 import '../ws_config.dart';
 
 class RegistrationController {
@@ -10,12 +11,15 @@ class RegistrationController {
     FormData formData = FormData.fromMap({
       'file': MultipartFile.fromBytes(
         file,
-        filename: filename, // Provide the desired file name and extension
+        filename: filename,
+        // Provide the desired file name and extension
       ),
+      'id': id
     });
-
+    /*Map data = {"section": section};
+    var jsonData = json.encode(data);*/
     // Adjust the URL to your Spring Boot server endpoint
-    String url = baseURL + '/registrations/uploadstudent' + id;
+    String url = baseURL + '/registrations/upload';
 
     Response response = await dio.post(url, data: formData);
 

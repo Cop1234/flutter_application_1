@@ -50,7 +50,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
 
   void fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
+    //String? username = prefs.getString('username');
+    String? username = "MJU6304106399";
     //print(username);
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
@@ -380,13 +381,20 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Text('เพิ่มนักศึกษา'),
                                                 ],
                                               ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () => TeacherImportStu(
-                                                        sectionId:
-                                                            row['sectionId']
-                                                                .toString()));
+                                              onTap: () async {
+                                                await Future.delayed(Duration
+                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                  return TeacherImportStu(
+                                                      sectionId:
+                                                          row['sectionId']
+                                                              .toString());
+                                                }));
                                               },
                                             ),
                                           ],

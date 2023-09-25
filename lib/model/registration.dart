@@ -6,7 +6,7 @@ class registration {
   int? id;
   String? regisStatus;
   Section? section;
-  User? userid;
+  User? user;
 
   // เปลี่ยนประเภทของ loginid เป็น Login
 
@@ -14,7 +14,7 @@ class registration {
     this.id,
     this.regisStatus,
     this.section,
-    this.userid,
+    this.user,
   });
 
   Map<String, dynamic> formUserToJson() {
@@ -22,7 +22,7 @@ class registration {
       'id': id,
       'regisStatus': regisStatus,
       'section': section?.formSectionToJson(),
-      'userid': userid?.formUserToJson(),
+      'user': user?.formUserToJson(),
     };
   }
 
@@ -30,10 +30,8 @@ class registration {
     return registration(
       id: json["id"],
       regisStatus: json["regisStatus"],
-      section: json["section"],
-      userid: json["userid"],
-
-      ///section: Section.formJsonTOLogin(json["section"]), // แปลง JSON เป็น Login
+      section: Section.formJsonToSection(json["section"]),
+      user: User.formJsonToUser(json["user"]),
     );
   }
 }
