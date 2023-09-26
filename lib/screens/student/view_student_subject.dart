@@ -1,12 +1,15 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/Registration_Controller.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_student.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../color.dart';
 import '../../controller/student_controller.dart';
 import '../../controller/user_controller.dart';
+import '../../model/registration.dart';
 import '../../model/user.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
@@ -24,28 +27,45 @@ class ViewStudentSubject extends StatefulWidget {
 }
 
 class _ViewStudentSubjectState extends State<ViewStudentSubject> {
-  final StudentController studentController = StudentController();
-
+  final RegistrationController registrationController =
+      RegistrationController();
   final UserController userController = UserController();
   List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
-  List<User>? users;
+  List<Registration>? registration;
+  String? IdUser;
+
   void fetchData() async {
-    List<User> userteacher = await studentController.listAllStudent();
-    setState(() {
-      users = userteacher;
-      data = userteacher
-          .map((user) => {
-                'id': user.id,
-                'userid': user.userid ?? "",
-                'fname': user.fname ?? "",
-                'lname': user.lname ?? "",
-                'login': user.login ?? "",
-              })
-          .toList();
-      //print(data);
-      isLoaded = true;
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //String? username = prefs.getString('username');
+    String? username = "MJU6304106304";
+    //print(username);
+    if (username != null) {
+      User? user = await userController.get_UserByUsername(username);
+      print(user?.id);
+      if (user != null) {
+        IdUser = user.id.toString();
+        print(IdUser);
+        List<Registration> reg =
+            await registrationController.get_ViewSubject(user.id.toString());
+
+        setState(() {
+          registration = reg;
+          data = reg
+              .map((reg) => {
+                    'id': reg.id ?? "",
+                    'subjectid':
+                        reg.section?.course?.subject?.subjectName ?? "",
+                    'subjectname':
+                        reg.section?.course?.subject?.subjectName ?? "",
+                    'type': reg.section?.type ?? "",
+                    'group': reg.section?.sectionNumber,
+                  })
+              .toList();
+          isLoaded = true;
+        });
+      }
+    }
   }
 
   void showSureToDeleteStudent(String id) {
@@ -170,7 +190,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'รหัสนักศึกษา',
+                                      'รหัสวิชา',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -182,7 +202,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'ชื่อ',
+                                      'ชื่อวิชา',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -194,7 +214,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'นามสกุล',
+                                      'ประเภท',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -223,7 +243,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        row['userid'],
+                                        row['subjectid'],
                                         style: CustomTextStyle.TextGeneral,
                                       ),
                                     ),
@@ -234,7 +254,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          row['fname'],
+                                          row['subjectname'],
                                           style: CustomTextStyle.TextGeneral,
                                         ),
                                       ),
@@ -246,7 +266,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          row['lname'],
+                                          row['type'],
                                           style: CustomTextStyle.TextGeneral,
                                         ),
                                       ),

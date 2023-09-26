@@ -59,6 +59,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
   void userData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    //String? username = prefs.getString('username');
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {

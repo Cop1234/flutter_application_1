@@ -2,7 +2,7 @@ import 'package:flutter_application_1/model/login.dart';
 import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/user.dart';
 
-class registration {
+class Registration {
   int? id;
   String? regisStatus;
   Section? section;
@@ -10,14 +10,14 @@ class registration {
 
   // เปลี่ยนประเภทของ loginid เป็น Login
 
-  registration({
+  Registration({
     this.id,
     this.regisStatus,
     this.section,
     this.user,
   });
 
-  Map<String, dynamic> formUserToJson() {
+  Map<String, dynamic> formRegistrationToJson() {
     return <String, dynamic>{
       'id': id,
       'regisStatus': regisStatus,
@@ -26,8 +26,8 @@ class registration {
     };
   }
 
-  factory registration.formJsonToUser(Map<String, dynamic> json) {
-    return registration(
+  factory Registration.formJsonToRegistration(Map<String, dynamic> json) {
+    return Registration(
       id: json["id"],
       regisStatus: json["regisStatus"],
       section: Section.formJsonToSection(json["section"]),
