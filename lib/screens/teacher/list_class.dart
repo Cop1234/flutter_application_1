@@ -386,10 +386,20 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Text('เพิ่มนักศึกษา'),
                                                 ],
                                               ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () => TeacherImportStu());
+                                              onTap: () async {
+                                                await Future.delayed(Duration
+                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                  return TeacherImportStu(
+                                                      sectionId:
+                                                          row['sectionId']
+                                                              .toString());
+                                                }));
                                               },
                                             ),
                                           ],

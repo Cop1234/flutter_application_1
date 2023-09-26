@@ -104,31 +104,6 @@ class _InsertDataStudent extends State<InsertDataStudent> {
     _controller.text = 'Complete the story from here...';
   }
 
-/*
-  Future<void> _pickFile(BuildContext context) async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, // ตรวจสอบอย่างอื่น ๆ ในเอกสาร
-          allowedExtensions: ['xls', 'xlsx']);
-
-      if (result != null) {
-        // final filePath = result.files.first.bytes;
-        uploadfile = result.files.single.bytes;
-        fileName = result.files.first.name;
-        //pickedFile = result.files.first;
-        //fileToDisplay = File(pickedFile!.path.toString());
-        _controller.text = fileName ?? "";
-
-        print(fileName);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Selected file:')),
-        );
-      }
-    } on PlatformException catch (e) {
-      print("Error: $e");
-    }
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
