@@ -18,10 +18,6 @@ class DetailRoomScreen extends StatefulWidget {
 }
 
 class _DetailRoomScreenState extends State<DetailRoomScreen> {
-  Room? room;
-  bool passToggle = true;
-  bool? isLoaded = false;
-
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   final RoomController roomController = RoomController();
 
@@ -29,6 +25,18 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
   TextEditingController buildingController = TextEditingController();
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
+
+  Room? room;
+  bool passToggle = true;
+  bool? isLoaded = false;
+  List<Room>? rooms;
+
+  bool isRoomNameExists(String roomName) {
+    if (rooms != null) {
+      return rooms!.any((room) => room.roomName == roomName);
+    }
+    return false;
+  }
 
   void setDataToText() {
     roomNameController.text = room?.roomName ?? "";
@@ -38,9 +46,11 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
   }
 
   void fetchData(String id) async {
+    List<Room> fetchedRooms = await roomController.listAllRooms();
     room = await roomController.get_Room(id);
     setDataToText();
     setState(() {
+      rooms = fetchedRooms;
       isLoaded = true;
     });
   }
@@ -58,6 +68,7 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
       text: "ข้อมูลห้องเรียนถูกแก้ไขเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
@@ -66,6 +77,16 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
           ),
         );
       },
+    );
+  }
+
+  void showErrorRoomNameExistsAlert(String roomName) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "ชื่อห้อง " + roomName + " มีอยู่ในระบบแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -314,25 +335,32 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    double? latitude = double.tryParse(
-                                        latitudeController.text);
-                                    double? longitude = double.tryParse(
-                                        longitudeController.text);
-                                    Room updateRoom = Room(
-                                      id: room?.id,
-                                      roomName: roomNameController.text,
-                                      building: buildingController.text,
-                                      latitude: latitude,
-                                      longitude: longitude,
-                                    );
                                     if (_formfield.currentState!.validate()) {
-                                      http.Response response =
-                                          (await roomController
-                                              .update_Room(updateRoom));
+                                      String roomName = roomNameController.text;
+                                      bool isExists =
+                                          isRoomNameExists(roomName);
+                                      if (isExists) {
+                                        showErrorRoomNameExistsAlert(roomName);
+                                      } else {
+                                        double? latitude = double.tryParse(
+                                            latitudeController.text);
+                                        double? longitude = double.tryParse(
+                                            longitudeController.text);
+                                        Room updateRoom = Room(
+                                          id: room?.id,
+                                          roomName: roomNameController.text,
+                                          building: buildingController.text,
+                                          latitude: latitude,
+                                          longitude: longitude,
+                                        );
+                                        http.Response response =
+                                            (await roomController
+                                                .update_Room(updateRoom));
 
-                                      if (response.statusCode == 200) {
-                                        showSuccessToChangeRoomAlert();
-                                        print("แก้ไขสำเร็จ");
+                                        if (response.statusCode == 200) {
+                                          showSuccessToChangeRoomAlert();
+                                          print("แก้ไขสำเร็จ");
+                                        }
                                       }
                                     }
                                   },

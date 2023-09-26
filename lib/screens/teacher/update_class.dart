@@ -21,6 +21,7 @@ import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
 
 class TeacherUpdateClass extends StatefulWidget {
@@ -56,6 +57,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   dynamic selectedRoom;
   String? selectedSemesterNow;
   dynamic formattedTime;
+  dynamic courseIdNow;
+  dynamic sectionIdNow;
   TextEditingController timePicker = TextEditingController();
 
   void fetchData(String courseId, String sectionId) async {
@@ -65,14 +68,24 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     course = await courseController.get_Course(courseId);
     section = await sectionController.get_Section(sectionId);
 
+    courseIdNow = courseId;
+    sectionIdNow = sectionId;
     selectedTerm = course?.term.toString();
     selectedGroupStu = section?.sectionNumber.toString();
-    selectedSubjectId;
+    selectedSubjectId = course?.subject?.subjectId;
     selectedDuration = section?.duration.toString();
     selectedTypeSubject = section?.type;
-    selectedRoom;
+    selectedRoom = section?.room?.roomName;
     selectedSemesterNow = course?.semester.toString();
-    timePicker.text = section?.startTime ?? "";
+    String formattedTime = section?.startTime ?? "";
+    if (formattedTime.isNotEmpty) {
+      try {
+        final DateTime parsedTime = DateTime.parse("1970-01-01 $formattedTime");
+        timePicker.text = DateFormat('HH:mm').format(parsedTime);
+      } catch (e) {
+        timePicker.text = "Invalid Time";
+      }
+    }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
@@ -91,6 +104,9 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
           .map((room) => {
                 'id': room.id,
                 'roomName': room.roomName,
+                'building': room.building,
+                'latitude': room.latitude,
+                'longitude': room.longitude,
               })
           .toList();
       dataSubject = fetchedSubjects
@@ -118,11 +134,11 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   var typesub = ['LAB', 'Lecture'];
   var durationTime = ['1', '2', '3'];
 
-  void showSuccessToCreateSubjectAlert() {
+  void showSuccessToUpdateClassAlert() {
     QuickAlert.show(
       context: context,
-      title: "การสร้างคลาสเรียนสำเร็จ",
-      text: "ข้อมูลคลาสเรียนถุกเพิ่มเรียบร้อยแล้ว",
+      title: "การแก้ไขคลาสเรียนสำเร็จ",
+      text: "ข้อมูลคลาสเรียนถุกแก้ไขเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
@@ -134,6 +150,55 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
         );
       },
     );
+  }
+
+  void showSureToDeleteClass(String idsection, String idcourse) {
+    QuickAlert.show(
+        context: context,
+        title: "คุณแน่ใจหรือไม่ ? ",
+        text: "คุณต้องการลบข้อมูลหรือไม่ ? ",
+        type: QuickAlertType.warning,
+        confirmBtnText: "ลบ",
+        onConfirmBtnTap: () async {
+          http.Response response =
+              await sectionController.deleteSection(idsection);
+
+          if (response.statusCode == 200) {
+            http.Response response2 =
+                await courseController.deleteCourse(idcourse);
+            if (response2.statusCode == 200) {
+              Navigator.pop(context);
+              showUpDeleteClassSuccessAlert();
+            } else {
+              showFailToDeleteClassAlert();
+            }
+          } else {
+            showFailToDeleteClassAlert();
+          }
+        },
+        cancelBtnText: "ยกเลิก",
+        showCancelBtn: true);
+  }
+
+  void showFailToDeleteClassAlert() {
+    QuickAlert.show(
+        context: context,
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่สามารถลบข้อมูลได้",
+        type: QuickAlertType.error);
+  }
+
+  void showUpDeleteClassSuccessAlert() {
+    QuickAlert.show(
+        context: context,
+        title: "สำเร็จ",
+        text: "ลบข้อมูลสำเร็จ",
+        type: QuickAlertType.success,
+        confirmBtnText: "ตกลง",
+        onConfirmBtnTap: () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const ListClassScreen()));
+        });
   }
 
   @override
@@ -362,10 +427,31 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                             }
                                             setState(() {
                                               time = newTime;
-                                              timePicker.text =
-                                                  time.hour.toString() +
-                                                      ":" +
-                                                      time.minute.toString();
+                                              int hour = time.hour;
+                                              int minute = time.minute;
+
+                                              // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
+                                              String formattedHour = hour < 10
+                                                  ? '0$hour'
+                                                  : '$hour';
+                                              String formattedMinute =
+                                                  minute < 10
+                                                      ? '0$minute'
+                                                      : '$minute';
+
+                                              // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
+                                              formattedTime =
+                                                  "$formattedHour:$formattedMinute";
+
+                                              // ตรวจสอบความถูกต้องของ formattedTime
+                                              if (formattedTime.length == 5 &&
+                                                  formattedTime[2] != ':') {
+                                                formattedTime = 'Invalid Time';
+                                              }
+
+                                              // กำหนดค่าให้กับ TextField
+                                              timePicker.text = formattedTime;
+
                                               print(time.hour);
                                             });
                                           },
@@ -581,7 +667,13 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                     primary: Colors.red,
                                   ),
                                   onPressed: () {
-                                    setState(() {});
+                                    setState(() {
+                                      Future.delayed(
+                                          const Duration(seconds: 0),
+                                          () => showSureToDeleteClass(
+                                              sectionIdNow.toString(),
+                                              courseIdNow.toString()));
+                                    });
                                   },
                                   child: Text("ลบ"),
                                 ),
@@ -619,9 +711,9 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                         print(
                                             'คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
 
-                                        // เรียก addCourse และรอการตอบกลับ
                                         http.Response response =
-                                            await courseController.addCourse(
+                                            await courseController.updateCourse(
+                                          courseIdNow.toString(),
                                           IdSubject.toString(),
                                           IdUser,
                                           selectedTerm.toString(),
@@ -630,60 +722,44 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
 
                                         if (response.statusCode == 200) {
                                           // เรียก addCourse สำเร็จ
-
+                                          print("addCourse สำเร็จ");
                                           // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
                                           Map<String, dynamic> responseBody =
                                               json.decode(response.body);
-
-                                          // ดึง IdCourse ที่ได้รับจาก response ออกมา
-                                          var IdCourse = responseBody['id'];
 
                                           if (selectedRoomName != null) {
                                             var IdRoom = selectedRoomName['id'];
                                             print(
                                                 'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
-                                            List<String> parts =
-                                                timePicker.text.split(':');
-
-                                            if (parts.length == 2) {
-                                              String hour = parts[0];
-                                              String minute = parts[1];
-
-                                              // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
-                                              if (int.parse(hour) < 10) {
-                                                hour = "0$hour";
-                                              }
-                                              if (int.parse(minute) < 10) {
-                                                minute = "0$minute";
-                                              }
-
-                                              // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
-                                              formattedTime = "$hour:$minute";
-                                              print(formattedTime);
-                                            } else {
-                                              print(
-                                                  "รูปแบบของข้อความไม่ถูกต้อง");
-                                            }
-
-                                            // เรียก addSection และรอการตอบกลับ
+                                            print(sectionIdNow.toString());
+                                            print(
+                                              timePicker.text,
+                                            );
+                                            print(selectedDuration.toString());
+                                            print(selectedGroupStu.toString());
+                                            print(
+                                                selectedTypeSubject.toString());
+                                            print(IdUser);
+                                            print(courseIdNow.toString());
+                                            print(IdRoom.toString());
                                             http.Response sectionResponse =
                                                 await sectionController
-                                                    .addSection(
-                                              formattedTime.toString(),
+                                                    .updateSection(
+                                              sectionIdNow.toString(),
+                                              timePicker.text,
                                               selectedDuration.toString(),
                                               selectedGroupStu.toString(),
                                               selectedTypeSubject.toString(),
-                                              IdUser.toString(),
-                                              IdCourse
-                                                  .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
+                                              IdUser,
+                                              courseIdNow.toString(),
                                               IdRoom.toString(),
                                             );
 
                                             if (sectionResponse.statusCode ==
                                                 200) {
                                               // เรียก addSection สำเร็จ
-                                              showSuccessToCreateSubjectAlert();
-                                              print("บันทึกสำเร็จ");
+                                              showSuccessToUpdateClassAlert();
+                                              print("แก้ไขสำเร็จ");
                                             }
                                           }
                                         }

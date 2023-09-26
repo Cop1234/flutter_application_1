@@ -86,7 +86,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   String selectedDuration = '1';
   String selectedTypeSubject = 'LAB';
   dynamic selectedRoom;
-  String selectedSemesterNow = DateFormat(' yyyy ').format(DateTime.now());
+  String selectedSemesterNow = DateFormat('yyyy').format(DateTime.now());
   dynamic formattedTime;
 
   TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
@@ -99,7 +99,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   var typesub = ['LAB', 'Lecture'];
   var durationTime = ['1', '2', '3'];
 
-  void showSuccessToCreateSubjectAlert() {
+  void showSuccessToCreateClassAlert() {
     QuickAlert.show(
       context: context,
       title: "การสร้างคลาสเรียนสำเร็จ",
@@ -344,10 +344,31 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             }
                                             setState(() {
                                               time = newTime;
-                                              timePicker.text =
-                                                  time.hour.toString() +
-                                                      ":" +
-                                                      time.minute.toString();
+                                              int hour = time.hour;
+                                              int minute = time.minute;
+
+                                              // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
+                                              String formattedHour = hour < 10
+                                                  ? '0$hour'
+                                                  : '$hour';
+                                              String formattedMinute =
+                                                  minute < 10
+                                                      ? '0$minute'
+                                                      : '$minute';
+
+                                              // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
+                                              formattedTime =
+                                                  "$formattedHour:$formattedMinute";
+
+                                              // ตรวจสอบความถูกต้องของ formattedTime
+                                              if (formattedTime.length == 5 &&
+                                                  formattedTime[2] != ':') {
+                                                formattedTime = 'Invalid Time';
+                                              }
+
+                                              // กำหนดค่าให้กับ TextField
+                                              timePicker.text = formattedTime;
+
                                               print(time.hour);
                                             });
                                           },
@@ -607,34 +628,12 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             var IdRoom = selectedRoomName['id'];
                                             print(
                                                 'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
-                                            List<String> parts =
-                                                timePicker.text.split(':');
-
-                                            if (parts.length == 2) {
-                                              String hour = parts[0];
-                                              String minute = parts[1];
-
-                                              // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
-                                              if (int.parse(hour) < 10) {
-                                                hour = "0$hour";
-                                              }
-                                              if (int.parse(minute) < 10) {
-                                                minute = "0$minute";
-                                              }
-
-                                              // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
-                                              formattedTime = "$hour:$minute";
-                                              print(formattedTime);
-                                            } else {
-                                              print(
-                                                  "รูปแบบของข้อความไม่ถูกต้อง");
-                                            }
 
                                             // เรียก addSection และรอการตอบกลับ
                                             http.Response sectionResponse =
                                                 await sectionController
                                                     .addSection(
-                                              formattedTime.toString(),
+                                              timePicker.text,
                                               selectedDuration.toString(),
                                               selectedGroupStu.toString(),
                                               selectedTypeSubject.toString(),
@@ -647,7 +646,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             if (sectionResponse.statusCode ==
                                                 200) {
                                               // เรียก addSection สำเร็จ
-                                              showSuccessToCreateSubjectAlert();
+                                              showSuccessToCreateClassAlert();
                                               print("บันทึกสำเร็จ");
                                             }
                                           }

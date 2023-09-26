@@ -62,4 +62,31 @@ class SectionController {
     print(response.body);
     return response;
   }
+
+  Future updateSection(
+      String id,
+      String startTime,
+      String duration,
+      String sectionNumber,
+      String type,
+      String userId,
+      String courseId,
+      String roomId) async {
+    Map data = {
+      "id": id,
+      "startTime": startTime,
+      "duration": duration,
+      "sectionNumber": sectionNumber,
+      "type": type,
+      "userId": userId,
+      "courseId": courseId,
+      "roomId": roomId,
+    };
+    var jsonData = json.encode(data);
+    var url = Uri.parse(baseURL + "/section/update");
+    http.Response response =
+        await http.put(url, headers: headers, body: jsonData);
+    print(response.body);
+    return response;
+  }
 }
