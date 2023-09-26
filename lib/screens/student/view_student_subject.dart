@@ -37,8 +37,8 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
 
   void fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = "MJU6304106304";
+    String? username = prefs.getString('username');
+
     //print(username);
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
