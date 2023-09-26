@@ -59,4 +59,21 @@ class CourseController {
     print(response.body);
     return response;
   }
+
+  Future updateCourse(String id, String subjectId, String userId, String term,
+      String semester) async {
+    Map data = {
+      "id": id,
+      "subjectId": subjectId,
+      "userId": userId,
+      "term": term,
+      "semester": semester,
+    };
+    var jsonData = json.encode(data);
+    var url = Uri.parse(baseURL + "/course/update");
+    http.Response response =
+        await http.put(url, headers: headers, body: jsonData);
+    print(response.body);
+    return response;
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/subject_controller.dart';
+import 'package:flutter_application_1/model/subject.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
@@ -17,8 +18,6 @@ class AddSubjectScreen extends StatefulWidget {
 }
 
 class _AddSubjectScreenState extends State<AddSubjectScreen> {
-  bool passToggle = true;
-
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   final SubjectController subjectController = SubjectController();
 
@@ -27,6 +26,33 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
   TextEditingController detailController = TextEditingController();
   TextEditingController creditController = TextEditingController();
 
+  bool passToggle = true;
+  bool? isLoaded = false;
+  List<Subject>? subjects;
+
+  // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
+  bool isSubjectIdExists(String subjectId) {
+    if (subjects != null) {
+      return subjects!.any((subject) => subject.subjectId == subjectId);
+    }
+    return false;
+  }
+
+  //ฟังชั่นโหลดข้อมูลเว็บ
+  void fetchData() async {
+    List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+
+    setState(() {
+      subjects = fetchedSubjects;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   void showSuccessToAddSubjectAlert() {
     QuickAlert.show(
       context: context,
@@ -34,6 +60,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
       text: "ข้อมูลวิชาถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
@@ -42,6 +69,16 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
           ),
         );
       },
+    );
+  }
+
+  void showErrorSubjectIdExistsAlert(String subjectId) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "รายวิชา " + subjectId + " มีอยู่ในระบบแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -273,16 +310,31 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                 InkWell(
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
-                                      http.Response response =
-                                          await subjectController.addSubject(
-                                              subjectIdController.text,
-                                              subjectNameController.text,
-                                              detailController.text,
-                                              creditController.text);
+                                      String subjectId =
+                                          subjectIdController.text;
 
-                                      if (response.statusCode == 200) {
-                                        showSuccessToAddSubjectAlert();
-                                        print("บันทึกสำเร็จ");
+                                      // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                      bool isExists =
+                                          isSubjectIdExists(subjectId);
+
+                                      if (isExists) {
+                                        // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                        showErrorSubjectIdExistsAlert(
+                                            subjectId);
+                                      } else {
+                                        // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
+                                        http.Response response =
+                                            await subjectController.addSubject(
+                                          subjectId,
+                                          subjectNameController.text,
+                                          detailController.text,
+                                          creditController.text,
+                                        );
+
+                                        if (response.statusCode == 200) {
+                                          showSuccessToAddSubjectAlert();
+                                          print("บันทึกสำเร็จ");
+                                        }
                                       }
                                     }
                                   },

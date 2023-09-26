@@ -31,7 +31,7 @@ class _AddTeacherState extends State<AddTeacher>
 
   DateTime selecteData = DateTime.now();
 
-  TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
+  //TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
   TextEditingController timePicker = TextEditingController();
   final UserController userController = UserController();
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();

@@ -21,10 +21,6 @@ class DetailSubjectScreen extends StatefulWidget {
 }
 
 class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
-  Subject? subject;
-  bool passToggle = true;
-  bool? isLoaded = false;
-
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   final SubjectController subjectController = SubjectController();
 
@@ -33,6 +29,11 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
   TextEditingController detailController = TextEditingController();
   TextEditingController creditController = TextEditingController();
 
+  Subject? subject;
+  bool passToggle = true;
+  bool? isLoaded = false;
+  List<Subject>? subjects;
+
   void setDataToText() {
     subjectIdController.text = subject?.subjectId ?? "";
     subjectNameController.text = subject?.subjectName ?? "";
@@ -40,10 +41,20 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
     creditController.text = subject?.credit.toString() ?? "";
   }
 
+  // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
+  bool isSubjectIdExists(String subjectId) {
+    if (subjects != null) {
+      return subjects!.any((subject) => subject.subjectId == subjectId);
+    }
+    return false;
+  }
+
   void fetchData(String id) async {
+    List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
     subject = await subjectController.get_Subject(id);
     setDataToText();
     setState(() {
+      subjects = fetchedSubjects;
       isLoaded = true;
     });
   }
@@ -61,6 +72,7 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
       text: "ข้อมูลวิชาถูกแก้ไขเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
@@ -69,6 +81,16 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
           ),
         );
       },
+    );
+  }
+
+  void showErrorSubjectIdExistsAlert(String subjectId) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "รายวิชา " + subjectId + " มีอยู่ในระบบแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -304,21 +326,36 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                   onTap: () async {
                                     int? credit =
                                         int.tryParse(creditController.text);
-                                    Subject updateSubject = Subject(
-                                      id: subject?.id,
-                                      subjectId: subjectIdController.text,
-                                      subjectName: subjectNameController.text,
-                                      detail: detailController.text,
-                                      credit: credit,
-                                    );
-                                    if (_formfield.currentState!.validate()) {
-                                      http.Response response =
-                                          (await subjectController
-                                              .update_Subject(updateSubject));
 
-                                      if (response.statusCode == 200) {
-                                        showSuccessToChangeSubjectAlert();
-                                        print("แก้ไขสำเร็จ");
+                                    if (_formfield.currentState!.validate()) {
+                                      String subjectId =
+                                          subjectIdController.text;
+
+                                      // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                      bool isExists =
+                                          isSubjectIdExists(subjectId);
+                                      if (isExists) {
+                                        // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                        showErrorSubjectIdExistsAlert(
+                                            subjectId);
+                                      } else {
+                                        // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
+                                        Subject updateSubject = Subject(
+                                          id: subject?.id,
+                                          subjectId: subjectIdController.text,
+                                          subjectName:
+                                              subjectNameController.text,
+                                          detail: detailController.text,
+                                          credit: credit,
+                                        );
+                                        http.Response response =
+                                            (await subjectController
+                                                .update_Subject(updateSubject));
+
+                                        if (response.statusCode == 200) {
+                                          showSuccessToChangeSubjectAlert();
+                                          print("แก้ไขสำเร็จ");
+                                        }
                                       }
                                     }
                                   },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/login.dart';
 import 'package:flutter_application_1/screens/admin/add_room.dart';
 import 'package:flutter_application_1/screens/admin/insert_DataStudent.dart';
 import 'package:flutter_application_1/screens/admin/list_Teacher.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/admin/list_student.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
+import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_attendance%20.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_qrcode.dart';
 
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: maincolor,
       ),
-      //home: ListStudent(),
+      //home: ListClassScreen(),
       home: LoginScreen(),
     );
   }

@@ -43,6 +43,12 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   void showSureToDeleteSubjectAlert(String subjectId) {
     QuickAlert.show(
         context: context,
@@ -50,6 +56,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
         text: "คุณต้องการลบข้อมูลวิชาหรือไม่ ? ",
         type: QuickAlertType.warning,
         confirmBtnText: "ลบ",
+        barrierDismissible: false,
         onConfirmBtnTap: () async {
           http.Response response =
               await subjectController.deleteSubject(subjectId);
@@ -67,10 +74,12 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
 
   void showFailToDeleteSubjectAlert() {
     QuickAlert.show(
-        context: context,
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถลบข้อมูลวิชาได้",
-        type: QuickAlertType.error);
+      context: context,
+      title: "เกิดข้อผิดพลาด",
+      text: "ไม่สามารถลบข้อมูลวิชาได้",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
   }
 
   void showUpDeleteSubjectSuccessAlert() {
@@ -80,16 +89,11 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
         text: "ลบข้อมูลสำเร็จ",
         type: QuickAlertType.success,
         confirmBtnText: "ตกลง",
+        barrierDismissible: false,
         onConfirmBtnTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const ListSubjectScreen()));
         });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
   }
 
   @override

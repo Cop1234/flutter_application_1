@@ -43,6 +43,12 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   void showSureToDeleteRoomAlert(String id) {
     QuickAlert.show(
         context: context,
@@ -50,6 +56,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
         text: "คุณต้องการลบข้อมูลห้องเรียนหรือไม่ ? ",
         type: QuickAlertType.warning,
         confirmBtnText: "ลบ",
+        barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () async {
           http.Response response = await roomController.deleteRoom(id);
 
@@ -66,10 +73,12 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
 
   void showFailToDeleteRoomAlert() {
     QuickAlert.show(
-        context: context,
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถลบข้อมูลห้องเรียนได้",
-        type: QuickAlertType.error);
+      context: context,
+      title: "เกิดข้อผิดพลาด",
+      text: "ไม่สามารถลบข้อมูลห้องเรียนได้",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
   }
 
   void showUpDeleteRoomSuccessAlert() {
@@ -79,16 +88,11 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
         text: "ลบข้อมูลสำเร็จ",
         type: QuickAlertType.success,
         confirmBtnText: "ตกลง",
+        barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const ListRoomScreen()));
         });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
   }
 
   @override

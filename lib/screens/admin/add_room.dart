@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
+import 'package:flutter_application_1/model/room.dart';
 import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
@@ -16,8 +17,6 @@ class AddRoomScreen extends StatefulWidget {
 }
 
 class _AddRoomScreenState extends State<AddRoomScreen> {
-  bool passToggle = true;
-
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   final RoomController roomController = RoomController();
 
@@ -26,6 +25,33 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
 
+  bool passToggle = true;
+  bool? isLoaded = false;
+  List<Room>? rooms;
+
+  // ฟังก์ชันเช็ค roomName ว่ามีอยู่ใน rooms หรือไม่
+  bool isRoomNameExists(String roomName) {
+    if (rooms != null) {
+      return rooms!.any((room) => room.roomName == roomName);
+    }
+    return false;
+  }
+
+  //ฟังชั่นโหลดข้อมูลเว็บ
+  void fetchData() async {
+    List<Room> fetchedRooms = await roomController.listAllRooms();
+
+    setState(() {
+      rooms = fetchedRooms;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   void showSuccessToAddRoomAlert() {
     QuickAlert.show(
       context: context,
@@ -33,6 +59,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
       text: "ข้อมูลห้องเรียนถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
@@ -41,6 +68,16 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
           ),
         );
       },
+    );
+  }
+
+  void showErrorRoomNameExistsAlert(String roomName) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "ชื่อห้อง " + roomName + " มีอยู่ในระบบแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -287,16 +324,23 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                 InkWell(
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
-                                      http.Response response =
-                                          await roomController.addRoom(
-                                              roomNameController.text,
-                                              buildingController.text,
-                                              latitudeController.text,
-                                              longitudeController.text);
+                                      String roomName = roomNameController.text;
+                                      bool isExists =
+                                          isRoomNameExists(roomName);
+                                      if (isExists) {
+                                        showErrorRoomNameExistsAlert(roomName);
+                                      } else {
+                                        http.Response response =
+                                            await roomController.addRoom(
+                                                roomNameController.text,
+                                                buildingController.text,
+                                                latitudeController.text,
+                                                longitudeController.text);
 
-                                      if (response.statusCode == 200) {
-                                        showSuccessToAddRoomAlert();
-                                        print("บันทึกสำเร็จ");
+                                        if (response.statusCode == 200) {
+                                          showSuccessToAddRoomAlert();
+                                          print("บันทึกสำเร็จ");
+                                        }
                                       }
                                     }
                                   },
