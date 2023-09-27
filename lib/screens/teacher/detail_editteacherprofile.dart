@@ -203,7 +203,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";
                                             } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                              return "กรุณากรอกรหัสผ่านให้ถูกต้อง";
                                             }
                                           },
                                         ),
