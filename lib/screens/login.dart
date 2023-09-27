@@ -117,12 +117,15 @@ class _loginScreenState extends State<LoginScreen> {
                                     : Icons.visibility_off),
                               )),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Enter Password";
+                            bool usernameValid =
+                                RegExp(r'^[A-Za-z0-9]{8,}$').hasMatch(value!);
+
+                            if (value.isEmpty) {
+                              return "กรุณากรอก Password";
                             }
                             //กรณีใส่ Password ผิด
-                            else if (value != passworldController.text) {
-                              return "Password Must be MJU@วันเดือนปีเกิดของนักศึกษา";
+                            else if (!usernameValid) {
+                              return "กรุณากรอก Password ตั้งแต่ 8 ตัวขึ้น และต้องเป็นภาษาอังกฤษและตัวเลข";
                             }
                           },
                         ),
