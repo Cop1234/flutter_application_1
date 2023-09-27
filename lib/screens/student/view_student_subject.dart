@@ -54,8 +54,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
           data = reg
               .map((reg) => {
                     'id': reg.id ?? "",
-                    'subjectid':
-                        reg.section?.course?.subject?.subjectName ?? "",
+                    'subjectid': reg.section?.course?.subject?.subjectId ?? "",
                     'subjectname':
                         reg.section?.course?.subject?.subjectName ?? "",
                     'type': reg.section?.type ?? "",
@@ -136,45 +135,11 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                 color: Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    width: 1100,
+                  child: IntrinsicWidth(
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 15),
-                                child: InkWell(
-                                  onTap: () async {
-                                    setState(() {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) {
-                                        return InsertDataStudent();
-                                      }));
-                                    });
-                                  },
-                                  child: Container(
-                                      height: 35,
-                                      width: 110,
-                                      decoration: BoxDecoration(
-                                        color: maincolor,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Center(
-                                        child: Text("เพิ่มนักศึกษา",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -215,6 +180,18 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                     alignment: Alignment.center,
                                     child: Text(
                                       'ประเภท',
+                                      style: CustomTextStyle.TextHeadBar,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: SizedBox(
+                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'กลุ่ม',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -272,7 +249,18 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                       ),
                                     ),
                                   ),
-
+                                  DataCell(
+                                    Container(
+                                      width: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          row['group'],
+                                          style: CustomTextStyle.TextGeneral,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
@@ -291,7 +279,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),
-                                                    Text('แก้ไข'),
+                                                    Text('ดูการเข้าห้อง'),
                                                   ],
                                                 ),
                                                 onTap: () async {
@@ -310,26 +298,6 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                   }));
                                                 */
                                                 }),
-                                            PopupMenuItem(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Icon(Icons.delete,
-                                                      color: Colors.black),
-                                                  SizedBox(width: 10.0),
-                                                  Text('ลบ'),
-                                                ],
-                                              ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () =>
-                                                        showSureToDeleteStudent(
-                                                            row['id']
-                                                                .toString()));
-                                                //String? gg = row['id'].toString() ?? "";
-                                                //print(gg);
-                                              },
-                                            ),
                                           ],
                                         ),
                                       ),

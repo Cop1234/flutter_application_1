@@ -137,7 +137,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
-                          width: 800,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
                             child: Column(

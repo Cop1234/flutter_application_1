@@ -148,20 +148,69 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     return Scaffold(
         appBar: kMyAppBar,
         backgroundColor: Colors.white,
-        body: Center(
-          child: Column(children: [
-            NavbarTeacher(),
+        body: ListView(
+          children: [
             Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 10,
+              child: Column(children: [
+                NavbarTeacher(),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          color: Color.fromARGB(255, 226, 226, 226),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: SizedBox(
+                              width: 1200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "รหัสวิชา : ${subjectid.text}",
+                                      style: CustomTextStyle.mainFontStyle,
+                                    ),
+                                    Text(
+                                      "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                      style: CustomTextStyle.mainFontStyle,
+                                    ),
+                                    Text(
+                                      "ชื่อวิชา : ${subjectName.text}   " +
+                                          "กลุ่ม : ${sectionNumber.text}   " +
+                                          "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
+                                          "ห้อง : ${room.text}   " +
+                                          "ตึก : ${building.text}   ",
+                                      style: CustomTextStyle.mainFontStyle,
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Card(
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -173,27 +222,50 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  "รหัสวิชา : ${subjectid.text}",
-                                  style: CustomTextStyle.mainFontStyle,
+                                Padding(
+                                  padding: const EdgeInsets.all(30),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: _controller,
+                                          decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            labelText: "",
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          _pickFile(context);
+                                        },
+                                        child: Text('เลือกไฟล์'),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "ชื่อวิชา : ${subjectName.text}   " +
-                                      "กลุ่ม : ${sectionNumber.text}   " +
-                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                      "ห้อง : ${room.text}   " +
-                                      "ตึก : ${building.text}   ",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                SizedBox(
-                                  height: 15,
+                                Padding(
+                                  padding: const EdgeInsets.all(40),
+                                  child: Center(
+                                    child: ElevatedButton(
+                                        onPressed: () async {
+                                          if (uploadfile != null) {
+                                            print("Upload to API!");
+
+                                            var response =
+                                                await registrationController.upload(
+                                                    uploadfile!,
+                                                    fileName,
+                                                    '${section?.id.toString()}');
+                                            if (response == 200) {
+                                              showSuccessToAddStudentAlert();
+                                              print("บันทึกสำเร็จ");
+                                            }
+                                          }
+                                        },
+                                        child: Text("เพิ่ม")),
+                                  ),
                                 ),
                               ],
                             ),
@@ -201,79 +273,11 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      width: 1200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(30),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: _controller,
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(),
-                                        labelText: "",
-                                      ),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      _pickFile(context);
-                                    },
-                                    child: Text('เลือกไฟล์'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(40),
-                              child: Center(
-                                child: ElevatedButton(
-                                    onPressed: () async {
-                                      if (uploadfile != null) {
-                                        print("Upload to API!");
-
-                                        var response =
-                                            await registrationController.upload(
-                                                uploadfile!,
-                                                fileName,
-                                                '${section?.id.toString()}');
-                                        if (response == 200) {
-                                          showSuccessToAddStudentAlert();
-                                          print("บันทึกสำเร็จ");
-                                        }
-                                      }
-                                    },
-                                    child: Text("เพิ่ม")),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ),
                 ),
-              ),
+              ]),
             ),
-          ]),
+          ],
         ));
   }
 }

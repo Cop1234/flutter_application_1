@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../student/edit_student_profile.dart';
+import '../student/view_student_subject.dart';
 
 class NavbarStudent extends StatefulWidget {
   const NavbarStudent({super.key});
@@ -49,11 +50,10 @@ class _NavbarStudentState extends State<NavbarStudent> {
               onTap: () {
                 setState(() {
                   pressed1 = !pressed1;
-                  /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return subjectScreen();}
-                      ));*/
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return ViewStudentSubject();
+                  }));
                 });
               },
               child: Text(
@@ -70,11 +70,10 @@ class _NavbarStudentState extends State<NavbarStudent> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return EditProfileTeacherScreen();}
-                      ));*/
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ViewStudentSubject();
+                }));
               });
             },
             child: Icon(
