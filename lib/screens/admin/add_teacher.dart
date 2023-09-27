@@ -5,6 +5,7 @@ import '../../controller/user_controller.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 
+import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
 import '../widget/navbar_admin.dart';
@@ -43,6 +44,32 @@ class _AddTeacherState extends State<AddTeacher>
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+
+  List<User>? users;
+
+  // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
+  bool isUserIdExists(String usersId) {
+    if (usersId != null) {
+      return users!.any((user) => user.userid == usersId);
+    }
+    return false;
+  }
+
+  //ฟังชั่นโหลดข้อมูลเว็บ
+  void fetchData() async {
+    List<User> fetchedUsers = await userController.listAllTeacher();
+
+    setState(() {
+      users = fetchedUsers;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   void showSuccessToAddTeacherAlert() {
     QuickAlert.show(
       context: context,
@@ -57,6 +84,16 @@ class _AddTeacherState extends State<AddTeacher>
           ),
         );
       },
+    );
+  }
+
+  void showErrorUserIdExistsAlert(String subjectId) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "รายวิชา " + subjectId + " มีอยู่ในระบบแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -375,21 +412,31 @@ class _AddTeacherState extends State<AddTeacher>
                                 InkWell(
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
-                                      http.Response response =
-                                          await userController.addTeacher(
-                                              useridController.text,
-                                              emailController.text,
-                                              fnameController.text,
-                                              lnameController.text,
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(selecteData)
-                                                  .toString(),
-                                              genderController.text =
-                                                  dropdownvalue.toString());
+                                      String userid = useridController.text;
 
-                                      if (response.statusCode == 200) {
-                                        showSuccessToAddTeacherAlert();
-                                        print("บันทึกสำเร็จ");
+                                      // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                      bool isExists = isUserIdExists(userid);
+
+                                      if (isExists) {
+                                        // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                        showErrorUserIdExistsAlert(userid);
+                                      } else {
+                                        http.Response response =
+                                            await userController.addTeacher(
+                                                useridController.text,
+                                                emailController.text,
+                                                fnameController.text,
+                                                lnameController.text,
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(selecteData)
+                                                    .toString(),
+                                                genderController.text =
+                                                    dropdownvalue.toString());
+
+                                        if (response.statusCode == 200) {
+                                          showSuccessToAddTeacherAlert();
+                                          print("บันทึกสำเร็จ");
+                                        }
                                       }
                                     }
                                   },
