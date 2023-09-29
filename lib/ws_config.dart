@@ -5,7 +5,7 @@
 //C
 //const String ipv4 = '192.168.88.71';
 //P
-//const String ipv4 = '10.100.28.182';
+const String ipv4 = '192.168.199.130';
 
 //ip ม.
 //const String ipv4 = '10.11.24.187';
