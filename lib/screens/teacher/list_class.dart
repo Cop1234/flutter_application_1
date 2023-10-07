@@ -49,15 +49,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
   String? IdUser;
 
   void fetchUserId() async {
-    //ForTest
-    //SharedPreferences prefsFortest = await SharedPreferences.getInstance();
-    //prefsFortest.setString('username', "MJU6304106318");
-    //ForReal
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
-
-    //print(username);
-
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
@@ -322,10 +315,20 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Text('QR CODE'),
                                                 ],
                                               ),
-                                              onTap: () {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () => TeacherQR());
+                                              onTap: () async {
+                                                await Future.delayed(Duration
+                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                  return TeacherQR(
+                                                      sectionId:
+                                                          row['sectionId']
+                                                              .toString());
+                                                }));
                                               },
                                             ),
                                             PopupMenuItem(

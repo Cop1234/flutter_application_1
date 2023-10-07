@@ -1,43 +1,143 @@
-import 'dart:async';
-import 'package:quiver/async.dart';
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
-import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:async';
+
+import '../../controller/section_controller.dart';
+import '../../model/section.dart';
+import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import '../widget/navbar_teacher.dart';
 
 class TeacherQR extends StatefulWidget {
-  const TeacherQR({super.key});
+  final String sectionId;
+  const TeacherQR({super.key, required this.sectionId});
 
   @override
   State<TeacherQR> createState() => _TeacherQRState();
-  
 }
 
 class _TeacherQRState extends State<TeacherQR> {
-  TextEditingController controller = TextEditingController();
+  final SectionController sectionController = SectionController();
+  bool? isLoaded;
+  String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
+  Timer? timer;
+  String? selectedDropdownValue;
 
-  int _start = 100;
-  int _current = 100;
+  bool showQRCode = false;
 
+  int? sectionid;
+
+  Section? section;
+  TextEditingController subjectid = TextEditingController();
+  TextEditingController subjectName = TextEditingController();
+  TextEditingController teacherFName = TextEditingController();
+  TextEditingController teacherLName = TextEditingController();
+  TextEditingController sectionNumber = TextEditingController();
+  DateTime sectionTime = DateTime.now();
+  TextEditingController room = TextEditingController();
+  TextEditingController sectiontype = TextEditingController();
+  TextEditingController building = TextEditingController();
+
+  void setDataToText() {
+    subjectid.text = section?.course?.subject?.subjectId ?? "";
+    subjectName.text = section?.course?.subject?.subjectName ?? "";
+    teacherFName.text = section?.user?.fname ?? "";
+    teacherLName.text = section?.user?.lname ?? "";
+    sectionNumber.text = section?.sectionNumber ?? "";
+    building.text = section?.room?.building ?? "";
+    sectionTime = DateFormat('HH:mm').parse(section?.startTime ?? "");
+    sectiontype.text = section?.type ?? "";
+    room.text = section?.room?.roomName ?? "";
+  }
+
+  void userData(String sectionId) async {
+    setState(() {
+      isLoaded = false;
+    });
+    section = await sectionController.get_Section(sectionId);
+    setDataToText();
+
+    setState(() {
+      qrData =
+          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id}';
+      isLoaded = true;
+    });
+  }
+
+////////////////////////////// dropdownItems ////////////////////////////////////////////////
+  List<String> dropdownItems = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+  ];
+
+  void onChangedDropdown(String? newValue) {
+    setState(() {
+      startTimer();
+
+      selectedDropdownValue = newValue;
+      showQRCode = true;
+    });
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+
+  // สร้าง QR code และเปลี่ยนข้อมูลทุก 10 วินาที
+  void generateQRCode() {
+    setState(() {
+      qrData =
+          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id}'; // ใช้เวลาปัจจุบันเป็นข้อมูล QR code
+    });
+  }
+
+  int countdown = 10;
+
+  Timer? timecountdown;
+  // เริ่มต้น Timer
   void startTimer() {
-    CountdownTimer countDownTimer = new CountdownTimer(
-      new Duration(seconds: _start),
-      new Duration(seconds: 0),
-    );
-
-    var sub = countDownTimer.listen(null);
-    sub.onData((duration) {
-      setState(() { _current = _start - duration.elapsed.inSeconds; });
+    timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      generateQRCode();
     });
 
-    sub.onDone(() {
-      print("Done");
-      sub.cancel();
+    timecountdown = Timer.periodic(Duration(seconds: 1), (timecountdown) {
+      setState(() {
+        if (countdown > 1) {
+          countdown--;
+        } else {
+          countdown = 10; // รีเซ็ตนับถอยหลังเป็น 10 วินาทีอีกครั้ง
+        }
+      });
     });
+  }
+
+  /////////////////////////////////////////////////////////////////////////
+  @override
+  void initState() {
+    super.initState();
+
+    userData(widget.sectionId);
+    selectedDropdownValue = dropdownItems[0];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -47,112 +147,157 @@ class _TeacherQRState extends State<TeacherQR> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          NavbarTeacher(),
-          Column(
-            children: [
-              Form(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20,right: 20,top: 30),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 1200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
+          Center(
+            child: Column(children: [
+              NavbarTeacher(),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: Color.fromARGB(255, 226, 226, 226),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: SizedBox(
+                            width: 1200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text("รหัสวิชา : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("IT001",style: CustomTextStyle.mainFontStyle)
-                                    ],
+                                  Text(
+                                    "รหัสวิชา : ${subjectid.text}",
+                                    style: CustomTextStyle.mainFontStyle,
                                   ),
-                                  Row(
-                                    children: [
-                                      Text("ชื่อวิชา : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("xxxxxx",style: CustomTextStyle.mainFontStyle)
-                                    ],
+                                  Text(
+                                    "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                    style: CustomTextStyle.mainFontStyle,
                                   ),
-                                  Row(
-                                    children: [
-                                      Text("อาจารย์ : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("xxxxx xxxxxx",style: CustomTextStyle.mainFontStyle)
-                                    ],
+                                  Text(
+                                    "ชื่อวิชา : ${subjectName.text}   " +
+                                        "กลุ่ม : ${sectionNumber.text}   " +
+                                        "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
+                                        "ห้อง : ${room.text}   " +
+                                        "ตึก : ${building.text}   ",
+                                    style: CustomTextStyle.mainFontStyle,
                                   ),
-                                  Row(
-                                    children: [
-                                      Text("กลุ่ม : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("xx",style: CustomTextStyle.mainFontStyle),
-                                      SizedBox(width: 20,),
-                                      Text("เวลา : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("xxx",style: CustomTextStyle.mainFontStyle),
-                                      SizedBox(width: 20,),
-                                      Text("ห้อง : ",style: CustomTextStyle.mainFontStyle),
-                                      //เอาข้อมูลรหัสวิชามาแสดงผลตรงนี้
-                                      Text("xxxxx",style: CustomTextStyle.mainFontStyle)
-                                    ],
+                                  SizedBox(
+                                    height: 15,
                                   ),
                                 ],
                               ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                Form(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20,right: 20,top: 10),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 1200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                              child: Column(
-                                children: [
-                                  QrImage(
-                                    data: controller.text,
-                                    size: 280,
-                                    // You can include embeddedImageStyle Property if you 
-                                    //wanna embed an image from your Asset folder
-                                    embeddedImageStyle: QrEmbeddedImageStyle(
-                                      size: const Size(
-                                        100,
-                                        100,
-                                      ),
-                                    )
-                                  ),
-                                  Text("$_current"),
-                                  
-                                ],
-                              ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ]
+              ),
+            ]),
           ),
-        ]
-      )
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    color: Color.fromARGB(255, 226, 226, 226),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        width: 1200,
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                  height:
+                                      16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
+                              Row(
+                                children: [
+                                  Center(
+                                    child: Text("Week : "),
+                                  ),
+                                  Center(
+                                    child: DropdownButton<String>(
+                                      value: selectedDropdownValue,
+                                      onChanged: onChangedDropdown,
+                                      items: dropdownItems
+                                          .map<DropdownMenuItem<String>>(
+                                              (String item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(item),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              Center(
+                                child: buildQRCodeWidget(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
-}
 
+  Widget buildQRCodeWidget() {
+    if (showQRCode) {
+      return Column(
+        children: [
+          Center(
+            child: QrImageView(
+              data: qrData +
+                  " Week : " +
+                  selectedDropdownValue.toString(), // ข้อมูล QR code
+              version: QrVersions.auto,
+              size: 200.0,
+            ),
+          ),
+          Center(
+            child: Text(
+              'Countdown: ${countdown} seconds',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return SizedBox
+          .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
+    }
+  }
+}
