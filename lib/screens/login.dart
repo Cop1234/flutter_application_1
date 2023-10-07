@@ -9,6 +9,7 @@ import 'package:flutter_application_1/screens/student/view_student_subject.dart'
 import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../color.dart';
 
@@ -40,6 +41,16 @@ class _loginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     fetchData();
+  }
+
+  void showLoginFailAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
   }
 
   @override
@@ -117,15 +128,15 @@ class _loginScreenState extends State<LoginScreen> {
                                     : Icons.visibility_off),
                               )),
                           validator: (value) {
-                            bool usernameValid =
-                                RegExp(r'^[A-Za-z0-9]{8,}$').hasMatch(value!);
+                            bool passwordValid =
+                                RegExp(r'^.{8,}$').hasMatch(value!);
 
                             if (value.isEmpty) {
                               return "กรุณากรอก Password";
                             }
                             //กรณีใส่ Password ผิด
-                            else if (!usernameValid) {
-                              return "กรุณากรอก Password ตั้งแต่ 8 ตัวขึ้น และต้องเป็นภาษาอังกฤษและตัวเลข";
+                            else if (!passwordValid) {
+                              return "กรุณากรอก Password ตั้งแต่ 8 ตัวขึ้นไป";
                             }
                           },
                         ),
@@ -175,6 +186,7 @@ class _loginScreenState extends State<LoginScreen> {
                                   }));
                                 }
                               } else if (response.statusCode == 409) {
+                                showLoginFailAlert();
                                 print("ไม่เจอข้อมูล");
                               } else {
                                 print("Error");

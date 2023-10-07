@@ -123,8 +123,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
         children: [
           Column(
             children: [
-              NavbarTeacher(),
-              Padding(
+              const NavbarTeacher(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
@@ -139,7 +139,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                       padding: const EdgeInsets.all(30.0),
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -278,7 +278,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
@@ -286,7 +286,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             PopupMenuItem(
                                                 child: Row(
                                                   children: <Widget>[
-                                                    Icon(
+                                                    const Icon(
                                                         Icons
                                                             .inventory_outlined,
                                                         color: Colors.black),
@@ -309,7 +309,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             PopupMenuItem(
                                               child: Row(
                                                 children: <Widget>[
-                                                  Icon(Icons.qr_code_scanner,
+                                                  const Icon(
+                                                      Icons.qr_code_scanner,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('QR CODE'),
@@ -334,7 +335,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             PopupMenuItem(
                                               child: Row(
                                                 children: <Widget>[
-                                                  Icon(Icons.people_alt,
+                                                  const Icon(Icons.people_alt,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('แก้ไขนักศึกษา'),
@@ -356,7 +357,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             PopupMenuItem(
                                               child: Row(
                                                 children: <Widget>[
-                                                  Icon(Icons.settings,
+                                                  const Icon(Icons.settings,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('แก้ไขคลาสเรียน'),
@@ -383,7 +384,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             PopupMenuItem(
                                               child: Row(
                                                 children: <Widget>[
-                                                  Icon(Icons.group_add,
+                                                  const Icon(Icons.group_add,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('เพิ่มนักศึกษา'),
