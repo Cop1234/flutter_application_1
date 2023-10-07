@@ -112,11 +112,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (BuildContext context){
-                      return subjectScreen();}
-                    ));*/
+                pressed3 = !pressed3;
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ListStudent();
+                }));
               });
             },
             child: Icon(
@@ -152,11 +152,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return EditProfileTeacherScreen();}
-                      ));*/
+                pressed4 = !pressed4;
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ListTeacher();
+                }));
               });
             },
             child: Icon(

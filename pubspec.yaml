@@ -42,7 +42,6 @@ dependencies:
   http: ^0.13.5
   file_picker: ^4.0.0
   flutter_session_manager: ^1.0.3
-  barcode_scan2: ^4.2.4
 
   path_provider: ^2.0.13
   dio: ^5.3.2

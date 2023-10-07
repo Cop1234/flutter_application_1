@@ -21,6 +21,21 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
   bool pressed3 = true;
   bool pressed4 = true;
 
+  String? platform;
+
+  void fetchPlatform() async {
+    SharedPreferences spf = await SharedPreferences.getInstance();
+    String? getPlatform = spf.getString('platform');
+    platform = getPlatform;
+    print(platform);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPlatform();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,42 +82,52 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return TeacherCreateClass();
-                }));
-              });
-            },
-            child: Icon(
-              Icons.class_,
-              color: Colors.white,
-              size: 24.0,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 30, top: 10, bottom: 10),
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  pressed2 = !pressed2;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return TeacherCreateClass();
-                  }));
-                });
-              },
-              child: Text(
-                "สร้างคลาสเรียน",
-                style: pressed2
-                    ? TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      )
-                    : TextStyle(color: Colors.black, fontSize: 20),
-              ),
+          Visibility(
+            visible: platform == 'Android' ||
+                platform == 'Fuchsia' ||
+                platform == 'iOS',
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return TeacherCreateClass();
+                      }));
+                    });
+                  },
+                  child: Icon(
+                    Icons.class_,
+                    color: Colors.white,
+                    size: 24.0,
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(right: 30, top: 10, bottom: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        pressed2 = !pressed2;
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return TeacherCreateClass();
+                        }));
+                      });
+                    },
+                    child: Text(
+                      "สร้างคลาสเรียน",
+                      style: pressed2
+                          ? TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            )
+                          : TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           GestureDetector(

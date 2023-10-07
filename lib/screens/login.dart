@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/login_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
 import 'package:flutter_application_1/model/login.dart';
@@ -10,10 +11,12 @@ import 'package:flutter_application_1/screens/teacher/list_class.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quickalert/quickalert.dart';
-
-import '../color.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _loginScreenState();
 }
@@ -30,6 +33,29 @@ class _loginScreenState extends State<LoginScreen> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passworldController = TextEditingController();
+
+  // ส่วนของ CheckPlatformExample
+  String? _getPlatform() {
+    String? platform;
+
+    if (kIsWeb) {
+      platform = 'Web';
+    } else if (Platform.isAndroid) {
+      platform = 'Android';
+    } else if (Platform.isIOS) {
+      platform = 'iOS';
+    } else if (Platform.isFuchsia) {
+      platform = 'Fuchsia';
+    } else if (Platform.isLinux) {
+      platform = 'Linux';
+    } else if (Platform.isWindows) {
+      platform = 'Windows';
+    } else if (Platform.isMacOS) {
+      platform = 'macOS';
+    }
+
+    return platform;
+  }
 
   void fetchData() async {
     setState(() {
@@ -55,6 +81,7 @@ class _loginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String? platform = _getPlatform();
     return Scaffold(
       backgroundColor: maincolor,
       body: Center(
@@ -151,6 +178,10 @@ class _loginScreenState extends State<LoginScreen> {
                                   await SharedPreferences.getInstance();
                               prefs.setString(
                                   'username', usernameController.text);
+                              //SetPlatForm
+                              SharedPreferences spf =
+                                  await SharedPreferences.getInstance();
+                              spf.setString('platform', platform ?? '-');
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (BuildContext context) {
