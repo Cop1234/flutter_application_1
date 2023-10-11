@@ -22,6 +22,11 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
   bool pressed4 = true;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: maincolor,

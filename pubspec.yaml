@@ -42,11 +42,7 @@ dependencies:
   http: ^0.13.5
   file_picker: ^4.0.0
   flutter_session_manager: ^1.0.3
-  # flutter_qr_image: ^4.0.0
-  # qr_code_scanner: ^0.6.3 # ระบุเวอร์ชันล่าสุด
-  # qr_flutter: ^4.0.0 # ระบุเวอร์ชันล่าสุด
-  # flutter_qr_image: ^4.0.0 
-
+  
   path_provider: ^2.0.13
   dio: ^5.3.2
   shared_preferences: ^2.0.12

@@ -279,7 +279,7 @@ class _TeacherQRState extends State<TeacherQR> {
       return Column(
         children: [
           Center(
-            child: QrImageView(
+            child: QrImage(
               data: qrData +
                   " Week : " +
                   selectedDropdownValue.toString(), // ข้อมูล QR code
