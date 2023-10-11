@@ -414,11 +414,11 @@ class _AddTeacherState extends State<AddTeacher>
                                     if (_formfield.currentState!.validate()) {
                                       String userid = useridController.text;
 
-                                      // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                      // เช็คว่า userid มีอยู่ใน user หรือไม่
                                       bool isExists = isUserIdExists(userid);
 
                                       if (isExists) {
-                                        // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                        // แสดง Alert หรือข้อความว่า userid มีอยู่ในระบบแล้ว
                                         showErrorUserIdExistsAlert(userid);
                                       } else {
                                         http.Response response =

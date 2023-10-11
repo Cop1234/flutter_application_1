@@ -56,7 +56,6 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
     typeuserController.text = users?.typeuser ?? "";
     loginidController.text = users?.login?.id.toString() ?? "";
     usernameController.text = users?.login?.username ?? "";
-    passwordController.text = users?.login?.password.toString() ?? "";
   }
 
 //ฟังชั่นโหลดข้อมูลเว็บ

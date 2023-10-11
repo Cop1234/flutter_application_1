@@ -51,6 +51,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
   void fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    //String? username = "MJU1111111111";
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
@@ -342,7 +343,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                 ],
                                               ),
                                               onTap: () async {
-                                                /*await Future.delayed(Duration
+                                                await Future.delayed(Duration
                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
                                                 Navigator.of(context)
                                                     .pushReplacement(
@@ -350,8 +351,11 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             builder:
                                                                 (BuildContext
                                                                     context) {
-                                                  return TeacherUpdateClass();
-                                                }));*/
+                                                  return TeacherViewStudent(
+                                                      sectionId:
+                                                          row['sectionId']
+                                                              .toString());
+                                                }));
                                               },
                                             ),
                                             PopupMenuItem(

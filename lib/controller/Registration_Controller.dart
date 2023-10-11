@@ -24,30 +24,47 @@ class RegistrationController {
     print("Student : " + response.data);
     return response.statusCode;
   }
-/*
-  Future get_ViewSubject(String id) async {
-    var url = Uri.parse(baseURL + '/registrations/stu_listsubject' + id);
-    http.Response response = await http.get(url);
-    final utf8Body = utf8.decode(response.bodyBytes);
-    List<dynamic> jsonResponse = json.decode(utf8Body);
-    List<Registration> list = jsonResponse
-        .map((e) => Registration.formJsonToRegistration(e))
-        .toList();
-    //print(list);
-    return list;
+
+  Future deleteRegistration(String id) async {
+    var url = Uri.parse(baseURL + "/registrations/delete/" + id);
+    http.Response response = await http.delete(url);
+    return response;
   }
-*/
 
   Future get_ViewSubject(String id) async {
     var url = Uri.parse(baseURL + '/registrations/stu_listsubject/' + id);
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);
-    //var jsonResponse = json.decode(utf8Body);
     List<dynamic> jsonResponse = json.decode(utf8Body);
     List<Registration> list = jsonResponse
         .map((e) => Registration.formJsonToRegistration(e))
         .toList();
     print(list);
     return list;
+  }
+
+  Future do_getViewStudent(String idsec) async {
+    var url = Uri.parse(baseURL + '/registrations/do_getViewStudent/' + idsec);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<Registration> list = jsonResponse
+        .map((e) => Registration.formJsonToRegistration(e))
+        .toList();
+    print(list);
+    return list;
+  }
+
+  Future do_update(String userid, String idsec) async {
+    Map data = {
+      "userid": userid,
+      "idsec": idsec,
+    };
+    var jsonData = json.encode(data);
+    var url = Uri.parse(baseURL + "/registrations/do_update");
+    http.Response response =
+        await http.post(url, headers: headers, body: jsonData);
+    print(response.body);
+    return response;
   }
 }

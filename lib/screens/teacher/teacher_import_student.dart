@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/controller/Registration_Controller.dart';
+import 'package:flutter_application_1/controller/registration_Controller.dart';
 import 'package:flutter_application_1/controller/section_controller.dart';
 import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/user.dart';

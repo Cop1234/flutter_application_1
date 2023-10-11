@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/controller/Registration_Controller.dart';
+import 'package:flutter_application_1/controller/registration_Controller.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:shared_preferences/shared_preferences.dart';

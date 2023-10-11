@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/model/registration.dart';
-import 'package:flutter_application_1/screens/teacher/view_teacher_editstudent.dart';
+import 'package:flutter_application_1/screens/teacher/view_teacher_addstudent.dart';
+import 'package:flutter_application_1/screens/teacher/view_teacher_student.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
@@ -12,23 +13,26 @@ import '../../controller/registration_Controller.dart';
 import '../../controller/section_controller.dart';
 import '../../model/section.dart';
 import '../widget/mainTextStyle.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 
-class TeacherViewStudent extends StatefulWidget {
+class TeacherEditStudent extends StatefulWidget {
   final String sectionId;
-  const TeacherViewStudent({super.key, required this.sectionId});
+  const TeacherEditStudent({super.key, required this.sectionId});
 
   @override
-  State<TeacherViewStudent> createState() => _TeacherViewStudentState();
+  State<TeacherEditStudent> createState() => _TeacherEditStudentState();
 }
 
-class _TeacherViewStudentState extends State<TeacherViewStudent> {
+class _TeacherEditStudentState extends State<TeacherEditStudent> {
   final SectionController sectionController = SectionController();
   final RegistrationController registrationController =
       RegistrationController();
   bool? isLoaded = false;
   List<Map<String, dynamic>> data = [];
 
-  int? sectionid;
+  String? idsec;
+  String? regid;
 
   List<Registration>? registration;
   Section? section;
@@ -58,6 +62,7 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
     section = await sectionController.get_Section(sectionId);
     setDataToText();
     setState(() {
+      idsec = '${section?.id}';
       isLoaded = true;
     });
 
@@ -69,9 +74,11 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
         await registrationController.do_getViewStudent(sectionId);
 
     setState(() {
+      regid = '${reg}';
       registration = reg;
       data = reg
           .map((reg) => {
+                'id': reg.id ?? "",
                 'userid': reg.user?.userid ?? "",
                 'fname': reg.user?.fname ?? "",
                 'lname': reg.user?.lname ?? "",
@@ -81,6 +88,54 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
     });
   }
 
+  void showSureToDeleteStudent(String id, String secid) {
+    QuickAlert.show(
+        context: context,
+        title: "คุณแน่ใจหรือไม่ ? ",
+        text: "คุณต้องการลบข้อมูลหรือไม่ ? ",
+        type: QuickAlertType.warning,
+        confirmBtnText: "ลบ",
+        onConfirmBtnTap: () async {
+          print(id);
+          print(secid);
+          http.Response response =
+              await registrationController.deleteRegistration(id);
+
+          if (response.statusCode == 200) {
+            Navigator.pop(context);
+            showUpDeleteStudentSuccessAlert(secid);
+          } else {
+            showFailToDeleteStudentAlert();
+          }
+        },
+        cancelBtnText: "ยกเลิก",
+        showCancelBtn: true);
+  }
+
+  void showFailToDeleteStudentAlert() {
+    QuickAlert.show(
+        context: context,
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่สามารถลบข้อมูลได้",
+        type: QuickAlertType.error);
+  }
+
+  void showUpDeleteStudentSuccessAlert(String secid) {
+    QuickAlert.show(
+        context: context,
+        title: "สำเร็จ",
+        text: "ลบข้อมูลสำเร็จ",
+        type: QuickAlertType.success,
+        confirmBtnText: "ตกลง",
+        onConfirmBtnTap: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => TeacherViewStudent(
+                    sectionId: secid,
+                  )));
+        });
+  }
+
+  ////////////////////////////////////////////////////////////////////////
   @override
   void initState() {
     super.initState();
@@ -179,11 +234,11 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (BuildContext context) {
-                                  return TeacherEditStudent(
+                                  return TeacherAddStudent(
                                       sectionId: '${section?.id}');
                                 }));
                               },
-                              child: Text("Editstudent"),
+                              child: Text("เพิ่มนักศึกษา"),
                             ),
                             SizedBox(
                               height: 20,
@@ -230,7 +285,18 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                     ),
                                   ),
                                 ),
-
+                                DataColumn(
+                                  label: SizedBox(
+                                    width: 200, // กำหนดความกว้างของ DataColumn
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'จัดการ',
+                                        style: CustomTextStyle.TextHeadBar,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 // Add more DataColumn as needed
                               ],
                               rows: data.asMap().entries.map((entry) {
@@ -271,7 +337,45 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                         ),
                                       ),
                                     ),
-
+                                    DataCell(Padding(
+                                      padding: const EdgeInsets.all(0.0),
+                                      child: Container(
+                                        width: 200,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: PopupMenuButton(
+                                            icon: Icon(
+                                              Icons.settings,
+                                              color: Colors.white,
+                                            ),
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(Icons.delete,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 10.0),
+                                                    Text('ลบ'),
+                                                  ],
+                                                ),
+                                                onTap: () {
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          seconds: 0),
+                                                      () =>
+                                                          showSureToDeleteStudent(
+                                                              row['id']
+                                                                  .toString(),
+                                                              '${section?.id}'));
+                                                  //String? gg = row['id'].toString() ?? "";
+                                                  //print(gg);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )),
                                     // Add more DataCell as needed
                                   ],
                                 );
