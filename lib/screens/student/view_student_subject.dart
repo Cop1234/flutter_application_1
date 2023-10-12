@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/registration_Controller.dart';
+import 'package:flutter_application_1/screens/student/view_student_attendance%20.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,16 +45,16 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
       User? user = await userController.get_UserByUsername(username);
       print(user?.id);
       if (user != null) {
-        IdUser = user.id.toString();
         print(IdUser);
         List<Registration> reg =
             await registrationController.get_ViewSubject(user.id.toString());
 
         setState(() {
+          IdUser = user.id.toString();
           registration = reg;
           data = reg
               .map((reg) => {
-                    'id': reg.id ?? "",
+                    'id': reg.section?.id ?? "",
                     'subjectid': reg.section?.course?.subject?.subjectId ?? "",
                     'subjectname':
                         reg.section?.course?.subject?.subjectName ?? "",
@@ -283,7 +284,6 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                   ],
                                                 ),
                                                 onTap: () async {
-                                                  /*
                                                   await Future.delayed(Duration
                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
                                                   Navigator.of(context)
@@ -292,11 +292,12 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                               builder:
                                                                   (BuildContext
                                                                       context) {
-                                                    return EditTeacherProfile(
-                                                        id: row['id']
-                                                            .toString());
+                                                    return StudentAtten(
+                                                      sectionId:
+                                                          row['id'].toString(),
+                                                      idUser: IdUser!,
+                                                    );
                                                   }));
-                                                */
                                                 }),
                                           ],
                                         ),
