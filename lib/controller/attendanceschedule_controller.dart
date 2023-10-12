@@ -77,4 +77,16 @@ class AttendanceScheduleController {
     print(response.body);
     return response;
   }
+
+  Future listAttendanceScheduleByWeek(String week) async {
+    var url = Uri.parse(baseURL + '/attendanceschedule/getbyweek/' + week);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<AttendanceSchedule> list = jsonResponse
+        .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
+        .toList();
+    print(list);
+    return list;
+  }
 }

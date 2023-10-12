@@ -226,19 +226,40 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                             SizedBox(
                               height: 20,
                             ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(),
-                              onPressed: () async {
-                                await Future.delayed(Duration
-                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                  return TeacherAddStudent(
-                                      sectionId: '${section?.id}');
-                                }));
-                              },
-                              child: Text("เพิ่มนักศึกษา"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 15),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(() {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return TeacherAddStudent(
+                                              sectionId: '${section?.id}');
+                                        }));
+                                      });
+                                    },
+                                    child: Container(
+                                        height: 35,
+                                        width: 110,
+                                        decoration: BoxDecoration(
+                                          color: maincolor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Center(
+                                          child: Text("เพิ่มนักศึกษา",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 20,

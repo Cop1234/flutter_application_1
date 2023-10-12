@@ -305,7 +305,10 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                               builder:
                                                                   (BuildContext
                                                                       context) {
-                                                    return TeacherAtten();
+                                                    return TeacherAtten(
+                                                        sectionId:
+                                                            row['sectionId']
+                                                                .toString());
                                                   }));
                                                 }),
                                             PopupMenuItem(

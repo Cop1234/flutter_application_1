@@ -31,7 +31,7 @@ class _AddTeacherState extends State<AddTeacher>
   late AnimationController _controller;
 
   DateTime selecteData = DateTime.now();
-
+  bool showData = false;
   //TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
   TextEditingController timePicker = TextEditingController();
   final UserController userController = UserController();
@@ -300,21 +300,21 @@ class _AddTeacherState extends State<AddTeacher>
                                 children: <Widget>[
                                   Text("วันเกิด : ",
                                       style: CustomTextStyle.createFontStyle),
-                                  Text(
-                                      '${DateFormat('dd-MM-yyyy').format(selecteData)}',
-                                      style: CustomTextStyle.createFontStyle),
+                                  ShowSelectDate(),
                                   ElevatedButton(
-                                    child: const Text("Date"),
+                                    child: const Text("เลือกวัน"),
                                     onPressed: () async {
-                                      final DateTime? dateTime =
+                                      final DateTime? pickedDate =
                                           await showDatePicker(
-                                              context: context,
-                                              initialDate: selecteData,
-                                              firstDate: DateTime(1000),
-                                              lastDate: DateTime(3000));
-                                      if (dateTime != null) {
+                                        context: context,
+                                        initialDate: selecteData,
+                                        firstDate: DateTime(1000),
+                                        lastDate: DateTime(3000),
+                                      );
+                                      if (pickedDate != null) {
                                         setState(() {
-                                          selecteData = dateTime;
+                                          showData = true;
+                                          selecteData = pickedDate;
                                         });
                                       }
                                     },
@@ -467,5 +467,17 @@ class _AddTeacherState extends State<AddTeacher>
             )
           ]),
         ]));
+  }
+
+  Widget ShowSelectDate() {
+    if (showData) {
+      return Text(
+        ' ${DateFormat('dd-MM-yyyy').format(selecteData)} ',
+        style: CustomTextStyle.createFontStyle,
+      );
+    } else {
+      return SizedBox
+          .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
+    }
   }
 }

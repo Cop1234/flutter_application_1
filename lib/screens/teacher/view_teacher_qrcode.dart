@@ -63,7 +63,7 @@ class _TeacherQRState extends State<TeacherQR> {
 
     setState(() {
       qrData =
-          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id}';
+          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id} StartTime : ${section?.startTime}';
       isLoaded = true;
     });
   }
@@ -102,7 +102,7 @@ class _TeacherQRState extends State<TeacherQR> {
   void generateQRCode() {
     setState(() {
       qrData =
-          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id}'; // ใช้เวลาปัจจุบันเป็นข้อมูล QR code
+          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id} StartTime : ${section?.startTime}'; // ใช้เวลาปัจจุบันเป็นข้อมูล QR code
     });
   }
 
