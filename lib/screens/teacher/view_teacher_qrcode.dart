@@ -63,7 +63,7 @@ class _TeacherQRState extends State<TeacherQR> {
 
     setState(() {
       qrData =
-          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id} StartTime : ${section?.startTime}';
+          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:${DateFormat('HH-mm-ss').format(section?.startTime as DateTime)}';
       isLoaded = true;
     });
   }
@@ -87,6 +87,8 @@ class _TeacherQRState extends State<TeacherQR> {
     '15',
   ];
 
+  bool? stop = false;
+
   void onChangedDropdown(String? newValue) {
     setState(() {
       startTimer();
@@ -102,7 +104,7 @@ class _TeacherQRState extends State<TeacherQR> {
   void generateQRCode() {
     setState(() {
       qrData =
-          'Date : ${DateFormat('HH:mm:ss').format(DateTime.now()).toString()} Section : ${section?.id} StartTime : ${section?.startTime}'; // ใช้เวลาปัจจุบันเป็นข้อมูล QR code
+          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:${section?.startTime}';
     });
   }
 
@@ -111,19 +113,21 @@ class _TeacherQRState extends State<TeacherQR> {
   Timer? timecountdown;
   // เริ่มต้น Timer
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      generateQRCode();
-    });
-
-    timecountdown = Timer.periodic(Duration(seconds: 1), (timecountdown) {
-      setState(() {
-        if (countdown > 1) {
-          countdown--;
-        } else {
-          countdown = 10; // รีเซ็ตนับถอยหลังเป็น 10 วินาทีอีกครั้ง
-        }
+    if (stop == false) {
+      timer = Timer.periodic(Duration(seconds: 10), (timer) {
+        generateQRCode();
       });
-    });
+
+      timecountdown = Timer.periodic(Duration(seconds: 1), (timecountdown) {
+        setState(() {
+          if (countdown > 1) {
+            countdown--;
+          } else {
+            countdown = 10; // รีเซ็ตนับถอยหลังเป็น 10 วินาทีอีกครั้ง
+          }
+        });
+      });
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -281,7 +285,7 @@ class _TeacherQRState extends State<TeacherQR> {
           Center(
             child: QrImage(
               data: qrData +
-                  " Week : " +
+                  ",Week:" +
                   selectedDropdownValue.toString(), // ข้อมูล QR code
               version: QrVersions.auto,
               size: 200.0,

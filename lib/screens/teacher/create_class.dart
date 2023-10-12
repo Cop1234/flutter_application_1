@@ -300,8 +300,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           selectedGroupStu = newValue!;
                                         });
                                       },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      underline: const SizedBox(),
                                     ),
                                   ),
                                 ],
@@ -435,7 +436,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       underline: SizedBox(),
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     " ชั่วโมง",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -447,7 +448,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ประเภท : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -456,7 +457,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     width: 150,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -466,7 +467,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: selectedTypeSubject,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: typesub.map(
@@ -482,8 +483,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           selectedTypeSubject = newValue!;
                                         });
                                       },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      underline: const SizedBox(),
                                     ),
                                   ),
                                 ],
@@ -494,7 +496,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ห้องเรียน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -504,8 +506,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       height: 50,
                                       alignment:
                                           AlignmentDirectional.centerStart,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -514,7 +516,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       child: DropdownButtonFormField<String>(
                                         isExpanded: true,
                                         value: selectedRoom,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                         ),
                                         items: dataRoom
@@ -536,7 +538,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
                                           return null;
                                         },
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: 'กรุณาเลือกห้องเรียน',
                                           border: InputBorder.none,
                                         ),
@@ -545,7 +547,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -553,9 +555,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               children: [
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 40, vertical: 15),
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                     primary: Colors.blue,
@@ -571,7 +573,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                   },
                                   child: Text("ยกเลิก"),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 ElevatedButton(
