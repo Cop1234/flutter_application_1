@@ -26,10 +26,11 @@ class _TeacherQRState extends State<TeacherQR> {
   String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
   Timer? timer;
   String? selectedDropdownValue;
-
   bool showQRCode = false;
-
   int? sectionid;
+
+  var startTimeForQR;
+  String? formattedStartTime;
 
   Section? section;
   TextEditingController subjectid = TextEditingController();
@@ -62,8 +63,10 @@ class _TeacherQRState extends State<TeacherQR> {
     setDataToText();
 
     setState(() {
+      startTimeForQR = section?.startTime;
+      formattedStartTime = startTimeForQR?.replaceAll(':', '-');
       qrData =
-          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:${DateFormat('HH-mm-ss').format(section?.startTime as DateTime)}';
+          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
       isLoaded = true;
     });
   }
@@ -104,7 +107,7 @@ class _TeacherQRState extends State<TeacherQR> {
   void generateQRCode() {
     setState(() {
       qrData =
-          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:${section?.startTime}';
+          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$startTimeForQR';
     });
   }
 
@@ -114,11 +117,12 @@ class _TeacherQRState extends State<TeacherQR> {
   // เริ่มต้น Timer
   void startTimer() {
     if (stop == false) {
-      timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      timer = Timer.periodic(const Duration(seconds: 10), (timer) {
         generateQRCode();
       });
 
-      timecountdown = Timer.periodic(Duration(seconds: 1), (timecountdown) {
+      timecountdown =
+          Timer.periodic(const Duration(seconds: 1), (timecountdown) {
         setState(() {
           if (countdown > 1) {
             countdown--;
@@ -153,22 +157,23 @@ class _TeacherQRState extends State<TeacherQR> {
         children: [
           Center(
             child: Column(children: [
-              NavbarTeacher(),
+              const NavbarTeacher(),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Card(
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        color: Color.fromARGB(255, 226, 226, 226),
+                        color: const Color.fromARGB(255, 226, 226, 226),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: SizedBox(
@@ -195,7 +200,7 @@ class _TeacherQRState extends State<TeacherQR> {
                                         "ตึก : ${building.text}   ",
                                     style: CustomTextStyle.mainFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                 ],
@@ -212,19 +217,19 @@ class _TeacherQRState extends State<TeacherQR> {
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Card(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    color: Color.fromARGB(255, 226, 226, 226),
+                    color: const Color.fromARGB(255, 226, 226, 226),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
@@ -235,12 +240,12 @@ class _TeacherQRState extends State<TeacherQR> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                   height:
                                       16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
                               Row(
                                 children: [
-                                  Center(
+                                  const Center(
                                     child: Text("Week : "),
                                   ),
                                   Center(
@@ -294,13 +299,13 @@ class _TeacherQRState extends State<TeacherQR> {
           Center(
             child: Text(
               'Countdown: ${countdown} seconds',
-              style: TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
       );
     } else {
-      return SizedBox
+      return const SizedBox
           .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
     }
   }
