@@ -6,6 +6,7 @@ import 'package:flutter_application_1/controller/attendanceschedule_controller.d
 
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
+import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
 
@@ -13,15 +14,17 @@ import '../../controller/section_controller.dart';
 import '../../model/attendanceSchedule.dart';
 import '../../model/section.dart';
 
-class TeacherAtten extends StatefulWidget {
+class StudentAtten extends StatefulWidget {
   final String sectionId;
-  const TeacherAtten({super.key, required this.sectionId});
+  final String idUser;
+  const StudentAtten(
+      {super.key, required this.sectionId, required this.idUser});
 
   @override
-  State<TeacherAtten> createState() => _TeacherAttenState();
+  State<StudentAtten> createState() => _StudentAttenState();
 }
 
-class _TeacherAttenState extends State<TeacherAtten> {
+class _StudentAttenState extends State<StudentAtten> {
   final SectionController sectionController = SectionController();
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
@@ -88,10 +91,10 @@ class _TeacherAttenState extends State<TeacherAtten> {
   List<Map<String, dynamic>> data = [];
   List<AttendanceSchedule>? attendance;
 
-  void showAtten(String week, String secid) async {
-    print(week + " : " + secid);
+  void showAtten(String week, String secid, String idUser) async {
+    print(week + " : " + secid + " : " + idUser);
     List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, secid);
+        .get_ListAttendanceStudent(week, secid, idUser);
     print(atten);
     setState(() {
       attendance = atten;
@@ -108,12 +111,16 @@ class _TeacherAttenState extends State<TeacherAtten> {
     });
   }
 
+  String? Iduser;
   @override
   void initState() {
     super.initState();
 
     userData(widget.sectionId);
-    showAtten(weekNum, widget.sectionId);
+    showAtten(weekNum, widget.sectionId, widget.idUser);
+    setState(() {
+      Iduser = widget.idUser;
+    });
   }
 
   @override
@@ -122,7 +129,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: ListView(children: [
-        NavbarTeacher(),
+        NavbarStudent(),
         Column(
           children: [
             Center(
@@ -226,9 +233,11 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                         },
                                       ).toList(),
                                       onChanged: (String? newValue) {
+                                        print('USERID : ' + Iduser!);
                                         setState(() {
                                           weekNum = newValue!;
-                                          showAtten(newValue, '${section?.id}');
+                                          showAtten(newValue, '${section?.id}',
+                                              Iduser!);
                                         });
                                       },
                                       icon: Icon(Icons.keyboard_arrow_down),
@@ -238,19 +247,6 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                   SizedBox(
                                     width: 15,
                                   ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 40, vertical: 18),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    onPressed: () {},
-                                    child: Text("ExportReport"),
-                                  )
                                 ],
                               ),
                               SizedBox(

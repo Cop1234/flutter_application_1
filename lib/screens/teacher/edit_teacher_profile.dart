@@ -161,7 +161,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "ชื่อผู้ใช้ : ${users?.userid}",
+                                  "ชื่อผู้ใช้ : ${users?.login!.username}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
