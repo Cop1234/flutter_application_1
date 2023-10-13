@@ -121,7 +121,7 @@ class _loginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             //ถ้าใส่ email ถูก
                             bool usernameValid =
-                                RegExp(r"^[MJU]+[0-9]").hasMatch(value!);
+                                RegExp(r'^.{1,30}$').hasMatch(value!);
 
                             //กรณีไม่ใส่ username
                             if (value.isEmpty) {
