@@ -38,13 +38,15 @@ class _AddTeacherState extends State<AddTeacher>
   final GlobalKey<FormState> _formfield = GlobalKey<FormState>();
   var items = ['ชาย', 'หญิง'];
   String dropdownvalue = 'ชาย';
-
+  bool passToggle = true;
   TextEditingController useridController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
+  TextEditingController LoginidController = TextEditingController();
+  TextEditingController LoginpasswordController = TextEditingController();
   List<User>? users;
 
   // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
@@ -124,14 +126,13 @@ class _AddTeacherState extends State<AddTeacher>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            //RoomName
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
                                   Text(
-                                    "รหัสอาจารย์ : ",
+                                    "ชื่อผู้ใช้ : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
                                   SizedBox(
@@ -142,7 +143,7 @@ class _AddTeacherState extends State<AddTeacher>
                                     child: Expanded(
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
-                                        controller: useridController,
+                                        controller: LoginidController,
                                         decoration: InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
@@ -152,13 +153,12 @@ class _AddTeacherState extends State<AddTeacher>
                                               .none, // กำหนดให้ไม่มีเส้นขอบ
                                         ),
                                         validator: (value) {
-                                          bool subjectIdValid =
-                                              RegExp(r'^[\d]+$')
-                                                  .hasMatch(value!);
+                                          bool Loginid = RegExp(r'^.{1,30}$')
+                                              .hasMatch(value!);
                                           if (value.isEmpty) {
-                                            return "กรุณากรอกรหัสประจำตัวอาจารย์*";
-                                          } else if (!subjectIdValid) {
-                                            return "รหัสอาจารย์ต้องเป็นมีตัวเลขเท่านั้น";
+                                            return "กรุณากรอกชื่อผู้ใช้";
+                                          } else if (!Loginid) {
+                                            return "ต้องมีความยาวไม่เกิน30";
                                           }
                                         },
                                       ),
@@ -167,6 +167,60 @@ class _AddTeacherState extends State<AddTeacher>
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "รหัสผ่าน : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: LoginpasswordController,
+                                        obscureText: passToggle,
+                                        decoration: InputDecoration(
+                                            errorStyle: TextStyle(),
+                                            filled:
+                                                true, // เปิดการใช้งานการเติมพื้นหลัง
+                                            fillColor: Colors.white,
+                                            border: InputBorder
+                                                .none, // กำหนดให้ไม่มีเส้นขอบ
+
+                                            suffixIcon: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  passToggle = !passToggle;
+                                                });
+                                              },
+                                              child: Icon(passToggle
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                            )),
+                                        validator: (value) {
+                                          bool loginIdValid = RegExp(
+                                                  r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
+                                              .hasMatch(value!);
+                                          if (value.isEmpty) {
+                                            return "กรุณากรอกรหัส";
+                                          } else if (!loginIdValid) {
+                                            return "ต้องเป็นภาษาอังกฤษตัวใหญ่และตัวเล็กและจะต้องมีความยาว8-16ตัวอักษร";
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 20, bottom: 5),
@@ -201,6 +255,48 @@ class _AddTeacherState extends State<AddTeacher>
                                             return "กรุณากรอกอีเมล*";
                                           } else if (!subjectNameValid) {
                                             return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "รหัสอาจารย์ : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        controller: useridController,
+                                        decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled:
+                                              true, // เปิดการใช้งานการเติมพื้นหลัง
+                                          fillColor: Colors.white,
+                                          border: InputBorder
+                                              .none, // กำหนดให้ไม่มีเส้นขอบ
+                                        ),
+                                        validator: (value) {
+                                          bool subjectIdValid =
+                                              RegExp(r'^[\d]+$')
+                                                  .hasMatch(value!);
+                                          if (value.isEmpty) {
+                                            return "กรุณากรอกรหัสประจำตัวอาจารย์*";
+                                          } else if (!subjectIdValid) {
+                                            return "รหัสอาจารย์ต้องเป็นมีตัวเลขเท่านั้น";
                                           }
                                         },
                                       ),
@@ -302,7 +398,10 @@ class _AddTeacherState extends State<AddTeacher>
                                       style: CustomTextStyle.createFontStyle),
                                   ShowSelectDate(),
                                   ElevatedButton(
-                                    child: const Text("เลือกวัน"),
+                                    style: ElevatedButton.styleFrom(
+                                      primary:
+                                          Colors.green, // สีพื้นหลังของปุ่ม
+                                    ),
                                     onPressed: () async {
                                       final DateTime? pickedDate =
                                           await showDatePicker(
@@ -318,7 +417,16 @@ class _AddTeacherState extends State<AddTeacher>
                                         });
                                       }
                                     },
-                                  ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons
+                                              .calendar_today, // ไอคอนของปฏิทิน
+                                          color: Colors.white, // สีของไอคอน
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -423,6 +531,8 @@ class _AddTeacherState extends State<AddTeacher>
                                       } else {
                                         http.Response response =
                                             await userController.addTeacher(
+                                                LoginidController.text,
+                                                LoginpasswordController.text,
                                                 useridController.text,
                                                 emailController.text,
                                                 fnameController.text,

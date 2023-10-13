@@ -27,7 +27,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
   //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
   //List<User>? users;
-
+  bool passToggle = true;
   User? users;
 
   TextEditingController user_idController = TextEditingController();
@@ -188,14 +188,24 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: passwordController,
+                                          obscureText: passToggle,
                                           decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
+                                              errorStyle: TextStyle(),
+                                              filled:
+                                                  true, // เปิดการใช้งานการเติมพื้นหลัง
+                                              fillColor: Colors.white,
+                                              border: InputBorder
+                                                  .none, // กำหนดให้ไม่มีเส้นขอบ
+                                              suffixIcon: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    passToggle = !passToggle;
+                                                  });
+                                                },
+                                                child: Icon(passToggle
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off),
+                                              )),
                                           validator: (value) {
                                             bool subjectNameValid = RegExp(
                                                     r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')

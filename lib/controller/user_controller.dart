@@ -48,9 +48,11 @@ class UserController {
     return response;
   }
 
-  Future addTeacher(String userid, String email, String fname, String lname,
-      String birthdate, String gender) async {
+  Future addTeacher(String logid, String password, String userid, String email,
+      String fname, String lname, String birthdate, String gender) async {
     Map data = {
+      "logid": logid,
+      "password": password,
       "userid": userid,
       "email": email,
       "fname": fname,

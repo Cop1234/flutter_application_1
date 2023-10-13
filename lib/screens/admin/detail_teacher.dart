@@ -28,8 +28,8 @@ class _DetailTeacherState extends State<DetailTeacher> {
 
   //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
-  //List<User>? users;
-
+  bool showData = true;
+  bool passToggle = true;
   User? users;
   Login? logins;
 
@@ -170,14 +170,24 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: passwordController,
+                                          obscureText: passToggle,
                                           decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
+                                              errorStyle: TextStyle(),
+                                              filled:
+                                                  true, // เปิดการใช้งานการเติมพื้นหลัง
+                                              fillColor: Colors.white,
+                                              border: InputBorder
+                                                  .none, // กำหนดให้ไม่มีเส้นขอบ
+                                              suffixIcon: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    passToggle = !passToggle;
+                                                  });
+                                                },
+                                                child: Icon(passToggle
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off),
+                                              )),
                                           validator: (value) {
                                             bool subjectNameValid = RegExp(
                                                     r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
@@ -340,25 +350,37 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                   children: <Widget>[
                                     Text("วันเกิด : ",
                                         style: CustomTextStyle.createFontStyle),
-                                    Text(
-                                        '  ${DateFormat('dd-MM-yyyy').format(selecteData)}  ',
-                                        style: CustomTextStyle.createFontStyle),
+                                    ShowSelectDate(),
                                     ElevatedButton(
-                                      child: const Text("Date"),
+                                      style: ElevatedButton.styleFrom(
+                                        primary:
+                                            Colors.green, // สีพื้นหลังของปุ่ม
+                                      ),
                                       onPressed: () async {
-                                        final DateTime? dateTime =
+                                        final DateTime? pickedDate =
                                             await showDatePicker(
-                                                context: context,
-                                                initialDate: selecteData,
-                                                firstDate: DateTime(1000),
-                                                lastDate: DateTime(3000));
-                                        if (dateTime != null) {
+                                          context: context,
+                                          initialDate: selecteData,
+                                          firstDate: DateTime(1000),
+                                          lastDate: DateTime(3000),
+                                        );
+                                        if (pickedDate != null) {
                                           setState(() {
-                                            selecteData = dateTime;
+                                            showData = true;
+                                            selecteData = pickedDate;
                                           });
                                         }
                                       },
-                                    ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons
+                                                .calendar_today, // ไอคอนของปฏิทิน
+                                            color: Colors.white, // สีของไอคอน
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -507,5 +529,17 @@ class _DetailTeacherState extends State<DetailTeacher> {
             )
           ]),
         ]));
+  }
+
+  Widget ShowSelectDate() {
+    if (showData) {
+      return Text(
+        ' ${DateFormat('dd-MM-yyyy').format(selecteData)} ',
+        style: CustomTextStyle.createFontStyle,
+      );
+    } else {
+      return SizedBox
+          .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
+    }
   }
 }
