@@ -1,6 +1,13 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 
+import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/login_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
@@ -8,11 +15,6 @@ import 'package:flutter_application_1/model/login.dart';
 import 'package:flutter_application_1/screens/admin/list_room.dart';
 import 'package:flutter_application_1/screens/student/view_student_subject.dart';
 import 'package:flutter_application_1/screens/teacher/list_class.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:quickalert/quickalert.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -174,6 +176,7 @@ class _loginScreenState extends State<LoginScreen> {
                           onTap: () async {
                             if (usernameController.text == "root" &&
                                 passworldController.text == "1234") {
+                              //validatePassword();
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setString(

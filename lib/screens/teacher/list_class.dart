@@ -133,7 +133,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: IntrinsicWidth(
@@ -287,8 +287,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
-                                                    const Icon(
+                                                  children: const <Widget>[
+                                                    Icon(
                                                         Icons
                                                             .inventory_outlined,
                                                         color: Colors.black),
@@ -313,9 +313,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
-                                                  const Icon(
-                                                      Icons.qr_code_scanner,
+                                                children: const <Widget>[
+                                                  Icon(Icons.qr_code_scanner,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('QR CODE'),
@@ -339,8 +338,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             ),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
-                                                  const Icon(Icons.people_alt,
+                                                children: const <Widget>[
+                                                  Icon(Icons.people_alt,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('แก้ไขนักศึกษา'),
@@ -364,8 +363,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             ),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
-                                                  const Icon(Icons.settings,
+                                                children: const <Widget>[
+                                                  Icon(Icons.settings,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('แก้ไขคลาสเรียน'),
@@ -391,8 +390,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                             ),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
-                                                  const Icon(Icons.group_add,
+                                                children: const <Widget>[
+                                                  Icon(Icons.group_add,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('เพิ่มนักศึกษา'),

@@ -104,8 +104,8 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
         children: [
           Column(
             children: [
-              NavbarAdmin(),
-              Padding(
+              const NavbarAdmin(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
@@ -125,7 +125,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 15),
+                                padding: const EdgeInsets.only(right: 15),
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() {
@@ -144,7 +144,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Center(
-                                        child: Text("เพิ่มห้องเรียน",
+                                        child: const Text("เพิ่มห้องเรียน",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,

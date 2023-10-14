@@ -30,9 +30,10 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   List<Room>? rooms;
 
   // ฟังก์ชันเช็ค roomName ว่ามีอยู่ใน rooms หรือไม่
-  bool isRoomNameExists(String roomName) {
+  bool isRoomNameExists(String roomName, String building) {
     if (rooms != null) {
-      return rooms!.any((room) => room.roomName == roomName);
+      return rooms!.any(
+          (room) => room.roomName == roomName && room.building == building);
     }
     return false;
   }
@@ -64,7 +65,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListRoomScreen(),
+            builder: (context) => const ListRoomScreen(),
           ),
         );
       },
@@ -75,7 +76,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     QuickAlert.show(
       context: context,
       title: "แจ้งเตือน",
-      text: "ชื่อห้อง " + roomName + " มีอยู่ในระบบแล้ว",
+      text: "ชื่อห้อง $roomName มีอยู่ในระบบแล้ว",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
     );
@@ -88,16 +89,17 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarAdmin(),
+            const NavbarAdmin(),
             Form(
               key: _formfield,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -114,11 +116,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ชื่อห้อง : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -127,7 +129,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: roomNameController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -157,11 +159,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ตึกเรียน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -170,7 +172,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: buildingController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
                                           fillColor: Colors.white,
@@ -203,11 +205,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ละติจูด : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -216,7 +218,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: latitudeController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
                                           fillColor: Colors.white,
@@ -250,11 +252,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ลองติจูด : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -263,7 +265,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: longitudeController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
                                           fillColor: Colors.white,
@@ -290,7 +292,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -310,7 +312,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("รีเซ็ต",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -318,15 +320,16 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                 fontWeight: FontWeight.bold)),
                                       )),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
                                       String roomName = roomNameController.text;
+                                      String building = buildingController.text;
                                       bool isExists =
-                                          isRoomNameExists(roomName);
+                                          isRoomNameExists(roomName, building);
                                       if (isExists) {
                                         showErrorRoomNameExistsAlert(roomName);
                                       } else {
@@ -351,7 +354,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("ยืนยัน",
                                             style: TextStyle(
                                                 color: Colors.white,

@@ -62,6 +62,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
           .map((room) => {
                 'id': room.id,
                 'roomName': room.roomName,
+                'building': room.building,
               })
           .toList();
       dataSubject = fetchedSubjects
@@ -110,7 +111,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListClassScreen(),
+            builder: (context) => const ListClassScreen(),
           ),
         );
       },
@@ -125,16 +126,17 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarTeacher(),
+            const NavbarTeacher(),
             Form(
               key: formKey,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -150,7 +152,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text("ปีการศึกษา : ",
+                                  const Text("ปีการศึกษา : ",
                                       style: CustomTextStyle.createFontStyle),
                                   Text(selectedSemesterNow,
                                       style: CustomTextStyle.createFontStyle)
@@ -162,7 +164,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "เทอม : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -171,7 +173,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     width: 100,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -181,7 +183,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: selectedTerm,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: Terms.map(
@@ -197,8 +199,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           selectedTerm = newValue!;
                                         });
                                       },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      underline: const SizedBox(),
                                     ),
                                   ),
                                 ],
@@ -209,7 +212,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "รหัสวิชา : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -219,8 +222,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       height: 50,
                                       alignment:
                                           AlignmentDirectional.centerStart,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -229,7 +232,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       child: DropdownButtonFormField<String>(
                                         isExpanded: true,
                                         value: selectedSubjectId,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                         ),
                                         items: dataSubject.map(
@@ -251,11 +254,12 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
                                           return null;
                                         },
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: 'กรุณาเลือกวิชา',
                                           border: InputBorder.none,
                                         ),
-                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
                                       )),
                                 ],
                               ),
@@ -265,7 +269,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "กลุ่มเรียน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -274,7 +278,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     width: 100,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -284,7 +288,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: selectedGroupStu,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: GStu.map(
@@ -313,7 +317,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "เวลาเริ่มเรียน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -322,7 +326,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     width: 300,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -383,7 +387,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             FilteringTextInputFormatter
                                                 .digitsOnly, // บังคับให้กรอกแค่ตัวเลขเท่านั้น
                                           ],
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                               border: InputBorder.none),
                                         ),
                                       ),
@@ -397,7 +401,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ระยะเวลาเรียน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
@@ -406,7 +410,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     width: 300,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -416,7 +420,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: selectedDuration,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: durationTime.map(
@@ -432,8 +436,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           selectedDuration = newValue!;
                                         });
                                       },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      underline: const SizedBox(),
                                     ),
                                   ),
                                   const Text(
@@ -523,7 +528,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             .map((Map<String, dynamic> room) {
                                           return DropdownMenuItem<String>(
                                             value: room['roomName'],
-                                            child: Text(room['roomName']),
+                                            child: Text(
+                                                '${room['building']} - ${room['roomName']}'),
                                           );
                                         }).toList(),
                                         onChanged: (String? newValue) {
@@ -542,7 +548,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                           hintText: 'กรุณาเลือกห้องเรียน',
                                           border: InputBorder.none,
                                         ),
-                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
                                       )),
                                 ],
                               ),
@@ -567,7 +574,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return ListClassScreen();
+                                        return const ListClassScreen();
                                       }));
                                     });
                                   },
@@ -578,9 +585,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 40, vertical: 15),
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)),
                                   onPressed: () async {
@@ -659,7 +666,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                       }
                                     }
                                   },
-                                  child: Text("ยืนยัน"),
+                                  child: const Text("ยืนยัน"),
                                 )
                               ],
                             ),

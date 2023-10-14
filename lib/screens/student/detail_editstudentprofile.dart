@@ -136,18 +136,18 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage("images/mjuicon.png"),
                                   height: 100,
                                   width: 100,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(),
                                   onPressed: () {},
-                                  child: Text("เปลี่ยนรูปโปรไฟล์"),
+                                  child: const Text("เปลี่ยนรูปโปรไฟล์"),
                                 )
                               ],
                             ),
