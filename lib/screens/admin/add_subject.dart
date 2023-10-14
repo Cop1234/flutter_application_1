@@ -65,7 +65,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListSubjectScreen(),
+            builder: (context) => const ListSubjectScreen(),
           ),
         );
       },
@@ -76,7 +76,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     QuickAlert.show(
       context: context,
       title: "แจ้งเตือน",
-      text: "รายวิชา " + subjectId + " มีอยู่ในระบบแล้ว",
+      text: "รายวิชา $subjectId มีอยู่ในระบบแล้ว",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
     );
@@ -89,16 +89,17 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarAdmin(),
+            const NavbarAdmin(),
             Form(
               key: _formfield,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -115,11 +116,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "รหัสวิชา : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -128,7 +129,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: subjectIdController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -157,11 +158,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ชื่อวิชา : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -170,7 +171,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: subjectNameController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -200,11 +201,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "รายละเอียด : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -213,7 +214,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: detailController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
                                           fillColor: Colors.white,
@@ -237,11 +238,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "หน่วยกิต : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -250,7 +251,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: creditController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
                                           fillColor: Colors.white,
@@ -276,7 +277,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -296,7 +297,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("รีเซ็ต",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -304,7 +305,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                 fontWeight: FontWeight.bold)),
                                       )),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
@@ -345,7 +346,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("ยืนยัน",
                                             style: TextStyle(
                                                 color: Colors.white,
