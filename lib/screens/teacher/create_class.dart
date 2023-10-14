@@ -47,6 +47,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    //String? username = 'MJU6304106318';
+
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
       print("ชื่อผู้ใช้ขณะนี้ " + username);
