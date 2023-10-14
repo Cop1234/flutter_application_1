@@ -303,19 +303,10 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                         if (_formfield.currentState!
                                             .validate()) {
                                           http.Response response =
-                                              await studentController.updateStudent(
-                                                  user_idController.text,
-                                                  emailController.text,
-                                                  fnameController.text,
-                                                  lnameController.text,
-                                                  birthdateController.text =
-                                                      DateFormat('dd/MM/yyyy')
-                                                          .format(selecteData)
-                                                          .toString(),
-                                                  genderController.text =
-                                                      dropdownvalue,
-                                                  '${users?.login?.id.toString()}',
-                                                  passwordController.text);
+                                              await studentController
+                                                  .updatepassword_Student(
+                                                      '${users?.login?.id.toString()}',
+                                                      passwordController.text);
 
                                           if (response.statusCode == 200) {
                                             showSuccessToChangeUserAlert();
