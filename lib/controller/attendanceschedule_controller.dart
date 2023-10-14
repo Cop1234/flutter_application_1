@@ -88,6 +88,7 @@ class AttendanceScheduleController {
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
     print(list);
+    print(response);
     return list;
   }
 
@@ -107,6 +108,7 @@ class AttendanceScheduleController {
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
     print(list);
+    print("response : " + response.body);
     return list;
   }
 }

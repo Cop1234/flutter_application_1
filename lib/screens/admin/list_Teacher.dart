@@ -176,7 +176,7 @@ class _ListTeacherState extends State<ListTeacher>
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'รหัสอาจารย์',
+                                      'ลำดับ',
                                       style: CustomTextStyle.TextHeadBar,
                                     ),
                                   ),
@@ -221,17 +221,17 @@ class _ListTeacherState extends State<ListTeacher>
                               // Add more DataColumn as needed
                             ],
                             rows: data.asMap().entries.map((entry) {
+                              int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
+
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
                                     width: 200,
                                     child: Align(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        row['userid'],
-                                        style: CustomTextStyle.TextGeneral,
-                                      ),
+                                      child: Text(index.toString(),
+                                          style: CustomTextStyle.TextGeneral),
                                     ),
                                   )),
                                   DataCell(

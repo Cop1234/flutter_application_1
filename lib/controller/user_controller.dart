@@ -30,7 +30,7 @@ class UserController {
   }
 
   Future updateTeacher(String id, String email, String fname, String lname,
-      String birthdate, String gender, String loginid, String password) async {
+      String birthdate, String gender) async {
     Map data = {
       "id": id,
       "email": email,
@@ -38,8 +38,6 @@ class UserController {
       "lname": lname,
       "birthdate": birthdate,
       "gender": gender,
-      "loginid": loginid,
-      "password": password
     };
     var jsonData = json.encode(data);
     var url = Uri.parse(baseURL + '/teacher/update');
@@ -48,12 +46,11 @@ class UserController {
     return response;
   }
 
-  Future addTeacher(String logid, String password, String userid, String email,
-      String fname, String lname, String birthdate, String gender) async {
+  Future addTeacher(String logid, String password, String email, String fname,
+      String lname, String birthdate, String gender) async {
     Map data = {
       "logid": logid,
       "password": password,
-      "userid": userid,
       "email": email,
       "fname": fname,
       "lname": lname,
@@ -76,5 +73,14 @@ class UserController {
     User user = User.formJsonToUser(jsonResponse);
     print(user);
     return user;
+  }
+
+  Future updateTeacherProfile(String loginid, String password) async {
+    Map data = {"loginid": loginid, "password": password};
+    var jsonData = json.encode(data);
+    var url = Uri.parse(baseURL + '/teacher/updatepassword');
+    http.Response response =
+        await http.put(url, headers: headers, body: jsonData);
+    return response;
   }
 }

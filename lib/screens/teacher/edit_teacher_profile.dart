@@ -38,7 +38,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
   TextEditingController typeuserController = TextEditingController();
   TextEditingController loginidController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   void setDataToText() {
     user_idController.text = users?.id.toString() ?? "";
@@ -51,7 +50,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
     typeuserController.text = users?.typeuser ?? "";
     loginidController.text = users?.login?.id.toString() ?? "";
     usernameController.text = users?.login?.username ?? "";
-    passwordController.text = users?.login?.password.toString() ?? "";
   }
 
   String? IdUser;
@@ -96,36 +94,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Card(
-                      elevation: 0,
-                      child: ClipRRect(
-                        child: SizedBox(
-                          width: 300,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage("images/mjuicon.png"),
-                                  height: 100,
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(),
-                                  onPressed: () {},
-                                  child: Text("เปลี่ยนรูปโปรไฟล์"),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       width: 10,
                     ),
@@ -153,10 +121,6 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "รหัสอาจารย์ : ${users?.userid}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
                                   "อีเมล : ${users?.email}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
@@ -175,19 +139,21 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(),
-                                  onPressed: () async {
-                                    await Future.delayed(Duration
-                                        .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                      return DetailEditTeacherProfile(
-                                          id: '${users?.id.toString()}');
-                                    }));
-                                  },
-                                  child: Text("แก้ไขรหัสผ่าน"),
+                                Center(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(),
+                                    onPressed: () async {
+                                      await Future.delayed(Duration
+                                          .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return DetailEditTeacherProfile(
+                                            id: '${users?.id.toString()}');
+                                      }));
+                                    },
+                                    child: Text("แก้ไขรหัสผ่าน"),
+                                  ),
                                 )
                               ],
                             ),

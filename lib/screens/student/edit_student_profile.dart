@@ -96,36 +96,6 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Card(
-                          elevation: 0,
-                          child: ClipRRect(
-                            child: SizedBox(
-                              width: 300,
-                              child: Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image(
-                                      image: AssetImage("images/mjuicon.png"),
-                                      height: 100,
-                                      width: 100,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(),
-                                      onPressed: () {},
-                                      child: Text("เปลี่ยนรูปโปรไฟล์"),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           width: 10,
                         ),
@@ -175,19 +145,21 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(),
-                                      onPressed: () async {
-                                        await Future.delayed(Duration
-                                            .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return DetailEditStudentProfile(
-                                              id: '${users?.id.toString()}');
-                                        }));
-                                      },
-                                      child: Text("แก้ไขรหัสผ่าน"),
+                                    Center(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(),
+                                        onPressed: () async {
+                                          await Future.delayed(Duration
+                                              .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return DetailEditStudentProfile(
+                                                id: '${users?.id.toString()}');
+                                          }));
+                                        },
+                                        child: Text("แก้ไขรหัสผ่าน"),
+                                      ),
                                     )
                                   ],
                                 ),

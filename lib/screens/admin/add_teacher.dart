@@ -211,7 +211,7 @@ class _AddTeacherState extends State<AddTeacher>
                                           if (value.isEmpty) {
                                             return "กรุณากรอกรหัส";
                                           } else if (!loginIdValid) {
-                                            return "ต้องเป็นภาษาอังกฤษตัวใหญ่และตัวเล็กและจะต้องมีความยาว8-16ตัวอักษร";
+                                            return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
                                           }
                                         },
                                       ),
@@ -220,7 +220,55 @@ class _AddTeacherState extends State<AddTeacher>
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 5),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "ยืนยันรหัสผ่าน : ",
+                                    style: CustomTextStyle.createFontStyle,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          10), // Adjust the width for spacing
+                                  Container(
+                                    width: 500,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      obscureText: passToggle,
 
+                                      // To hide the confirmation password input
+                                      decoration: InputDecoration(
+                                          errorStyle: TextStyle(),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: InputBorder.none,
+                                          suffixIcon: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                passToggle = !passToggle;
+                                              });
+                                            },
+                                            child: Icon(passToggle
+                                                ? Icons.visibility
+                                                : Icons.visibility_off),
+                                          )),
+                                      validator: (value) {
+                                        // bool aa.hasMatch(value!);
+                                        //bool get isEmpty(value!);
+                                        if (value!.isEmpty) {
+                                          return "กรุณายืนยันรหัสผ่าน*";
+                                        } else if (value !=
+                                            LoginpasswordController.text) {
+                                          return "รหัสผ่านไม่ตรงกัน";
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 20, bottom: 5),
@@ -263,48 +311,7 @@ class _AddTeacherState extends State<AddTeacher>
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "รหัสอาจารย์ : ",
-                                    style: CustomTextStyle.createFontStyle,
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          10), // Adjust the width for spacing
-                                  Container(
-                                    width: 500,
-                                    child: Expanded(
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        controller: useridController,
-                                        decoration: InputDecoration(
-                                          errorStyle: TextStyle(),
-                                          filled:
-                                              true, // เปิดการใช้งานการเติมพื้นหลัง
-                                          fillColor: Colors.white,
-                                          border: InputBorder
-                                              .none, // กำหนดให้ไม่มีเส้นขอบ
-                                        ),
-                                        validator: (value) {
-                                          bool subjectIdValid =
-                                              RegExp(r'^[\d]+$')
-                                                  .hasMatch(value!);
-                                          if (value.isEmpty) {
-                                            return "กรุณากรอกรหัสประจำตัวอาจารย์*";
-                                          } else if (!subjectIdValid) {
-                                            return "รหัสอาจารย์ต้องเป็นมีตัวเลขเท่านั้น";
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 20, bottom: 5),
@@ -533,7 +540,6 @@ class _AddTeacherState extends State<AddTeacher>
                                             await userController.addTeacher(
                                                 LoginidController.text,
                                                 LoginpasswordController.text,
-                                                useridController.text,
                                                 emailController.text,
                                                 fnameController.text,
                                                 lnameController.text,

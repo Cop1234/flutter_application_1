@@ -78,9 +78,10 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     selectedRoom = section?.room?.roomName;
     selectedSemesterNow = course?.semester.toString();
     String formattedTime = section?.startTime ?? "";
+
     if (formattedTime.isNotEmpty) {
       try {
-        final DateTime parsedTime = DateTime.parse("1970-01-01 $formattedTime");
+        final DateTime parsedTime = DateTime.parse(formattedTime);
         timePicker.text = DateFormat('HH:mm').format(parsedTime);
       } catch (e) {
         timePicker.text = "Invalid Time";

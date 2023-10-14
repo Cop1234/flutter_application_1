@@ -179,7 +179,6 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                       "รหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-
                                     SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
@@ -210,12 +209,12 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                               ),
                                           validator: (value) {
                                             bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
+                                                    r'^(?=.*[A-Za-z0-9!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
                                                 .hasMatch(value!);
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";
                                             } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                              return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
                                             }
                                           },
                                         ),
@@ -239,14 +238,22 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                       width: 500,
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
-                                        obscureText:
-                                            true, // To hide the confirmation password input
+                                        obscureText: passToggle,
                                         decoration: InputDecoration(
-                                          errorStyle: TextStyle(),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: InputBorder.none,
-                                        ),
+                                            errorStyle: TextStyle(),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: InputBorder.none,
+                                            suffixIcon: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  passToggle = !passToggle;
+                                                });
+                                              },
+                                              child: Icon(passToggle
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                            )),
                                         validator: (value) {
                                           // bool aa.hasMatch(value!);
                                           //bool get isEmpty(value!);

@@ -103,7 +103,8 @@ class _StudentAttenState extends State<StudentAtten> {
                 'userid': atten.registration?.user?.userid ?? "",
                 'fname': atten.registration?.user?.fname ?? "",
                 'lname': atten.registration?.user?.lname ?? "",
-                'time': atten.checkInTime ?? "",
+                'time': DateFormat('dd-MM-yyyy HH:mm:ss')
+                    .format(DateTime.parse(atten.checkInTime ?? "").toUtc()),
                 'type': atten.registration?.section?.type ?? "",
                 'status': atten.status ?? "",
               })

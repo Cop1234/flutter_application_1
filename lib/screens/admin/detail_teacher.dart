@@ -34,7 +34,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
   Login? logins;
 
   TextEditingController user_idController = TextEditingController();
-  TextEditingController useridController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -48,7 +48,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
 
   void setDataToText() {
     user_idController.text = users?.id.toString() ?? "";
-    useridController.text = users?.userid ?? "";
+
     emailController.text = users?.email ?? "";
     fnameController.text = users?.fname ?? "";
     lnameController.text = users?.lname ?? "";
@@ -146,71 +146,6 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                   children: [
                                     Text(
                                       'ชื่อผู้ใช้ : ${users?.login?.username}',
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "รหัสผ่าน : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-
-                                    SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: passwordController,
-                                          obscureText: passToggle,
-                                          decoration: InputDecoration(
-                                              errorStyle: TextStyle(),
-                                              filled:
-                                                  true, // เปิดการใช้งานการเติมพื้นหลัง
-                                              fillColor: Colors.white,
-                                              border: InputBorder
-                                                  .none, // กำหนดให้ไม่มีเส้นขอบ
-                                              suffixIcon: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    passToggle = !passToggle;
-                                                  });
-                                                },
-                                                child: Icon(passToggle
-                                                    ? Icons.visibility
-                                                    : Icons.visibility_off),
-                                              )),
-                                          validator: (value) {
-                                            bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
-                                                .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกรหัสผ่าน*";
-                                            } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "รหัสประจำตัว : " + "${users?.userid}",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
                                   ],
@@ -490,9 +425,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                         .format(selecteData)
                                                         .toString(),
                                                 genderController.text =
-                                                    dropdownvalue,
-                                                '${users?.login?.id.toString()}',
-                                                passwordController.text);
+                                                    dropdownvalue);
 
                                         if (response.statusCode == 200) {
                                           showSuccessToChangeUserAlert();

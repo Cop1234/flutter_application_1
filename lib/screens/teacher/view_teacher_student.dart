@@ -251,7 +251,6 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                     ),
                                   ),
                                 ),
-
                                 // Add more DataColumn as needed
                               ],
                               rows: data.asMap().entries.map((entry) {
@@ -292,7 +291,6 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                         ),
                                       ),
                                     ),
-
                                     // Add more DataCell as needed
                                   ],
                                 );

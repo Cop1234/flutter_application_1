@@ -148,49 +148,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "รหัสผ่าน : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
 
-                                    SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: passwordController,
-                                          decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
-                                          validator: (value) {
-                                            bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
-                                                .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกรหัสผ่าน*";
-                                            } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 20, bottom: 5),
@@ -455,19 +413,18 @@ class _DetailStudentState extends State<DetailStudent> {
                                       print(user_idController.text);
                                       if (_formfield.currentState!.validate()) {
                                         http.Response response =
-                                            await studentController.updateStudent(
-                                                user_idController.text,
-                                                emailController.text,
-                                                fnameController.text,
-                                                lnameController.text,
-                                                birthdateController.text =
-                                                    DateFormat('dd/MM/yyyy')
-                                                        .format(selecteData)
-                                                        .toString(),
-                                                genderController.text =
-                                                    dropdownvalue,
-                                                '${users?.login?.id.toString()}',
-                                                passwordController.text);
+                                            await studentController
+                                                .updateStudent(
+                                                    user_idController.text,
+                                                    emailController.text,
+                                                    fnameController.text,
+                                                    lnameController.text,
+                                                    birthdateController.text =
+                                                        DateFormat('dd/MM/yyyy')
+                                                            .format(selecteData)
+                                                            .toString(),
+                                                    genderController.text =
+                                                        dropdownvalue);
 
                                         if (response.statusCode == 200) {
                                           showSuccessToChangeUserAlert();

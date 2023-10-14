@@ -8,19 +8,19 @@ class AttendanceSchedule {
   String? status;
 
   AttendanceSchedule({
-    this.id,
-    this.registration,
     this.weekNo,
     this.checkInTime,
+    this.registration,
+    this.id,
     this.status,
   });
 
   Map<String, dynamic> formAttendanceScheduleToJson() {
     return <String, dynamic>{
-      'id': id,
-      'registration': registration?.formRegistrationToJson(),
       'weekNo': weekNo,
       'checkInTime': checkInTime,
+      'registration': registration?.formRegistrationToJson(),
+      'id': id,
       'status': status,
     };
   }
@@ -28,10 +28,10 @@ class AttendanceSchedule {
   factory AttendanceSchedule.formJsonToAttendanceSchedule(
       Map<String, dynamic> json) {
     return AttendanceSchedule(
-      id: json["id"],
-      registration: Registration.formJsonToRegistration(json["registration"]),
       weekNo: json["weekNo"],
       checkInTime: json["checkInTime"],
+      registration: Registration.formJsonToRegistration(json["registration"]),
+      id: json["id"],
       status: json["status"],
     );
   }

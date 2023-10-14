@@ -55,7 +55,7 @@ class StudentController {
   }
 
   Future updateStudent(String id, String email, String fname, String lname,
-      String birthdate, String gender, String loginid, String password) async {
+      String birthdate, String gender) async {
     Map data = {
       "id": id,
       "email": email,
@@ -63,8 +63,6 @@ class StudentController {
       "lname": lname,
       "birthdate": birthdate,
       "gender": gender,
-      "loginid": loginid,
-      "password": password
     };
     var jsonData = json.encode(data);
     var url = Uri.parse(baseURL + '/student/update');

@@ -30,32 +30,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
   bool passToggle = true;
   User? users;
 
-  TextEditingController user_idController = TextEditingController();
-  TextEditingController useridController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController fnameController = TextEditingController();
-  TextEditingController lnameController = TextEditingController();
-  DateTime selecteData = DateTime.now();
-  TextEditingController birthdateController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
-  TextEditingController typeuserController = TextEditingController();
-  TextEditingController loginidController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  void setDataToText() {
-    user_idController.text = users?.id.toString() ?? "";
-    useridController.text = users?.userid ?? "";
-    emailController.text = users?.email ?? "";
-    fnameController.text = users?.fname ?? "";
-    lnameController.text = users?.lname ?? "";
-    selecteData = DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "");
-    genderController.text = users?.gender ?? "";
-    typeuserController.text = users?.typeuser ?? "";
-    loginidController.text = users?.login?.id.toString() ?? "";
-    usernameController.text = users?.login?.username ?? "";
-    passwordController.text = users?.login?.password.toString() ?? "";
-  }
 
 //ฟังชั่นโหลดข้อมูลเว็บ
   dynamic dropdownvalue;
@@ -67,7 +42,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
     });
 
     users = await userController.get_Userid(id);
-    setDataToText();
+
     setState(() {
       user_id = id.toString();
       dropdownvalue = users?.gender;
@@ -208,12 +183,12 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                               )),
                                           validator: (value) {
                                             bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
+                                                    r'^(?=.*[A-Za-z0-9!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
                                                 .hasMatch(value!);
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";
                                             } else if (!subjectNameValid) {
-                                              return "กรุณากรอกรหัสผ่านให้ถูกต้อง";
+                                              return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
                                             }
                                           },
                                         ),
@@ -237,14 +212,22 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                       width: 500,
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
-                                        obscureText:
-                                            true, // To hide the confirmation password input
+                                        obscureText: passToggle,
                                         decoration: InputDecoration(
-                                          errorStyle: TextStyle(),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: InputBorder.none,
-                                        ),
+                                            errorStyle: TextStyle(),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: InputBorder.none,
+                                            suffixIcon: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  passToggle = !passToggle;
+                                                });
+                                              },
+                                              child: Icon(passToggle
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                            )),
                                         validator: (value) {
                                           // bool aa.hasMatch(value!);
                                           //bool get isEmpty(value!);
@@ -297,23 +280,13 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        print(user_idController.text);
                                         if (_formfield.currentState!
                                             .validate()) {
                                           http.Response response =
-                                              await userController.updateTeacher(
-                                                  user_idController.text,
-                                                  emailController.text,
-                                                  fnameController.text,
-                                                  lnameController.text,
-                                                  birthdateController.text =
-                                                      DateFormat('dd/MM/yyyy')
-                                                          .format(selecteData)
-                                                          .toString(),
-                                                  genderController.text =
-                                                      dropdownvalue,
-                                                  '${users?.login?.id.toString()}',
-                                                  passwordController.text);
+                                              await userController
+                                                  .updateTeacherProfile(
+                                                      '${users?.login?.id.toString()}',
+                                                      passwordController.text);
 
                                           if (response.statusCode == 200) {
                                             showSuccessToChangeUserAlert();
