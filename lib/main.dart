@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: maincolor,
       ),
-      home: const TeacherCreateClass(),
-      //home: const LoginScreen(),
+      //home: const TeacherCreateClass(),
+      home: const LoginScreen(),
     );
   }
 }

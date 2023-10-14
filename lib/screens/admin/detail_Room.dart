@@ -31,10 +31,12 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
   bool? isLoaded = false;
   List<Room>? rooms;
 
-  bool isRoomNameExists(String roomName, int roomId) {
+  bool isRoomNameExists(String roomName, String building, int roomId) {
     if (rooms != null) {
-      return rooms!
-          .any((room) => room.roomName == roomName && room.id != roomId);
+      return rooms!.any((room) =>
+          room.roomName == roomName &&
+          room.building == building &&
+          room.id != roomId);
     }
     return false;
   }
@@ -339,10 +341,10 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
                                       String roomName = roomNameController.text;
-                                      //String building = buildingController.text;
+                                      String building = buildingController.text;
                                       int? roomId = room?.id;
-                                      bool isExists =
-                                          isRoomNameExists(roomName, roomId!);
+                                      bool isExists = isRoomNameExists(
+                                          roomName, building, roomId!);
                                       if (isExists) {
                                         showErrorRoomNameExistsAlert(roomName);
                                       } else {

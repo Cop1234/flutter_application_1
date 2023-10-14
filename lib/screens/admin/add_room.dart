@@ -30,9 +30,10 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   List<Room>? rooms;
 
   // ฟังก์ชันเช็ค roomName ว่ามีอยู่ใน rooms หรือไม่
-  bool isRoomNameExists(String roomName) {
+  bool isRoomNameExists(String roomName, String building) {
     if (rooms != null) {
-      return rooms!.any((room) => room.roomName == roomName);
+      return rooms!.any(
+          (room) => room.roomName == roomName && room.building == building);
     }
     return false;
   }
@@ -326,8 +327,9 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
                                       String roomName = roomNameController.text;
+                                      String building = buildingController.text;
                                       bool isExists =
-                                          isRoomNameExists(roomName);
+                                          isRoomNameExists(roomName, building);
                                       if (isExists) {
                                         showErrorRoomNameExistsAlert(roomName);
                                       } else {
