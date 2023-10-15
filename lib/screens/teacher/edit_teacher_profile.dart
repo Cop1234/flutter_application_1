@@ -45,7 +45,8 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
     emailController.text = users?.email ?? "";
     fnameController.text = users?.fname ?? "";
     lnameController.text = users?.lname ?? "";
-    selecteData = DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "");
+    selecteData =
+        DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "").toLocal();
     genderController.text = users?.gender ?? "";
     typeuserController.text = users?.typeuser ?? "";
     loginidController.text = users?.login?.id.toString() ?? "";
@@ -64,9 +65,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
         users = await userController.get_Userid(user.id.toString());
       }
     }
-
     setDataToText();
-
     setState(() {
       isLoaded = true;
     });

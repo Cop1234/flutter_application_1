@@ -49,7 +49,8 @@ class _DetailStudentState extends State<DetailStudent> {
     emailController.text = users?.email ?? "";
     fnameController.text = users?.fname ?? "";
     lnameController.text = users?.lname ?? "";
-    selecteData = DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "");
+    selecteData =
+        DateFormat('yyyy-MM-dd').parse(users?.birthdate ?? "").toLocal();
     genderController.text = users?.gender ?? "";
     typeuserController.text = users?.typeuser ?? "";
     loginidController.text = users?.login?.id.toString() ?? "";

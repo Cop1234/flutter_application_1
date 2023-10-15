@@ -50,7 +50,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
     teacherLName.text = section?.user?.lname ?? "";
     sectionNumber.text = section?.sectionNumber ?? "";
     building.text = section?.room?.building ?? "";
-    sectionTime = DateFormat('HH:mm').parse(section?.startTime ?? "");
+    sectionTime = DateFormat('HH:mm').parse(section?.startTime ?? "").toLocal();
     sectiontype.text = section?.type ?? "";
     room.text = section?.room?.roomName ?? "";
   }
@@ -388,7 +388,9 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              row['time'],
+                                              DateFormat('HH:mm:ss').format(
+                                                  DateTime.parse(row['time'])
+                                                      .toLocal()),
                                               style:
                                                   CustomTextStyle.TextGeneral,
                                             ),

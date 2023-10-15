@@ -57,7 +57,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
     teacherLName.text = section?.user?.lname ?? "";
     sectionNumber.text = section?.sectionNumber ?? "";
     building.text = section?.room?.building ?? "";
-    sectionTime = DateFormat('HH:mm').parse(section?.startTime ?? "");
+    sectionTime = DateFormat('HH:mm').parse(section?.startTime ?? "").toLocal();
     sectiontype.text = section?.type ?? "";
     room.text = section?.room?.roomName ?? "";
   }

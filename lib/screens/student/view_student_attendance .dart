@@ -95,6 +95,7 @@ class _StudentAttenState extends State<StudentAtten> {
     print(week + " : " + secid + " : " + idUser);
     List<AttendanceSchedule> atten = await attendanceScheduleController
         .get_ListAttendanceStudent(week, secid, idUser);
+
     print(atten);
     setState(() {
       attendance = atten;
@@ -103,8 +104,7 @@ class _StudentAttenState extends State<StudentAtten> {
                 'userid': atten.registration?.user?.userid ?? "",
                 'fname': atten.registration?.user?.fname ?? "",
                 'lname': atten.registration?.user?.lname ?? "",
-                'time': DateFormat('dd-MM-yyyy HH:mm:ss')
-                    .format(DateTime.parse(atten.checkInTime ?? "").toUtc()),
+                'time': atten.checkInTime ?? "",
                 'type': atten.registration?.section?.type ?? "",
                 'status': atten.status ?? "",
               })
@@ -385,7 +385,9 @@ class _StudentAttenState extends State<StudentAtten> {
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              row['time'],
+                                              DateFormat('HH:mm:ss').format(
+                                                  DateTime.parse(row['time'])
+                                                      .toLocal()),
                                               style:
                                                   CustomTextStyle.TextGeneral,
                                             ),
