@@ -122,24 +122,24 @@ class _TeacherAttenState extends State<TeacherAtten> {
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: ListView(children: [
-        NavbarTeacher(),
+        const NavbarTeacher(),
         Column(
           children: [
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
+                      color: const Color.fromARGB(255, 226, 226, 226),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -166,7 +166,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                       "ตึก : ${building.text}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                               ],
@@ -186,249 +186,261 @@ class _TeacherAttenState extends State<TeacherAtten> {
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    color: Color.fromARGB(255, 226, 226, 226),
+                    color: const Color.fromARGB(255, 226, 226, 226),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: IntrinsicWidth(
-                        child: Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    width: 140,
-                                    height: 40,
-                                    alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    // dropdown below..
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      value: weekNum,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                      items: weekNumItems.map(
-                                        (String typesub) {
-                                          return DropdownMenuItem(
-                                            value: typesub,
-                                            child: Text(typesub),
-                                          );
-                                        },
-                                      ).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          weekNum = newValue!;
-                                          showAtten(newValue, '${section?.id}');
-                                        });
-                                      },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 40, vertical: 18),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        textStyle: TextStyle(
-                                            fontSize: 15,
+                        child: SizedBox(
+                          width: 1200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Text("สัปดาห์ที่ : ",
+                                        style: TextStyle(
+                                            fontSize: 30,
                                             fontWeight: FontWeight.bold)),
-                                    onPressed: () {},
-                                    child: Text("ExportReport"),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              DataTable(
-                                headingRowColor: MaterialStateColor.resolveWith(
-                                    (states) => maincolor),
-                                dataRowColor: MaterialStateColor.resolveWith(
-                                    (states) => Colors.black),
-                                columns: const <DataColumn>[
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'รหัสนักศึกษา',
-                                          style: CustomTextStyle.TextHeadBar,
+                                    Container(
+                                      width: 100,
+                                      height: 40,
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      // dropdown below..
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        value: weekNum,
+                                        style: const TextStyle(
+                                          fontSize: 18,
                                         ),
+                                        items: weekNumItems.map(
+                                          (String typesub) {
+                                            return DropdownMenuItem(
+                                              value: typesub,
+                                              child: Text(typesub),
+                                            );
+                                          },
+                                        ).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            weekNum = newValue!;
+                                            showAtten(
+                                                newValue, '${section?.id}');
+                                          });
+                                        },
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
+                                        underline: const SizedBox(),
                                       ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'ชื่อ',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
+                                    const SizedBox(
+                                      width: 15,
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'นามสกุล',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'เวลา',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'ประเภท',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'สถานะ',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Add more DataColumn as needed
-                                ],
-                                rows: data.asMap().entries.map((entry) {
-                                  Map<String, dynamic> row = entry.value;
-                                  return DataRow(
-                                    cells: <DataCell>[
-                                      DataCell(Container(
-                                        width: 200,
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 18),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold)),
+                                      onPressed: () {},
+                                      child: const Text("ExportReport"),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                DataTable(
+                                  headingRowColor:
+                                      MaterialStateColor.resolveWith(
+                                          (states) => maincolor),
+                                  dataRowColor: MaterialStateColor.resolveWith(
+                                      (states) => Colors.black),
+                                  columns: const <DataColumn>[
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            200, // กำหนดความกว้างของ DataColumn
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
-                                            row['userid'],
-                                            style: CustomTextStyle.TextGeneral,
+                                            'รหัสนักศึกษา',
+                                            style: CustomTextStyle.TextHeadBar,
                                           ),
                                         ),
-                                      )),
-                                      DataCell(
-                                        Container(
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            150, // กำหนดความกว้างของ DataColumn
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'ชื่อ',
+                                            style: CustomTextStyle.TextHeadBar,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            150, // กำหนดความกว้างของ DataColumn
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'นามสกุล',
+                                            style: CustomTextStyle.TextHeadBar,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            100, // กำหนดความกว้างของ DataColumn
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'เวลา',
+                                            style: CustomTextStyle.TextHeadBar,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            100, // กำหนดความกว้างของ DataColumn
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'ประเภท',
+                                            style: CustomTextStyle.TextHeadBar,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        width:
+                                            100, // กำหนดความกว้างของ DataColumn
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'สถานะ',
+                                            style: CustomTextStyle.TextHeadBar,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // Add more DataColumn as needed
+                                  ],
+                                  rows: data.asMap().entries.map((entry) {
+                                    Map<String, dynamic> row = entry.value;
+                                    return DataRow(
+                                      cells: <DataCell>[
+                                        DataCell(Container(
                                           width: 200,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              row['fname'],
+                                              row['userid'],
                                               style:
                                                   CustomTextStyle.TextGeneral,
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          width: 200,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['lname'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
+                                        )),
+                                        DataCell(
+                                          Container(
+                                            width: 150,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                row['fname'],
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          width: 200,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              DateFormat('HH:mm:ss').format(
-                                                  DateTime.parse(row['time'])
-                                                      .toLocal()),
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
+                                        DataCell(
+                                          Container(
+                                            width: 150,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                row['lname'],
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          width: 200,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['type'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
+                                        DataCell(
+                                          Container(
+                                            width: 100,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                DateFormat('HH:mm:ss').format(
+                                                    DateTime.parse(row['time'])
+                                                        .toLocal()),
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          width: 200,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['status'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
+                                        DataCell(
+                                          Container(
+                                            width: 100,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                row['type'],
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      // Add more DataCell as needed
-                                    ],
-                                  );
-                                }).toList(),
-                              ),
-                            ],
+                                        DataCell(
+                                          Container(
+                                            width: 100,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                row['status'],
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // Add more DataCell as needed
+                                      ],
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

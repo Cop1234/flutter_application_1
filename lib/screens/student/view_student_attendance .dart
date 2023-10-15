@@ -140,14 +140,14 @@ class _StudentAttenState extends State<StudentAtten> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
+                      color: const Color.fromARGB(255, 226, 226, 226),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -174,7 +174,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       "ตึก : ${building.text}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                               ],
@@ -194,7 +194,7 @@ class _StudentAttenState extends State<StudentAtten> {
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    color: Color.fromARGB(255, 226, 226, 226),
+                    color: const Color.fromARGB(255, 226, 226, 226),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: IntrinsicWidth(
@@ -202,17 +202,21 @@ class _StudentAttenState extends State<StudentAtten> {
                           padding: const EdgeInsets.all(30.0),
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  const Text("สัปดาห์ที่ : ",
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold)),
                                   Container(
-                                    width: 140,
+                                    width: 100,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -222,7 +226,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: weekNum,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: weekNumItems.map(
@@ -245,12 +249,12 @@ class _StudentAttenState extends State<StudentAtten> {
                                       underline: SizedBox(),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               DataTable(
@@ -344,7 +348,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   return DataRow(
                                     cells: <DataCell>[
                                       DataCell(Container(
-                                        width: 200,
+                                        width: 100,
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
@@ -355,7 +359,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       )),
                                       DataCell(
                                         Container(
-                                          width: 200,
+                                          width: 100,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -368,7 +372,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 200,
+                                          width: 100,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -381,7 +385,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 200,
+                                          width: 100,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -396,7 +400,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 200,
+                                          width: 100,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -409,7 +413,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 200,
+                                          width: 100,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
