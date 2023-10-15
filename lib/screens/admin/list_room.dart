@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/section_controller.dart';
+import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/screens/admin/add_room.dart';
 import 'package:flutter_application_1/screens/admin/detail_room.dart';
 import 'package:quickalert/quickalert.dart';
@@ -19,14 +21,19 @@ class ListRoomScreen extends StatefulWidget {
 
 class _ListRoomScreenState extends State<ListRoomScreen> {
   final RoomController roomController = RoomController();
+  final SectionController sectionController = SectionController();
 
   List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> dataForCheck = [];
+  bool isRoomInUse = true;
   bool? isLoaded = false;
   List<Room>? rooms;
+  List<Section>? sections;
 
   //ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
+    List<Section> fetchedSections = await sectionController.listAllSection();
 
     setState(() {
       rooms = fetchedRooms;
@@ -39,6 +46,12 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                 'longitude': room.longitude,
               })
           .toList();
+      dataForCheck = fetchedSections
+          .map((section) => {
+                'id': section.id,
+                'roomId': section.room?.id,
+              })
+          .toList();
       isLoaded = true;
     });
   }
@@ -47,6 +60,23 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
   void initState() {
     super.initState();
     fetchData();
+  }
+
+  //เช็คว่าห้องมีการใช้งานอยู่ไหม
+  void isRoomIdInDataForCheck(int roomId) {
+    // ใช้ any() เพื่อตรวจสอบว่ามีข้อมูลใด ๆ ใน dataForCheck ที่มี 'roomId' เท่ากับ roomId
+    bool isRoomInUseCheck =
+        dataForCheck.any((data) => data['roomId'] == roomId);
+
+    if (isRoomInUseCheck) {
+      // หากมี roomId ใน dataForCheck
+      isRoomInUse = false;
+      print('Room ID $roomId is in dataForCheck.');
+    } else {
+      // หากไม่มี roomId ใน dataForCheck
+      isRoomInUse = true;
+      print('Room ID $roomId is not in dataForCheck.');
+    }
   }
 
   void showSureToDeleteRoomAlert(String id) {
@@ -112,7 +142,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
@@ -132,7 +162,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return AddRoomScreen();
+                                        return const AddRoomScreen();
                                       }));
                                     });
                                   },
@@ -143,8 +173,8 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
-                                        child: const Text("เพิ่มห้องเรียน",
+                                      child: const Center(
+                                        child: Text("เพิ่มห้องเรียน",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
@@ -154,7 +184,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -216,6 +246,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                             rows: data.asMap().entries.map((entry) {
                               int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
+                              isRoomIdInDataForCheck(row['id']);
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
@@ -257,14 +288,14 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
+                                                  children: const <Widget>[
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),
@@ -287,13 +318,14 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.delete,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('ลบ'),
                                                 ],
                                               ),
+                                              enabled: isRoomInUse,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),

@@ -25,10 +25,7 @@ class DetailEditStudentProfile extends StatefulWidget {
 
 class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
   final StudentController studentController = StudentController();
-
-  //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
-  //List<User>? users;
   bool passToggle = true;
   User? users;
 
@@ -102,7 +99,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => EditStudentProfile(),
+            builder: (context) => const EditStudentProfile(),
           ),
         );
       },
@@ -117,10 +114,11 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
         body: Form(
           key: _formfield,
           child: Column(children: [
-            NavbarStudent(),
+            const NavbarStudent(),
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -155,14 +153,14 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
+                      color: const Color.fromARGB(255, 226, 226, 226),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -175,11 +173,11 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "รหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -190,7 +188,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                           controller: passwordController,
                                           obscureText: passToggle,
                                           decoration: InputDecoration(
-                                              errorStyle: TextStyle(),
+                                              errorStyle: const TextStyle(),
                                               filled:
                                                   true, // เปิดการใช้งานการเติมพื้นหลัง
                                               fillColor: Colors.white,
@@ -222,16 +220,16 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "ยืนยันรหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Container(
@@ -268,7 +266,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
@@ -292,7 +290,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Text("ยกเลิก",
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -301,7 +299,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                                         FontWeight.bold)),
                                           )),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     InkWell(
@@ -329,7 +327,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Text("ยืนยัน",
                                                 style: TextStyle(
                                                     color: Colors.white,

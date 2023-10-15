@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
+import 'package:flutter_application_1/controller/section_controller.dart';
 import 'package:flutter_application_1/controller/subject_controller.dart';
+import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/subject.dart';
 import 'package:flutter_application_1/screens/admin/add_subject.dart';
 import 'package:flutter_application_1/screens/admin/detail_subject.dart';
@@ -19,14 +21,19 @@ class ListSubjectScreen extends StatefulWidget {
 
 class _ListSubjectScreenState extends State<ListSubjectScreen> {
   final SubjectController subjectController = SubjectController();
+  final SectionController sectionController = SectionController();
 
   List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> dataForCheck = [];
+  bool isSubjectInUse = true;
   bool? isLoaded = false;
   List<Subject>? subjects;
+  List<Section>? sections;
 
   //ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+    List<Section> fetchedSections = await sectionController.listAllSection();
 
     setState(() {
       subjects = fetchedSubjects;
@@ -39,6 +46,13 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                 'credit': subject.credit,
               })
           .toList();
+      dataForCheck = fetchedSections
+          .map((section) => {
+                'id': section.id,
+                'IdSubject': section.course?.subject?.id,
+              })
+          .toList();
+      print(dataForCheck);
       isLoaded = true;
     });
   }
@@ -47,6 +61,20 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
   void initState() {
     super.initState();
     fetchData();
+  }
+
+  //เช็คว่ารายวิชานี้มีการใช้งานอยู่ไหม
+  void isSubjectIdInDataForCheck(int subjectId) {
+    bool isSubjectInUseCheck =
+        dataForCheck.any((data) => data['IdSubject'] == subjectId);
+
+    if (isSubjectInUseCheck) {
+      isSubjectInUse = false;
+      print('Subject ID $subjectId is in dataForCheck.');
+    } else {
+      isSubjectInUse = true;
+      print('Subject ID $subjectId is not in dataForCheck.');
+    }
   }
 
   void showSureToDeleteSubjectAlert(String subjectId) {
@@ -217,6 +245,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                             rows: data.asMap().entries.map((entry) {
                               int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
+                              isSubjectIdInDataForCheck(row['id']);
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
@@ -295,6 +324,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                   Text('ลบ'),
                                                 ],
                                               ),
+                                              enabled: isSubjectInUse,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),

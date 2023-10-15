@@ -88,7 +88,7 @@ class _loginScreenState extends State<LoginScreen> {
       backgroundColor: maincolor,
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           child: Form(
             key: _formfield,
             child: Card(
@@ -106,16 +106,16 @@ class _loginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(
+                        const Image(
                           image: AssetImage("images/mjuicon.png"),
                           height: 200,
                           width: 200,
                         ),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         TextFormField(
                           keyboardType: TextInputType.text,
                           controller: usernameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Username",
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.person),
@@ -127,15 +127,15 @@ class _loginScreenState extends State<LoginScreen> {
 
                             //กรณีไม่ใส่ username
                             if (value.isEmpty) {
-                              return "Enter Username";
+                              return "กรุณากรอก ชื่อผู้ใช้";
                             }
                             //กรณีใส่ usename ผิด
                             else if (!usernameValid) {
-                              return "Username Must be MJUรหัสนักศึกษา";
+                              return "ชื่อผู้ใช้ต้องไม่เกิน 30 ตัว";
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -144,8 +144,8 @@ class _loginScreenState extends State<LoginScreen> {
                           obscureText: passToggle,
                           decoration: InputDecoration(
                               labelText: "Password",
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.lock),
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.lock),
                               suffixIcon: InkWell(
                                 onTap: () {
                                   setState(() {
@@ -161,15 +161,15 @@ class _loginScreenState extends State<LoginScreen> {
                                 RegExp(r'^.{8,}$').hasMatch(value!);
 
                             if (value.isEmpty) {
-                              return "กรุณากรอก Password";
+                              return "กรุณากรอก รหัสผ่าน";
                             }
                             //กรณีใส่ Password ผิด
                             else if (!passwordValid) {
-                              return "กรุณากรอก Password ตั้งแต่ 8 ตัวขึ้นไป";
+                              return "กรุณากรอก รหัสผ่าน ตั้งแต่ 8 ตัวขึ้นไป";
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 35,
                         ),
                         InkWell(
@@ -235,7 +235,7 @@ class _loginScreenState extends State<LoginScreen> {
                                 color: maincolor,
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text("Log In",
                                     style: TextStyle(
                                         color: Colors.white,
