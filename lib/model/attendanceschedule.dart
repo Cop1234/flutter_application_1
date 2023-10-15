@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/model/registration.dart';
+import 'package:intl/intl.dart';
 
 class AttendanceSchedule {
   int? id;
