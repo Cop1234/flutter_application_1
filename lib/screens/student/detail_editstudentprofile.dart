@@ -123,36 +123,6 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Card(
-                      elevation: 0,
-                      child: ClipRRect(
-                        child: SizedBox(
-                          width: 300,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Image(
-                                  image: AssetImage("images/mjuicon.png"),
-                                  height: 100,
-                                  width: 100,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(),
-                                  onPressed: () {},
-                                  child: const Text("เปลี่ยนรูปโปรไฟล์"),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       width: 10,
                     ),
@@ -207,7 +177,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                               ),
                                           validator: (value) {
                                             bool subjectNameValid = RegExp(
-                                                    r'^(?=.*[A-Za-z0-9!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
+                                                    r'^(?=.*[A-Za-z])(?=.*[!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
                                                 .hasMatch(value!);
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";

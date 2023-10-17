@@ -153,12 +153,13 @@ class _AddTeacherState extends State<AddTeacher>
                                               .none, // กำหนดให้ไม่มีเส้นขอบ
                                         ),
                                         validator: (value) {
-                                          bool Loginid = RegExp(r'^.{1,30}$')
+                                          bool Loginid = RegExp(
+                                                  r'^[A-Za-z0-9!@#\$%^&*.]{12,30}$')
                                               .hasMatch(value!);
                                           if (value.isEmpty) {
                                             return "กรุณากรอกชื่อผู้ใช้";
                                           } else if (!Loginid) {
-                                            return "ต้องมีความยาวไม่เกิน30";
+                                            return "ต้องมีความยาว12-30ตัวอักษร";
                                           }
                                         },
                                       ),
@@ -206,7 +207,7 @@ class _AddTeacherState extends State<AddTeacher>
                                             )),
                                         validator: (value) {
                                           bool loginIdValid = RegExp(
-                                                  r'^(?=.*[A-Za-z0-9])[A-Za-z0-9]{8,16}$')
+                                                  r'^(?=.*[A-Za-z])(?=.*[!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
                                               .hasMatch(value!);
                                           if (value.isEmpty) {
                                             return "กรุณากรอกรหัส";
