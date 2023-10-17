@@ -144,7 +144,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                       "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
                                       style: CustomTextStyle.mainFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                     Center(
@@ -160,7 +160,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                                 id: '${users?.id.toString()}');
                                           }));
                                         },
-                                        child: Text("แก้ไขรหัสผ่าน"),
+                                        child: const Text("แก้ไขรหัสผ่าน"),
                                       ),
                                     )
                                   ],
