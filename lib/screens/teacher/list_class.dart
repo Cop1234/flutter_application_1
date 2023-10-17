@@ -342,7 +342,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                   Icon(Icons.people_alt,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
-                                                  Text('แก้ไขนักศึกษา'),
+                                                  Text('ดูรายชื่อนักศึกษา'),
                                                 ],
                                               ),
                                               onTap: () async {

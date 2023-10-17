@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter_application_1/model/attendanceSchedule.dart';
 import 'package:flutter_application_1/ws_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:dio/dio.dart';
 
 class AttendanceScheduleController {
   Future listAllAttendanceSchedule() async {
@@ -110,5 +113,23 @@ class AttendanceScheduleController {
     print(list);
     print("response : " + response.body);
     return list;
+  }
+
+  Future upload(Uint8List file, String? filename, String id) async {
+    Dio dio = Dio();
+    FormData formData = FormData.fromMap({
+      'file': MultipartFile.fromBytes(
+        file,
+        filename: filename,
+        // Provide the desired file name and extension
+      ),
+      'id': id
+    });
+    String url = baseURL + '/registrations/upload';
+
+    Response response = await dio.post(url, data: formData);
+
+    print("Student : " + response.data);
+    return response.statusCode;
   }
 }
