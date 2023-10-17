@@ -76,7 +76,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => EditProfileTeacherScreen(),
+            builder: (context) => const EditProfileTeacherScreen(),
           ),
         );
       },
@@ -91,10 +91,11 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
         body: Form(
           key: _formfield,
           child: Column(children: [
-            NavbarTeacher(),
+            const NavbarTeacher(),
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,12 +111,12 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage("images/mjuicon.png"),
                                   height: 100,
                                   width: 100,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(
@@ -129,14 +130,14 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
+                      color: const Color.fromARGB(255, 226, 226, 226),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -149,12 +150,12 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "รหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
 
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -188,7 +189,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";
                                             } else if (!subjectNameValid) {
-                                              return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
+                                              return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลข ความยาว 8-16 ให้ถูกต้อง";
                                             }
                                           },
                                         ),
@@ -196,16 +197,16 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "ยืนยันรหัสผ่าน : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Container(
@@ -214,7 +215,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                         keyboardType: TextInputType.text,
                                         obscureText: passToggle,
                                         decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
+                                            errorStyle: const TextStyle(),
                                             filled: true,
                                             fillColor: Colors.white,
                                             border: InputBorder.none,
@@ -242,7 +243,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
@@ -255,18 +256,18 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(builder:
                                                 (BuildContext context) {
-                                          return EditProfileTeacherScreen();
+                                          return const EditProfileTeacherScreen();
                                         }));
                                       },
                                       child: Container(
                                           height: 35,
                                           width: 110,
                                           decoration: BoxDecoration(
-                                            color: maincolor,
+                                            color: Colors.red,
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Text("ยกเลิก",
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -275,7 +276,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                                         FontWeight.bold)),
                                           )),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     InkWell(
@@ -302,7 +303,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Text("ยืนยัน",
                                                 style: TextStyle(
                                                     color: Colors.white,
