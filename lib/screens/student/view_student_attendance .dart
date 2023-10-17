@@ -91,6 +91,10 @@ class _StudentAttenState extends State<StudentAtten> {
   List<Map<String, dynamic>> data = [];
   List<AttendanceSchedule>? attendance;
 
+  String? checkInTime;
+  String? type;
+  bool checkInTimeandType = false;
+
   void showAtten(String week, String secid, String idUser) async {
     print(week + " : " + secid + " : " + idUser);
     List<AttendanceSchedule> atten = await attendanceScheduleController
@@ -109,6 +113,15 @@ class _StudentAttenState extends State<StudentAtten> {
                 'status': atten.status ?? "",
               })
           .toList();
+
+      checkInTime = data.isNotEmpty ? data[0]['time'] : null;
+      type = data.isNotEmpty ? data[0]['type'] : null;
+
+      if (checkInTime != null && type != null) {
+        checkInTimeandType = true;
+      } else {
+        checkInTimeandType = false;
+      }
     });
   }
 
@@ -169,11 +182,15 @@ class _StudentAttenState extends State<StudentAtten> {
                                 Text(
                                   "ชื่อวิชา : ${subjectName.text}   " +
                                       "กลุ่ม : ${sectionNumber.text}   " +
-                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                      "ห้อง : ${room.text}   " +
+                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                  style: CustomTextStyle.mainFontStyle,
+                                ),
+                                Text(
+                                  "ห้อง : ${room.text}   " +
                                       "ตึก : ${building.text}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
+                                TimeAndType(),
                                 const SizedBox(
                                   height: 15,
                                 ),
@@ -213,7 +230,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold)),
                                   Container(
-                                    width: 100,
+                                    width: 150,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
                                     padding: const EdgeInsets.symmetric(
@@ -266,7 +283,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          200, // กำหนดความกว้างของ DataColumn
+                                          150, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -279,7 +296,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          200, // กำหนดความกว้างของ DataColumn
+                                          150, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -292,7 +309,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          200, // กำหนดความกว้างของ DataColumn
+                                          150, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -305,7 +322,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          200, // กำหนดความกว้างของ DataColumn
+                                          150, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -315,23 +332,11 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                     ),
                                   ),
+
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          200, // กำหนดความกว้างของ DataColumn
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'ประเภท',
-                                          style: CustomTextStyle.TextHeadBar,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width:
-                                          200, // กำหนดความกว้างของ DataColumn
+                                          150, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -348,7 +353,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   return DataRow(
                                     cells: <DataCell>[
                                       DataCell(Container(
-                                        width: 100,
+                                        width: 150,
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
@@ -359,7 +364,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       )),
                                       DataCell(
                                         Container(
-                                          width: 100,
+                                          width: 150,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -372,7 +377,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 100,
+                                          width: 150,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -385,7 +390,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ),
                                       DataCell(
                                         Container(
-                                          width: 100,
+                                          width: 150,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -398,22 +403,10 @@ class _StudentAttenState extends State<StudentAtten> {
                                           ),
                                         ),
                                       ),
+
                                       DataCell(
                                         Container(
-                                          width: 100,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['type'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          width: 100,
+                                          width: 150,
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -442,5 +435,17 @@ class _StudentAttenState extends State<StudentAtten> {
         )
       ]),
     );
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget TimeAndType() {
+    if (checkInTimeandType) {
+      return Text(
+        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภm : ${type ?? ""}   ",
+        style: CustomTextStyle.mainFontStyle,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }

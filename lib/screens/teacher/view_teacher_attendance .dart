@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -87,7 +88,9 @@ class _TeacherAttenState extends State<TeacherAtten> {
   ];
   List<Map<String, dynamic>> data = [];
   List<AttendanceSchedule>? attendance;
-
+  String? checkInTime;
+  String? type;
+  bool checkInTimeandType = false;
   void showAtten(String week, String secid) async {
     print(week + " : " + secid);
     List<AttendanceSchedule> atten = await attendanceScheduleController
@@ -105,8 +108,17 @@ class _TeacherAttenState extends State<TeacherAtten> {
                 'status': atten.status ?? "",
               })
           .toList();
+      checkInTime = data.isNotEmpty ? data[0]['time'] : null;
+      type = data.isNotEmpty ? data[0]['type'] : null;
+
+      if (checkInTime != null && type != null) {
+        checkInTimeandType = true;
+      } else {
+        checkInTimeandType = false;
+      }
     });
   }
+//////////////////////////////////////////////////
 
   @override
   void initState() {
@@ -161,11 +173,15 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                 Text(
                                   "ชื่อวิชา : ${subjectName.text}   " +
                                       "กลุ่ม : ${sectionNumber.text}   " +
-                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                      "ห้อง : ${room.text}   " +
+                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                  style: CustomTextStyle.mainFontStyle,
+                                ),
+                                Text(
+                                  "ห้อง : ${room.text}   " +
                                       "ตึก : ${building.text}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
+                                TimeAndType(),
                                 const SizedBox(
                                   height: 15,
                                 ),
@@ -178,6 +194,9 @@ class _TeacherAttenState extends State<TeacherAtten> {
                   ],
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             Center(
               child: Column(
@@ -248,17 +267,24 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                       width: 15,
                                     ),
                                     ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 40, vertical: 18),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          textStyle: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                      onPressed: () {},
-                                      child: const Text("ExportReport"),
+                                      onPressed: () async {
+                                        FilePickerResult? result =
+                                            await FilePicker.platform.pickFiles(
+                                          type: FileType.custom,
+                                          allowedExtensions: [
+                                            'xlsx'
+                                          ], // ระบุนามสกุลไฟล์ Excel
+                                        );
+
+                                        if (result != null) {
+                                          // ผู้ใช้เลือกไฟล์ Excel แล้วสามารถดำเนินการด้วยไฟล์ที่ได้รับจาก result
+                                          PlatformFile file =
+                                              result.files.first;
+                                          print('เส้นทางไฟล์: ${file.path}');
+                                          print('ชื่อไฟล์: ${file.name}');
+                                        }
+                                      },
+                                      child: Text('ExportReport'),
                                     )
                                   ],
                                 ),
@@ -324,19 +350,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                         ),
                                       ),
                                     ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ประเภท',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+
                                     DataColumn(
                                       label: SizedBox(
                                         width:
@@ -408,19 +422,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                             ),
                                           ),
                                         ),
-                                        DataCell(
-                                          Container(
-                                            width: 100,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['type'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+
                                         DataCell(
                                           Container(
                                             width: 100,
@@ -453,5 +455,17 @@ class _TeacherAttenState extends State<TeacherAtten> {
         )
       ]),
     );
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget TimeAndType() {
+    if (checkInTimeandType) {
+      return Text(
+        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภm : ${type ?? ""}   ",
+        style: CustomTextStyle.mainFontStyle,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }
