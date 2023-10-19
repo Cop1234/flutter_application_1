@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/Registration_Controller.dart';
 import 'package:flutter_application_1/controller/student_controller.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
+import 'package:flutter_application_1/model/registration.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
-
 import '../../color.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
@@ -21,16 +22,23 @@ class ListStudent extends StatefulWidget {
 
 class _ListStudentState extends State<ListStudent> {
   final StudentController studentController = StudentController();
-
   final UserController userController = UserController();
+  final RegistrationController registrationController =
+      RegistrationController();
+  List<Map<String, dynamic>> dataForCheck = [];
   List<Map<String, dynamic>> data = [];
-  bool? isLoaded = false;
   List<User>? users;
+  bool? isLoaded = false;
+  bool isStudentInUse = true;
+
+  //ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
-    List<User> userteacher = await studentController.listAllStudent();
+    List<User> userstudent = await studentController.listAllStudent();
+    List<Registration> fetchedRegistrations =
+        await registrationController.listAllRegistration();
     setState(() {
-      users = userteacher;
-      data = userteacher
+      users = userstudent;
+      data = userstudent
           .map((user) => {
                 'id': user.id,
                 'userid': user.userid ?? "",
@@ -39,9 +47,28 @@ class _ListStudentState extends State<ListStudent> {
                 'login': user.login ?? "",
               })
           .toList();
-      //print(data);
+      dataForCheck = fetchedRegistrations
+          .map((reg) => {
+                'id': reg.id,
+                'IdUser': reg.user?.id,
+              })
+          .toList();
       isLoaded = true;
     });
+  }
+
+  //เช็คว่านักเรียนมีการใช้งานอยู่ไหม
+  void isStudentInDataForCheck(int IdUser) {
+    bool isStudentInUseCheck =
+        dataForCheck.any((data) => data['IdUser'] == IdUser);
+
+    if (isStudentInUseCheck) {
+      isStudentInUse = false;
+      print('User ID $IdUser is in dataForCheck.');
+    } else {
+      isStudentInUse = true;
+      print('User ID $IdUser is not in dataForCheck.');
+    }
   }
 
   void showSureToDeleteStudent(String id) {
@@ -53,7 +80,6 @@ class _ListStudentState extends State<ListStudent> {
         confirmBtnText: "ลบ",
         onConfirmBtnTap: () async {
           http.Response response = await userController.deleteTeacher(id);
-
           if (response.statusCode == 200) {
             Navigator.pop(context);
             showUpDeleteStudentSuccessAlert();
@@ -67,10 +93,12 @@ class _ListStudentState extends State<ListStudent> {
 
   void showFailToDeleteStudentAlert() {
     QuickAlert.show(
-        context: context,
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถลบข้อมูลได้",
-        type: QuickAlertType.error);
+      context: context,
+      title: "เกิดข้อผิดพลาด",
+      text: "ไม่สามารถลบข้อมูลได้",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
   }
 
   void showUpDeleteStudentSuccessAlert() {
@@ -80,6 +108,7 @@ class _ListStudentState extends State<ListStudent> {
         text: "ลบข้อมูลสำเร็จ",
         type: QuickAlertType.success,
         confirmBtnText: "ตกลง",
+        barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const ListStudent()));
@@ -101,15 +130,15 @@ class _ListStudentState extends State<ListStudent> {
         children: [
           Column(
             children: [
-              NavbarAdmin(),
-              Padding(
+              const NavbarAdmin(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
@@ -122,14 +151,14 @@ class _ListStudentState extends State<ListStudent> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 15),
+                                padding: const EdgeInsets.only(right: 15),
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return InsertDataStudent();
+                                        return const InsertDataStudent();
                                       }));
                                     });
                                   },
@@ -140,7 +169,7 @@ class _ListStudentState extends State<ListStudent> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("เพิ่มนักศึกษา",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -151,7 +180,7 @@ class _ListStudentState extends State<ListStudent> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -212,6 +241,8 @@ class _ListStudentState extends State<ListStudent> {
                             ],
                             rows: data.asMap().entries.map((entry) {
                               Map<String, dynamic> row = entry.value;
+                              isStudentInDataForCheck(row['id']);
+                              bool isStudentEnabled = isStudentInUse;
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
@@ -256,14 +287,14 @@ class _ListStudentState extends State<ListStudent> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
+                                                  children: const <Widget>[
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),
@@ -286,13 +317,14 @@ class _ListStudentState extends State<ListStudent> {
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.delete,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('ลบ'),
                                                 ],
                                               ),
+                                              enabled: isStudentEnabled,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),

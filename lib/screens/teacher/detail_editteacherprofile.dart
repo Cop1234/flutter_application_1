@@ -159,7 +159,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                                             if (value.isEmpty) {
                                               return "กรุณากรอกรหัสผ่าน*";
                                             } else if (!subjectNameValid) {
-                                              return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลข ความยาว 8-16 ให้ถูกต้อง";
+                                              return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่หรือตัวเล็กอักษรพิเศษและตัวเลข ความยาว 8-16 ให้ถูกต้อง";
                                             }
                                           },
                                         ),

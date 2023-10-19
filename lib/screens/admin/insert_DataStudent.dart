@@ -60,7 +60,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListStudent(),
+            builder: (context) => const ListStudent(),
           ),
         );
       },

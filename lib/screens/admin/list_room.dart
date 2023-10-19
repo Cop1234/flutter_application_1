@@ -25,10 +25,10 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
 
   List<Map<String, dynamic>> data = [];
   List<Map<String, dynamic>> dataForCheck = [];
-  bool isRoomInUse = true;
-  bool? isLoaded = false;
   List<Room>? rooms;
   List<Section>? sections;
+  bool? isLoaded = false;
+  bool isRoomInUse = true;
 
   //ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
@@ -86,7 +86,6 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
         text: "คุณต้องการลบข้อมูลห้องเรียนหรือไม่ ? ",
         type: QuickAlertType.warning,
         confirmBtnText: "ลบ",
-        barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () async {
           http.Response response = await roomController.deleteRoom(id);
 
@@ -195,7 +194,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -207,7 +206,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 300, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -219,7 +218,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 300, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -231,7 +230,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -247,10 +246,12 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                               int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
                               isRoomIdInDataForCheck(row['id']);
+                              bool isRoomEnabled =
+                                  isRoomInUse; // ตั้งค่าตัวแปร isRoomEnabled เป็นค่า isRoomInUse
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
-                                    width: 200,
+                                    width: 100,
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(index.toString(),
@@ -259,7 +260,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                   )),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 300,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -271,7 +272,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 300,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -284,7 +285,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
@@ -325,7 +326,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                   Text('ลบ'),
                                                 ],
                                               ),
-                                              enabled: isRoomInUse,
+                                              enabled: isRoomEnabled,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),

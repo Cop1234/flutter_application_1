@@ -27,10 +27,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
   bool? isLoaded = false;
-  String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-
   String? selectedDropdownValue;
-
   int? sectionid;
 
   Section? section;

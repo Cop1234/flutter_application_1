@@ -66,7 +66,7 @@ class _TeacherQRState extends State<TeacherQR> {
       startTimeForQR = section?.startTime;
       formattedStartTime = startTimeForQR?.replaceAll(':', '-');
       qrData =
-          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
+          'TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
       isLoaded = true;
     });
   }
@@ -107,7 +107,7 @@ class _TeacherQRState extends State<TeacherQR> {
   void generateQRCode() {
     setState(() {
       qrData =
-          'Date:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$startTimeForQR';
+          'TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/course_controller.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
@@ -114,7 +115,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
     print(combinedData);
   }
 
-  static const double columnWidth = 150;
+  //static const double columnWidth = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +153,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width:
-                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -165,8 +165,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width:
-                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  width: 400, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -178,8 +177,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width:
-                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  width: 150, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -191,8 +189,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width:
-                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -204,8 +201,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width:
-                                      columnWidth, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -227,7 +223,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                 cells: <DataCell>[
                                   DataCell(
                                     Container(
-                                      width: columnWidth,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -239,19 +235,23 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: columnWidth,
+                                      width: 400,
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: Text(
+                                        child: AutoSizeText(
                                           row['subjectName'],
                                           style: CustomTextStyle.TextGeneral,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign
+                                              .center, // จัดให้อยู่ตรงกลาง
                                         ),
                                       ),
                                     ),
                                   ),
                                   DataCell(
                                     Container(
-                                      width: columnWidth,
+                                      width: 150,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -263,7 +263,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: columnWidth,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -276,7 +276,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: columnWidth,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(

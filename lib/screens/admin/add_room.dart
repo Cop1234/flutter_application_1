@@ -309,7 +309,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       height: 35,
                                       width: 110,
                                       decoration: BoxDecoration(
-                                        color: maincolor,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: const Center(

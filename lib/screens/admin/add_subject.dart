@@ -294,7 +294,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       height: 35,
                                       width: 110,
                                       decoration: BoxDecoration(
-                                        color: maincolor,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: const Center(

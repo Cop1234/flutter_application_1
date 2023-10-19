@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
               .map((reg) => {
                     'id': reg.section?.id ?? "",
                     'subjectid': reg.section?.course?.subject?.subjectId ?? "",
-                    'subjectname':
+                    'subjectName':
                         reg.section?.course?.subject?.subjectName ?? "",
                     'type': reg.section?.type ?? "",
                     'group': reg.section?.sectionNumber,
@@ -125,15 +126,15 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
         children: [
           Column(
             children: [
-              NavbarStudent(),
-              Padding(
+              const NavbarStudent(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: IntrinsicWidth(
@@ -141,7 +142,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                       padding: const EdgeInsets.all(30.0),
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -152,7 +153,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -164,7 +165,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 400, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -176,7 +177,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 150, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -188,7 +189,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -200,7 +201,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -217,7 +218,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
-                                    width: 200,
+                                    width: 100,
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
@@ -228,19 +229,23 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   )),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 400,
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          row['subjectname'],
+                                        child: AutoSizeText(
+                                          row['subjectName'],
                                           style: CustomTextStyle.TextGeneral,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign
+                                              .center, // จัดให้อยู่ตรงกลาง
                                         ),
                                       ),
                                     ),
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 150,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -252,7 +257,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -265,18 +270,18 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
+                                                  children: const <Widget>[
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),

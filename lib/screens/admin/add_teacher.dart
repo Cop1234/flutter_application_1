@@ -45,14 +45,14 @@ class _AddTeacherState extends State<AddTeacher>
   TextEditingController lnameController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
-  TextEditingController LoginidController = TextEditingController();
-  TextEditingController LoginpasswordController = TextEditingController();
+  TextEditingController loginUsernameController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
   List<User>? users;
 
-  // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
-  bool isUserIdExists(String usersId) {
-    if (usersId != null) {
-      return users!.any((user) => user.userid == usersId);
+  // ฟังก์ชันเช็ค username ว่ามีอยู่ใน user หรือไม่
+  bool isUserNameExists(String username) {
+    if (username != null) {
+      return users!.any((user) => user.login?.username == username);
     }
     return false;
   }
@@ -78,24 +78,27 @@ class _AddTeacherState extends State<AddTeacher>
       title: "การเพิ่มอาจารย์",
       text: "ข้อมูลอาจารย์ถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
+      confirmBtnText: "ตกลง",
+      barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListTeacher(),
+            builder: (context) => const ListTeacher(),
           ),
         );
       },
     );
   }
 
-  void showErrorUserIdExistsAlert(String subjectId) {
+  void showErrorUserNameExistsAlert(String usename) {
     QuickAlert.show(
       context: context,
       title: "แจ้งเตือน",
-      text: "รายวิชา " + subjectId + " มีอยู่ในระบบแล้ว",
+      text: "ชื่อผู้ใช่ $usename มีอยู่ในระบบแล้ว",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
+      //barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
     );
   }
 
@@ -106,16 +109,17 @@ class _AddTeacherState extends State<AddTeacher>
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarAdmin(),
+            const NavbarAdmin(),
             Form(
               key: _formfield,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -131,11 +135,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ชื่อผู้ใช้ : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -143,8 +147,8 @@ class _AddTeacherState extends State<AddTeacher>
                                     child: Expanded(
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
-                                        controller: LoginidController,
-                                        decoration: InputDecoration(
+                                        controller: loginUsernameController,
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -153,13 +157,13 @@ class _AddTeacherState extends State<AddTeacher>
                                               .none, // กำหนดให้ไม่มีเส้นขอบ
                                         ),
                                         validator: (value) {
-                                          bool Loginid = RegExp(
+                                          bool loginUsernameValid = RegExp(
                                                   r'^[A-Za-z0-9!@#\$%^&*.]{12,30}$')
                                               .hasMatch(value!);
                                           if (value.isEmpty) {
                                             return "กรุณากรอกชื่อผู้ใช้";
-                                          } else if (!Loginid) {
-                                            return "ต้องมีความยาว12-30ตัวอักษร";
+                                          } else if (!loginUsernameValid) {
+                                            return "ต้องมีความยาว 12-30 ตัวอักษร";
                                           }
                                         },
                                       ),
@@ -173,11 +177,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "รหัสผ่าน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -185,10 +189,10 @@ class _AddTeacherState extends State<AddTeacher>
                                     child: Expanded(
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
-                                        controller: LoginpasswordController,
+                                        controller: loginPasswordController,
                                         obscureText: passToggle,
                                         decoration: InputDecoration(
-                                            errorStyle: TextStyle(),
+                                            errorStyle: const TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
                                             fillColor: Colors.white,
@@ -206,13 +210,13 @@ class _AddTeacherState extends State<AddTeacher>
                                                   : Icons.visibility_off),
                                             )),
                                         validator: (value) {
-                                          bool loginIdValid = RegExp(
+                                          bool loginPasswordValid = RegExp(
                                                   r'^(?=.*[A-Za-z])(?=.*[!@#\$%^&*])[A-Za-z0-9!@#\$%^&*]{8,16}$')
                                               .hasMatch(value!);
                                           if (value.isEmpty) {
-                                            return "กรุณากรอกรหัส";
-                                          } else if (!loginIdValid) {
-                                            return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
+                                            return "กรุณากรอกรหัสผ่าน*";
+                                          } else if (!loginPasswordValid) {
+                                            return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่หรือตัวเล็กอักษรพิเศษและตัวเลขความยาว 8-16 ให้ถูกต้อง";
                                           }
                                         },
                                       ),
@@ -226,11 +230,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ยืนยันรหัสผ่าน : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -261,7 +265,7 @@ class _AddTeacherState extends State<AddTeacher>
                                         if (value!.isEmpty) {
                                           return "กรุณายืนยันรหัสผ่าน*";
                                         } else if (value !=
-                                            LoginpasswordController.text) {
+                                            loginPasswordController.text) {
                                           return "รหัสผ่านไม่ตรงกัน";
                                         }
                                       },
@@ -275,11 +279,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "อีเมล : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -288,7 +292,7 @@ class _AddTeacherState extends State<AddTeacher>
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: emailController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -318,11 +322,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "ชื่อ : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -331,7 +335,7 @@ class _AddTeacherState extends State<AddTeacher>
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: fnameController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -360,11 +364,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "นามกุล : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           10), // Adjust the width for spacing
                                   Container(
@@ -373,7 +377,7 @@ class _AddTeacherState extends State<AddTeacher>
                                       child: TextFormField(
                                         keyboardType: TextInputType.text,
                                         controller: lnameController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           errorStyle: TextStyle(),
                                           filled:
                                               true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -402,7 +406,7 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: <Widget>[
-                                  Text("วันเกิด : ",
+                                  const Text("วันเกิด : ",
                                       style: CustomTextStyle.createFontStyle),
                                   ShowSelectDate(),
                                   ElevatedButton(
@@ -426,7 +430,7 @@ class _AddTeacherState extends State<AddTeacher>
                                       }
                                     },
                                     child: Row(
-                                      children: [
+                                      children: const [
                                         Icon(
                                           Icons
                                               .calendar_today, // ไอคอนของปฏิทิน
@@ -438,7 +442,7 @@ class _AddTeacherState extends State<AddTeacher>
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
 
@@ -448,11 +452,11 @@ class _AddTeacherState extends State<AddTeacher>
                                   const EdgeInsets.only(top: 20, bottom: 5),
                               child: Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "เพศ : ",
                                     style: CustomTextStyle.createFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       //genderController
                                       width:
                                           10), // Adjust the width for spacing
@@ -460,7 +464,7 @@ class _AddTeacherState extends State<AddTeacher>
                                     width: 100,
                                     height: 40,
                                     alignment: AlignmentDirectional.centerStart,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -470,7 +474,7 @@ class _AddTeacherState extends State<AddTeacher>
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       value: dropdownvalue,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                       ),
                                       items: items.map(
@@ -486,14 +490,15 @@ class _AddTeacherState extends State<AddTeacher>
                                           dropdownvalue = newValue!;
                                         });
                                       },
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      underline: SizedBox(),
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      underline: const SizedBox(),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -511,10 +516,10 @@ class _AddTeacherState extends State<AddTeacher>
                                       height: 35,
                                       width: 110,
                                       decoration: BoxDecoration(
-                                        color: maincolor,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("รีเซ็ต",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -522,25 +527,28 @@ class _AddTeacherState extends State<AddTeacher>
                                                 fontWeight: FontWeight.bold)),
                                       )),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
                                   onTap: () async {
                                     if (_formfield.currentState!.validate()) {
-                                      String userid = useridController.text;
+                                      String usernameCheck =
+                                          loginUsernameController.text;
 
-                                      // เช็คว่า userid มีอยู่ใน user หรือไม่
-                                      bool isExists = isUserIdExists(userid);
+                                      // เช็คว่า username มีอยู่ใน user หรือไม่
+                                      bool isExists =
+                                          isUserNameExists(usernameCheck);
 
                                       if (isExists) {
-                                        // แสดง Alert หรือข้อความว่า userid มีอยู่ในระบบแล้ว
-                                        showErrorUserIdExistsAlert(userid);
+                                        // แสดง Alert หรือข้อความว่า username มีอยู่ในระบบแล้ว
+                                        showErrorUserNameExistsAlert(
+                                            usernameCheck);
                                       } else {
                                         http.Response response =
                                             await userController.addTeacher(
-                                                LoginidController.text,
-                                                LoginpasswordController.text,
+                                                loginUsernameController.text,
+                                                loginPasswordController.text,
                                                 emailController.text,
                                                 fnameController.text,
                                                 lnameController.text,
@@ -564,7 +572,7 @@ class _AddTeacherState extends State<AddTeacher>
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("ยืนยัน",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -593,7 +601,7 @@ class _AddTeacherState extends State<AddTeacher>
         style: CustomTextStyle.createFontStyle,
       );
     } else {
-      return SizedBox
+      return const SizedBox
           .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
     }
   }

@@ -18,9 +18,7 @@ class RegistrationController {
       'id': id
     });
     String url = baseURL + '/registrations/upload';
-
     Response response = await dio.post(url, data: formData);
-
     print("Student : " + response.data);
     return response.statusCode;
   }
@@ -31,8 +29,32 @@ class RegistrationController {
     return response;
   }
 
+  Future listAllRegistration() async {
+    var url = Uri.parse(baseURL + '/registrations/list');
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<Registration> list = jsonResponse
+        .map((e) => Registration.formJsonToRegistration(e))
+        .toList();
+    //print(list);
+    return list;
+  }
+
   Future get_ViewSubject(String id) async {
     var url = Uri.parse(baseURL + '/registrations/stu_listsubject/' + id);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<Registration> list = jsonResponse
+        .map((e) => Registration.formJsonToRegistration(e))
+        .toList();
+    //print(list);
+    return list;
+  }
+
+  Future stu_listsubject(String IdUser) async {
+    var url = Uri.parse(baseURL + '/registrations/stu_listsubject/' + IdUser);
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);
     List<dynamic> jsonResponse = json.decode(utf8Body);

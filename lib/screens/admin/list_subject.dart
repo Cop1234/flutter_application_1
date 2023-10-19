@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/section_controller.dart';
@@ -69,9 +70,11 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
         dataForCheck.any((data) => data['IdSubject'] == subjectId);
 
     if (isSubjectInUseCheck) {
+      // หากมี subjectId ใน dataForCheck
       isSubjectInUse = false;
       print('Subject ID $subjectId is in dataForCheck.');
     } else {
+      // หากไม่มี subjectId ใน dataForCheck
       isSubjectInUse = true;
       print('Subject ID $subjectId is not in dataForCheck.');
     }
@@ -133,15 +136,15 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
         children: [
           Column(
             children: [
-              NavbarAdmin(),
-              Padding(
+              const NavbarAdmin(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
@@ -154,14 +157,14 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 15),
+                                padding: const EdgeInsets.only(right: 15),
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return AddSubjectScreen();
+                                        return const AddSubjectScreen();
                                       }));
                                     });
                                   },
@@ -172,7 +175,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("เพิ่มวิชา",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -183,7 +186,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -194,7 +197,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -218,7 +221,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 400, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -230,7 +233,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -246,10 +249,11 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                               int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
                               isSubjectIdInDataForCheck(row['id']);
+                              bool isSubjectEnabled = isSubjectInUse;
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
-                                    width: 200,
+                                    width: 100,
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(index.toString(),
@@ -270,12 +274,16 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 400,
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: Text(
+                                        child: AutoSizeText(
                                           row['subjectName'],
                                           style: CustomTextStyle.TextGeneral,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign
+                                              .center, // จัดให้อยู่ตรงกลาง
                                         ),
                                       ),
                                     ),
@@ -283,18 +291,18 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
+                                                  children: const <Widget>[
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),
@@ -324,7 +332,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                   Text('ลบ'),
                                                 ],
                                               ),
-                                              enabled: isSubjectInUse,
+                                              enabled: isSubjectEnabled,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),

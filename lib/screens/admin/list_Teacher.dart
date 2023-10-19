@@ -23,16 +23,19 @@ class ListTeacher extends StatefulWidget {
 class _ListTeacherState extends State<ListTeacher>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
   final UserController userController = UserController();
-
+  final SectionController sectionController = SectionController();
+  List<Map<String, dynamic>> dataForCheck = [];
   List<Map<String, dynamic>> data = [];
-  bool? isLoaded = false;
   List<User>? users;
+  bool isTeacherInUse = true;
+  bool? isLoaded = false;
 
-//ฟังชั่นโหลดข้อมูลเว็บ
+  //ฟังชั่นโหลดข้อมูลเว็บ
   void fetchData() async {
     List<User> userteacher = await userController.listAllTeacher();
+    List<Section> fetchedSections = await sectionController.listAllSection();
+
     setState(() {
       users = userteacher;
       data = userteacher
@@ -44,9 +47,30 @@ class _ListTeacherState extends State<ListTeacher>
                 'login': user.login ?? "",
               })
           .toList();
-      //print(data);
+      dataForCheck = fetchedSections
+          .map((section) => {
+                'id': section.id,
+                'IdSUser': section.user?.id,
+              })
+          .toList();
       isLoaded = true;
     });
+  }
+
+  //เช็คว่าห้องมีการใช้งานอยู่ไหม
+  void isTeacherIdInDataForCheck(int teacherId) {
+    bool isTeacherInUseCheck =
+        dataForCheck.any((data) => data['IdSUser'] == teacherId);
+
+    if (isTeacherInUseCheck) {
+      // หากมี teacherId ใน dataForCheck
+      isTeacherInUse = false;
+      print('Room ID $teacherId is in dataForCheck.');
+    } else {
+      // หากไม่มี teacherId ใน dataForCheck
+      isTeacherInUse = true;
+      print('Room ID $teacherId is not in dataForCheck.');
+    }
   }
 
   void showSureToDeleteTeacher(String id) {
@@ -58,7 +82,6 @@ class _ListTeacherState extends State<ListTeacher>
         confirmBtnText: "ลบ",
         onConfirmBtnTap: () async {
           http.Response response = await userController.deleteTeacher(id);
-
           if (response.statusCode == 200) {
             Navigator.pop(context);
             showUpDeleteTeacherSuccessAlert();
@@ -72,10 +95,12 @@ class _ListTeacherState extends State<ListTeacher>
 
   void showFailToDeleteTeacherAlert() {
     QuickAlert.show(
-        context: context,
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถลบข้อมูลได้",
-        type: QuickAlertType.error);
+      context: context,
+      title: "เกิดข้อผิดพลาด",
+      text: "ไม่สามารถลบข้อมูลได้",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
   }
 
   void showUpDeleteTeacherSuccessAlert() {
@@ -85,6 +110,7 @@ class _ListTeacherState extends State<ListTeacher>
         text: "ลบข้อมูลสำเร็จ",
         type: QuickAlertType.success,
         confirmBtnText: "ตกลง",
+        barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const ListTeacher()));
@@ -113,15 +139,15 @@ class _ListTeacherState extends State<ListTeacher>
         children: [
           Column(
             children: [
-              NavbarAdmin(),
-              Padding(
+              const NavbarAdmin(),
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               ),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
@@ -134,14 +160,14 @@ class _ListTeacherState extends State<ListTeacher>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 15),
+                                padding: const EdgeInsets.only(right: 15),
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return AddTeacher();
+                                        return const AddTeacher();
                                       }));
                                     });
                                   },
@@ -152,7 +178,7 @@ class _ListTeacherState extends State<ListTeacher>
                                         color: maincolor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("เพิ่มอาจารย์",
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -163,7 +189,7 @@ class _ListTeacherState extends State<ListTeacher>
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           DataTable(
@@ -174,7 +200,7 @@ class _ListTeacherState extends State<ListTeacher>
                             columns: const <DataColumn>[
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -186,7 +212,7 @@ class _ListTeacherState extends State<ListTeacher>
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 300, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -198,7 +224,7 @@ class _ListTeacherState extends State<ListTeacher>
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 300, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -210,7 +236,7 @@ class _ListTeacherState extends State<ListTeacher>
                               ),
                               DataColumn(
                                 label: SizedBox(
-                                  width: 200, // กำหนดความกว้างของ DataColumn
+                                  width: 100, // กำหนดความกว้างของ DataColumn
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -225,11 +251,13 @@ class _ListTeacherState extends State<ListTeacher>
                             rows: data.asMap().entries.map((entry) {
                               int index = entry.key + 1; // นับลำดับเริ่มจาก 1
                               Map<String, dynamic> row = entry.value;
-
+                              isTeacherIdInDataForCheck(row['id']);
+                              bool isTeacherEnabled =
+                                  isTeacherInUse; // ตั้งค่าตัวแปร isRoomEnabled เป็นค่า isRoomInUse
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(Container(
-                                    width: 200,
+                                    width: 100,
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(index.toString(),
@@ -238,7 +266,7 @@ class _ListTeacherState extends State<ListTeacher>
                                   )),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 300,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -250,7 +278,7 @@ class _ListTeacherState extends State<ListTeacher>
                                   ),
                                   DataCell(
                                     Container(
-                                      width: 200,
+                                      width: 300,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -264,18 +292,18 @@ class _ListTeacherState extends State<ListTeacher>
                                   DataCell(Padding(
                                     padding: const EdgeInsets.all(0.0),
                                     child: Container(
-                                      width: 200,
+                                      width: 100,
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: PopupMenuButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.settings,
                                             color: Colors.white,
                                           ),
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 child: Row(
-                                                  children: <Widget>[
+                                                  children: const <Widget>[
                                                     Icon(Icons.change_circle,
                                                         color: Colors.black),
                                                     SizedBox(width: 10.0),
@@ -298,13 +326,14 @@ class _ListTeacherState extends State<ListTeacher>
                                                 }),
                                             PopupMenuItem(
                                               child: Row(
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.delete,
                                                       color: Colors.black),
                                                   SizedBox(width: 10.0),
                                                   Text('ลบ'),
                                                 ],
                                               ),
+                                              enabled: isTeacherEnabled,
                                               onTap: () {
                                                 Future.delayed(
                                                     const Duration(seconds: 0),
