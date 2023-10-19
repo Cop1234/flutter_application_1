@@ -237,10 +237,16 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                         ),
                                       ),
                                       ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0), // กำหนดมุม
+                                          ),
+                                        ),
                                         onPressed: () {
                                           _pickFile(context);
                                         },
-                                        child: Text('เลือกไฟล์'),
+                                        child: const Text('เลือกไฟล์'),
                                       ),
                                     ],
                                   ),
@@ -249,6 +255,12 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                   padding: const EdgeInsets.all(40),
                                   child: Center(
                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0), // กำหนดมุม
+                                          ),
+                                        ),
                                         onPressed: () async {
                                           if (uploadfile != null) {
                                             print("Upload to API!");
@@ -264,7 +276,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                             }
                                           }
                                         },
-                                        child: Text("เพิ่ม")),
+                                        child: const Text("เพิ่ม")),
                                   ),
                                 ),
                               ],

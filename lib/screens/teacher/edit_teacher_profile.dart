@@ -140,7 +140,12 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                 ),
                                 Center(
                                   child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), // กำหนดมุม
+                                      ),
+                                    ),
                                     onPressed: () async {
                                       await Future.delayed(Duration
                                           .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen

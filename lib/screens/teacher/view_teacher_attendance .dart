@@ -214,7 +214,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
           children: [
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -270,22 +271,25 @@ class _TeacherAttenState extends State<TeacherAtten> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
             Center(
-              child: Column(
-                children: [
-                  Card(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: const Color.fromARGB(255, 226, 226, 226),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: IntrinsicWidth(
-                        child: SizedBox(
-                          width: 1200,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      color: const Color.fromARGB(255, 226, 226, 226),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: IntrinsicWidth(
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
                             child: Column(
@@ -294,58 +298,90 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                   height: 20,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text("สัปดาห์ที่ : ",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold)),
-                                    Container(
-                                      width: 100,
-                                      height: 40,
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      // dropdown below..
-                                      child: DropdownButton<String>(
-                                        isExpanded: true,
-                                        value: weekNum,
-                                        style: const TextStyle(
-                                          fontSize: 18,
+                                    Row(
+                                      children: [
+                                        const Text("สัปดาห์ที่ : ",
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold)),
+                                        Container(
+                                          width: 100,
+                                          height: 40,
+                                          alignment:
+                                              AlignmentDirectional.centerStart,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          // dropdown below..
+                                          child: DropdownButton<String>(
+                                            isExpanded: true,
+                                            value: weekNum,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                            items: weekNumItems.map(
+                                              (String typesub) {
+                                                return DropdownMenuItem(
+                                                  value: typesub,
+                                                  child: Text(typesub),
+                                                );
+                                              },
+                                            ).toList(),
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                weekNum = newValue!;
+                                                showAtten(
+                                                    newValue, '${section?.id}');
+                                              });
+                                            },
+                                            icon: const Icon(
+                                                Icons.keyboard_arrow_down),
+                                            underline: const SizedBox(),
+                                          ),
                                         ),
-                                        items: weekNumItems.map(
-                                          (String typesub) {
-                                            return DropdownMenuItem(
-                                              value: typesub,
-                                              child: Text(typesub),
-                                            );
-                                          },
-                                        ).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            weekNum = newValue!;
-                                            showAtten(
-                                                newValue, '${section?.id}');
-                                          });
-                                        },
-                                        icon: const Icon(
-                                            Icons.keyboard_arrow_down),
-                                        underline: const SizedBox(),
-                                      ),
+                                      ],
                                     ),
                                     const SizedBox(
                                       width: 15,
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        ListattenExport();
-                                      },
-                                      child: Text('ExportReport'),
+                                    Row(
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20.0), // กำหนดมุม
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            ListattenExport();
+                                          },
+                                          child: const Text('แก้ไขสถานะ'),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20.0), // กำหนดมุม
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            ListattenExport();
+                                          },
+                                          child: const Text('ExportReport'),
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),
@@ -401,7 +437,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                     DataColumn(
                                       label: SizedBox(
                                         width:
-                                            100, // กำหนดความกว้างของ DataColumn
+                                            150, // กำหนดความกว้างของ DataColumn
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
@@ -415,7 +451,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                     DataColumn(
                                       label: SizedBox(
                                         width:
-                                            100, // กำหนดความกว้างของ DataColumn
+                                            150, // กำหนดความกว้างของ DataColumn
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(
@@ -470,7 +506,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                         ),
                                         DataCell(
                                           Container(
-                                            width: 100,
+                                            width: 150,
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
@@ -483,10 +519,9 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                             ),
                                           ),
                                         ),
-
                                         DataCell(
                                           Container(
-                                            width: 100,
+                                            width: 150,
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
@@ -508,8 +543,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

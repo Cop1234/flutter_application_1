@@ -570,6 +570,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                     primary: Colors.blue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), // กำหนดมุม
+                                    ),
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -587,11 +591,16 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 40, vertical: 15),
-                                      textStyle: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                    textStyle: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), // กำหนดมุม
+                                    ),
+                                  ),
                                   onPressed: () async {
                                     if (formKey.currentState!.validate()) {
                                       print("ผ่าน");

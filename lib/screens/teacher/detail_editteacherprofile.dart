@@ -100,7 +100,7 @@ class _DetailEditTeacherProfileState extends State<DetailEditTeacherProfile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(

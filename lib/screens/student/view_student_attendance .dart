@@ -143,12 +143,13 @@ class _StudentAttenState extends State<StudentAtten> {
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: ListView(children: [
-        NavbarStudent(),
+        const NavbarStudent(),
         Column(
           children: [
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -255,7 +256,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                         },
                                       ).toList(),
                                       onChanged: (String? newValue) {
-                                        print('USERID : ' + Iduser!);
+                                        //print('USERID : ' + Iduser!);
                                         setState(() {
                                           weekNum = newValue!;
                                           showAtten(newValue, '${section?.id}',
@@ -283,7 +284,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   DataColumn(
                                     label: SizedBox(
                                       width:
-                                          150, // กำหนดความกว้างของ DataColumn
+                                          200, // กำหนดความกว้างของ DataColumn
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
@@ -353,7 +354,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                   return DataRow(
                                     cells: <DataCell>[
                                       DataCell(Container(
-                                        width: 150,
+                                        width: 200,
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Text(

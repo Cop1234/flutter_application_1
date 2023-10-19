@@ -294,6 +294,9 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                             FontWeight.bold)),
                                               )),
                                         ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                         InkWell(
                                           onTap: () async {
                                             if (_formfield.currentState!
@@ -320,7 +323,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                               ),
-                                              child: Center(
+                                              child: const Center(
                                                 child: Text("ยืนยัน",
                                                     style: TextStyle(
                                                         color: Colors.white,
