@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:download/download.dart';
+import 'package:essential_xlsx/essential_xlsx.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +17,7 @@ import 'package:intl/intl.dart';
 import '../../controller/section_controller.dart';
 import '../../model/attendanceSchedule.dart';
 import '../../model/section.dart';
+import 'package:quickalert/quickalert.dart';
 
 class TeacherAtten extends StatefulWidget {
   final String sectionId;
@@ -27,6 +32,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
   bool? isLoaded = false;
+  String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
+  String? namefile;
   String? selectedDropdownValue;
   int? sectionid;
 
@@ -88,11 +95,11 @@ class _TeacherAttenState extends State<TeacherAtten> {
   String? checkInTime;
   String? type;
   bool checkInTimeandType = false;
+
   void showAtten(String week, String secid) async {
-    print(week + " : " + secid);
     List<AttendanceSchedule> atten = await attendanceScheduleController
         .listAttendanceScheduleByWeek(week, secid);
-    print(atten);
+    showAttenExport(week, secid);
     setState(() {
       attendance = atten;
       data = atten
@@ -107,6 +114,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
           .toList();
       checkInTime = data.isNotEmpty ? data[0]['time'] : null;
       type = data.isNotEmpty ? data[0]['type'] : null;
+      namefile =
+          '${subjectName.text}_Section${sectionNumber.text}_${sectiontype.text}_Week${week.toString()}';
 
       if (checkInTime != null && type != null) {
         checkInTimeandType = true;
@@ -115,7 +124,76 @@ class _TeacherAttenState extends State<TeacherAtten> {
       }
     });
   }
+
 //////////////////////////////////////////////////
+  List<Map<String, dynamic>> dataExport = [];
+  List<AttendanceSchedule>? attendanceExport;
+
+  void showAttenExport(String week, String secid) async {
+    List<AttendanceSchedule> atten = await attendanceScheduleController
+        .listAttendanceScheduleByWeek(week, secid);
+    setState(() {
+      attendanceExport = atten;
+      dataExport = atten
+          .map((atten) => {
+                'รหัสนักศึกษา': atten.registration?.user?.userid ?? "",
+                'ชื่อ': atten.registration?.user?.fname ?? "",
+                'นามสกุล': atten.registration?.user?.lname ?? "",
+                'เวลาเข้าเรียน': DateFormat('HH:mm:ss')
+                    .format(DateTime.parse(atten.checkInTime ?? "").toLocal()),
+                // 'type': atten.registration?.section?.type ?? "",
+                'สถานะ': atten.status ?? "",
+              })
+          .toList();
+    });
+  }
+
+  void _download(Stream<int> bytes) {
+    download(bytes, '${namefile.toString()}.xlsx');
+  }
+
+  // ignore: non_constant_identifier_names
+  void ListattenExport() {
+    if (dataExport.isNotEmpty) {
+      final simplexlsx = SimpleXLSX();
+      simplexlsx.sheetName = 'sheet';
+      // เพิ่มข้อมูล
+      var idx = 0;
+      dataExport.forEach((item) {
+        if (idx == 0) {
+          // เพิ่มหัวข้อ
+          simplexlsx.addRow(item.keys.toList());
+        }
+        // เพิ่มข้อมูล
+        simplexlsx.addRow(item.values.map((i) => i.toString()).toList());
+        idx++;
+      });
+
+      final bytes = simplexlsx.build();
+      StreamController<int> streamController = StreamController<int>();
+      bytes.forEach((int value) {
+        streamController.add(value);
+      });
+      streamController.close();
+      Stream<int> integerStream = streamController.stream;
+      _download(integerStream);
+    } else {
+      showErrorExportExistsAlert(weekNum);
+    }
+  }
+
+//////////////////////////////////////////////////
+
+  void showErrorExportExistsAlert(String week) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text:
+          "วิชา ${subjectName.text} Section${sectionNumber.text} ${sectiontype.text} Week${week.toString()} ไม่มีข้อมูลการเข้าห้องเรียน",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
+  }
 
   @override
   void initState() {
@@ -265,21 +343,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        FilePickerResult? result =
-                                            await FilePicker.platform.pickFiles(
-                                          type: FileType.custom,
-                                          allowedExtensions: [
-                                            'xlsx'
-                                          ], // ระบุนามสกุลไฟล์ Excel
-                                        );
-
-                                        if (result != null) {
-                                          // ผู้ใช้เลือกไฟล์ Excel แล้วสามารถดำเนินการด้วยไฟล์ที่ได้รับจาก result
-                                          PlatformFile file =
-                                              result.files.first;
-                                          print('เส้นทางไฟล์: ${file.path}');
-                                          print('ชื่อไฟล์: ${file.name}');
-                                        }
+                                        ListattenExport();
                                       },
                                       child: Text('ExportReport'),
                                     )
