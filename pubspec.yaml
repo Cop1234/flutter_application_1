@@ -51,6 +51,13 @@ dependencies:
   shared_preferences: ^2.0.12
   crypto: ^3.0.3
 
+  # path_provider: ^2.0.3
+  download: ^1.0.0
+  essential_xlsx: ^2.0.0
+
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
