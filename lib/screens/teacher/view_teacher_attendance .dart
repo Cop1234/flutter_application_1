@@ -568,7 +568,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
   Widget TimeAndType() {
     if (checkInTimeandType) {
       return Text(
-        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภm : ${type ?? ""}   ",
+        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภท : ${type ?? ""}   ",
         style: CustomTextStyle.mainFontStyle,
       );
     } else {

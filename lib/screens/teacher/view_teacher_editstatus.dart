@@ -459,7 +459,7 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
   Widget TimeAndType() {
     if (checkInTimeandType) {
       return Text(
-        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภm : ${type ?? ""}  Week:${WeekNo} ",
+        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภท : ${type ?? ""}  Week:${WeekNo} ",
         style: CustomTextStyle.mainFontStyle,
       );
     } else {
