@@ -609,7 +609,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                             .map((Map<String, dynamic> room) {
                                           return DropdownMenuItem<String>(
                                             value: room['roomName'],
-                                            child: Text(room['roomName']),
+                                            child: Text(
+                                                '${room['building']} - ${room['roomName']}'),
                                           );
                                         }).toList(),
                                         onChanged: (String? newValue) {

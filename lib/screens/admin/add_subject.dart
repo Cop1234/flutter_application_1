@@ -44,6 +44,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
 
     setState(() {
       subjects = fetchedSubjects;
+      isLoaded = true;
     });
   }
 
