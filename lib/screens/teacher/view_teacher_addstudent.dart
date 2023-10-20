@@ -28,13 +28,12 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
   final SectionController sectionController = SectionController();
   final RegistrationController registrationController =
       RegistrationController();
-  bool? isLoaded = false;
   List<Map<String, dynamic>> data = [];
-
-  int? sectionid;
-
   List<Registration>? registration;
+  List<Registration>? registrationForCheck;
+  int? sectionid;
   Section? section;
+  bool? isLoaded = false;
 
   TextEditingController subjectid = TextEditingController();
   TextEditingController subjectName = TextEditingController();
@@ -77,21 +76,24 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
         await registrationController.do_getViewStudent(sectionId);
 
     setState(() {
-      registration = reg;
-      data = reg
-          .map((reg) => {
-                'userid': reg.user?.userid ?? "",
-              })
-          .toList();
+      registrationForCheck = reg;
       isLoaded = true;
     });
+  }
+
+  // ฟังก์ชันเช็ค userId ว่ามีอยู่ใน registration หรือไม่
+  bool isUserIdExists(String userId) {
+    if (registrationForCheck != null) {
+      return registrationForCheck!.any((reg) => reg.user?.userid == userId);
+    }
+    return false;
   }
 
   void showSuccessToAddUserAlert(String secid) {
     QuickAlert.show(
       context: context,
-      title: "การเพิ่มวิชาสำเร็จ",
-      text: "ข้อมูลวิชาถูกเพิ่มเรียบร้อยแล้ว",
+      title: "การเพิ่มนักศึกษาสำเร็จ",
+      text: "ข้อมูลนักศึกษาถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
       barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
@@ -108,11 +110,12 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
     );
   }
 
-  void showErrorUserExistsAlert(String subjectId) {
+  void showErrorUserIdExistsAlert(String userId) {
     QuickAlert.show(
       context: context,
       title: "แจ้งเตือน",
-      text: "รายชื่อ " + subjectId + " มีอยู่ในระบบแล้ว",
+      text:
+          "นักศึกษารหัส $userId มีอยู่ ${subjectid.text} ${subjectName.text} แล้ว",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
     );
@@ -137,23 +140,23 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
               children: [
                 Center(
                   child: Column(children: [
-                    NavbarTeacher(),
+                    const NavbarTeacher(),
                     Center(
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 30),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Card(
                               elevation: 10,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              color: Color.fromARGB(255, 226, 226, 226),
+                              color: const Color.fromARGB(255, 226, 226, 226),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
@@ -182,7 +185,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                               "ตึก : ${building.text}   ",
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 15,
                                         ),
                                       ],
@@ -204,7 +207,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        color: Color.fromARGB(255, 226, 226, 226),
+                        color: const Color.fromARGB(255, 226, 226, 226),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: IntrinsicWidth(
@@ -212,7 +215,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                               padding: const EdgeInsets.all(30.0),
                               child: Column(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Padding(
@@ -220,12 +223,12 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                         top: 20, bottom: 5),
                                     child: Row(
                                       children: [
-                                        Text(
+                                        const Text(
                                           "รหัสนักศึกษา : ",
                                           style:
                                               CustomTextStyle.createFontStyle,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                             width:
                                                 10), // Adjust the width for spacing
                                         Container(
@@ -234,7 +237,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                             child: TextFormField(
                                               keyboardType: TextInputType.text,
                                               controller: useridController,
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 errorStyle: TextStyle(),
                                                 filled:
                                                     true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -247,9 +250,9 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                     RegExp(r'^[\d]+$')
                                                         .hasMatch(value!);
                                                 if (value.isEmpty) {
-                                                  return "กรุณากรอกรหัสประจำตัวอาจารย์*";
+                                                  return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
                                                 } else if (!subjectIdValid) {
-                                                  return "รหัสอาจารย์ต้องเป็นมีตัวเลขเท่านั้น";
+                                                  return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
                                                 }
                                               },
                                             ),
@@ -258,7 +261,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   Row(
@@ -281,11 +284,11 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                               height: 35,
                                               width: 110,
                                               decoration: BoxDecoration(
-                                                color: maincolor,
+                                                color: Colors.red,
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                               ),
-                                              child: Center(
+                                              child: const Center(
                                                 child: Text("ยกเลิก",
                                                     style: TextStyle(
                                                         color: Colors.white,
@@ -294,24 +297,37 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                             FontWeight.bold)),
                                               )),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 20,
                                         ),
                                         InkWell(
                                           onTap: () async {
                                             if (_formfield.currentState!
                                                 .validate()) {
-                                              http.Response response =
-                                                  await registrationController
-                                                      .do_update(
-                                                useridController.text,
-                                                '${section?.id}',
-                                              );
+                                              String userId =
+                                                  useridController.text;
+                                              // เช็คว่า userId มีอยู่ใน registration หรือไม่
+                                              bool isExists =
+                                                  isUserIdExists(userId);
+                                              if (isExists) {
+                                                // แสดง Alert หรือข้อความว่า userId มีอยู่ในระบบแล้ว
+                                                showErrorUserIdExistsAlert(
+                                                    userId);
+                                              } else {
+                                                // ทำการ addUser เมื่อ userId ไม่ซ้ำ
+                                                http.Response response =
+                                                    await registrationController
+                                                        .do_update(
+                                                  useridController.text,
+                                                  '${section?.id}',
+                                                );
 
-                                              if (response.statusCode == 200) {
-                                                showSuccessToAddUserAlert(
-                                                    '${section?.id}');
-                                                print("บันทึกสำเร็จ");
+                                                if (response.statusCode ==
+                                                    200) {
+                                                  showSuccessToAddUserAlert(
+                                                      '${section?.id}');
+                                                  print("บันทึกสำเร็จ");
+                                                }
                                               }
                                             }
                                           },
