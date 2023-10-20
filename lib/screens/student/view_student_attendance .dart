@@ -177,12 +177,15 @@ class _StudentAttenState extends State<StudentAtten> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
+                                  "ชื่อวิชา : ${subjectName.text}",
+                                  style: CustomTextStyle.mainFontStyle,
+                                ),
+                                Text(
                                   "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "ชื่อวิชา : ${subjectName.text}   " +
-                                      "กลุ่ม : ${sectionNumber.text}   " +
+                                  "กลุ่ม : ${sectionNumber.text}   " +
                                       "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
@@ -429,6 +432,9 @@ class _StudentAttenState extends State<StudentAtten> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ),
