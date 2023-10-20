@@ -15,7 +15,6 @@ class AttendanceScheduleController {
     List<AttendanceSchedule> list = jsonResponse
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
-    //print(list);
     return list;
   }
 
@@ -28,7 +27,6 @@ class AttendanceScheduleController {
     List<AttendanceSchedule> list = jsonResponse
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
-    print(list);
     return list;
   }
 
@@ -60,7 +58,6 @@ class AttendanceScheduleController {
     var url = Uri.parse(baseURL + "/attendanceschedule/add");
     http.Response response =
         await http.post(url, headers: headers, body: jsonData);
-    print(response.body);
     return response;
   }
 
@@ -77,7 +74,6 @@ class AttendanceScheduleController {
     var url = Uri.parse(baseURL + "/attendanceschedule/update");
     http.Response response =
         await http.post(url, headers: headers, body: jsonData);
-    print(response.body);
     return response;
   }
 
@@ -90,8 +86,6 @@ class AttendanceScheduleController {
     List<AttendanceSchedule> list = jsonResponse
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
-    print(list);
-    print(response);
     return list;
   }
 
@@ -110,26 +104,23 @@ class AttendanceScheduleController {
     List<AttendanceSchedule> list = jsonResponse
         .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
         .toList();
-    print(list);
-    print("response : " + response.body);
     return list;
   }
 
-  Future upload(Uint8List file, String? filename, String id) async {
-    Dio dio = Dio();
-    FormData formData = FormData.fromMap({
-      'file': MultipartFile.fromBytes(
-        file,
-        filename: filename,
-        // Provide the desired file name and extension
-      ),
-      'id': id
-    });
-    String url = baseURL + '/registrations/upload';
-
-    Response response = await dio.post(url, data: formData);
-
-    print("Student : " + response.data);
-    return response.statusCode;
+  Future updateAttendanceStatus(List<Map<String, dynamic>> scheduleList) async {
+    try {
+      final response = await http.put(
+        Uri.parse(baseURL +
+            '/attendanceschedule/updatestastus'), // เปลี่ยน URL ไปยัง URL ของ API ของคุณ
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(scheduleList),
+      );
+      return response;
+    } catch (e) {
+      return e;
+      // print('Error: $e');
+    }
   }
 }

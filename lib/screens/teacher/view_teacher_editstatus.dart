@@ -8,7 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/attendanceschedule_controller.dart';
-import 'package:flutter_application_1/screens/teacher/view_teacher_editstatus.dart';
+import 'package:flutter_application_1/screens/teacher/view_teacher_attendance%20.dart';
 
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
@@ -19,24 +19,35 @@ import '../../controller/section_controller.dart';
 import '../../model/attendanceSchedule.dart';
 import '../../model/section.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:http/http.dart' as http;
 
-class TeacherAtten extends StatefulWidget {
+class TeacherEditstatus extends StatefulWidget {
+  final String weeknum;
   final String sectionId;
-  const TeacherAtten({super.key, required this.sectionId});
+
+  const TeacherEditstatus(
+      {super.key, required this.weeknum, required this.sectionId});
 
   @override
-  State<TeacherAtten> createState() => _TeacherAttenState();
+  State<TeacherEditstatus> createState() => _TeacherEditstatusState();
 }
 
-class _TeacherAttenState extends State<TeacherAtten> {
+class _TeacherEditstatusState extends State<TeacherEditstatus> {
   final SectionController sectionController = SectionController();
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
   bool? isLoaded = false;
-  String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-  String? namefile;
+
   String? selectedDropdownValue;
   int? sectionid;
+  // ignore: non_constant_identifier_names
+  String? WeekNo;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<Map<String, dynamic>> data = [];
+  List<AttendanceSchedule>? attendance;
+  String? checkInTime;
+  String? type;
+  bool checkInTimeandType = false;
 
   Section? section;
   TextEditingController subjectid = TextEditingController();
@@ -61,147 +72,67 @@ class _TeacherAttenState extends State<TeacherAtten> {
     room.text = section?.room?.roomName ?? "";
   }
 
-  void userData(String sectionId) async {
+  void userData(String week, String sectionId) async {
     section = await sectionController.get_Section(sectionId);
     setDataToText();
-    setState(() {
-      isLoaded = true;
-    });
-  }
 
-/////////////////////////////////////////////////////////////
-  String weekNum = '1';
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  var weekNumItems = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-  ];
-  List<Map<String, dynamic>> data = [];
-  List<AttendanceSchedule>? attendance;
-  String? checkInTime;
-  String? type;
-  bool checkInTimeandType = false;
-
-  void showAtten(String week, String secid) async {
     List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, secid);
-    showAttenExport(week, secid);
+        .listAttendanceScheduleByWeek(week, sectionId);
+
+    print('week : ' + week + 'secid' + sectionId);
     setState(() {
       attendance = atten;
       data = atten
           .map((atten) => {
+                'attenid': atten.id.toString(),
                 'userid': atten.registration?.user?.userid ?? "",
                 'fname': atten.registration?.user?.fname ?? "",
                 'lname': atten.registration?.user?.lname ?? "",
                 'time': atten.checkInTime ?? "",
                 'type': atten.registration?.section?.type ?? "",
                 'status': atten.status ?? "",
+                'week': atten.weekNo.toString(),
+                'regid': atten.registration ?? "",
               })
           .toList();
       checkInTime = data.isNotEmpty ? data[0]['time'] : null;
       type = data.isNotEmpty ? data[0]['type'] : null;
-      namefile =
-          '${subjectName.text}_Section${sectionNumber.text}_${sectiontype.text}_Week${week.toString()}';
-
+      WeekNo = data.isNotEmpty ? data[0]['week'] : null;
       if (checkInTime != null && type != null) {
         checkInTimeandType = true;
       } else {
         checkInTimeandType = false;
       }
+      isLoaded = true;
     });
   }
 
-//////////////////////////////////////////////////
-  List<Map<String, dynamic>> dataExport = [];
-  List<AttendanceSchedule>? attendanceExport;
+  List<String> statusOptions = ['เข้าเรียนปกติ', 'เข้าเรียนสาย', 'ขาดเรียน'];
 
-  void showAttenExport(String week, String secid) async {
-    List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, secid);
-    setState(() {
-      attendanceExport = atten;
-      dataExport = atten
-          .map((atten) => {
-                'รหัสนักศึกษา': atten.registration?.user?.userid ?? "",
-                'ชื่อ': atten.registration?.user?.fname ?? "",
-                'นามสกุล': atten.registration?.user?.lname ?? "",
-                'เวลาเข้าเรียน': DateFormat('HH:mm:ss')
-                    .format(DateTime.parse(atten.checkInTime ?? "").toLocal()),
-                // 'type': atten.registration?.section?.type ?? "",
-                'สถานะ': atten.status ?? "",
-              })
-          .toList();
-    });
-  }
+///////////////////////////////////////////////////////////////////
 
-  void _download(Stream<int> bytes) {
-    download(bytes, '${namefile.toString()}.xlsx');
-  }
-
-  // ignore: non_constant_identifier_names
-  void ListattenExport() {
-    if (dataExport.isNotEmpty) {
-      final simplexlsx = SimpleXLSX();
-      simplexlsx.sheetName = 'sheet';
-      // เพิ่มข้อมูล
-      var idx = 0;
-      dataExport.forEach((item) {
-        if (idx == 0) {
-          // เพิ่มหัวข้อ
-          simplexlsx.addRow(item.keys.toList());
-        }
-        // เพิ่มข้อมูล
-        simplexlsx.addRow(item.values.map((i) => i.toString()).toList());
-        idx++;
-      });
-
-      final bytes = simplexlsx.build();
-      StreamController<int> streamController = StreamController<int>();
-      bytes.forEach((int value) {
-        streamController.add(value);
-      });
-      streamController.close();
-      Stream<int> integerStream = streamController.stream;
-      _download(integerStream);
-    } else {
-      showErrorExportExistsAlert(weekNum);
-    }
-  }
-
-//////////////////////////////////////////////////
-
-  void showErrorExportExistsAlert(String week) {
+  void showSuccessToChangeUserAlert() {
     QuickAlert.show(
       context: context,
-      title: "แจ้งเตือน",
-      text:
-          "วิชา ${subjectName.text} Section${sectionNumber.text} ${sectiontype.text} Week${week.toString()} ไม่มีข้อมูลการเข้าห้องเรียน",
-      type: QuickAlertType.error,
+      title: "การแก้ไขสถานะสำเร็จ",
+      text: "ข้อมูลสถานะถูกแก้ไขเรียบร้อยแล้ว",
+      type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      onConfirmBtnTap: () {
+        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
+          return TeacherAtten(sectionId: widget.sectionId);
+        }));
+      },
     );
   }
 
   @override
   void initState() {
     super.initState();
-
-    userData(widget.sectionId);
-    showAtten(weekNum, widget.sectionId);
+    print("weekNum sectionId :" + widget.weeknum + widget.sectionId);
+    userData(widget.weeknum, widget.sectionId);
   }
 
   @override
@@ -299,60 +230,10 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                   height: 20,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Row(
                                       children: [
-                                        const Text("สัปดาห์ที่ : ",
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold)),
-                                        Container(
-                                          width: 100,
-                                          height: 40,
-                                          alignment:
-                                              AlignmentDirectional.centerStart,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          // dropdown below..
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            value: weekNum,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                            items: weekNumItems.map(
-                                              (String typesub) {
-                                                return DropdownMenuItem(
-                                                  value: typesub,
-                                                  child: Text(typesub),
-                                                );
-                                              },
-                                            ).toList(),
-                                            onChanged: (String? newValue) {
-                                              setState(() {
-                                                weekNum = newValue!;
-                                                showAtten(
-                                                    newValue, '${section?.id}');
-                                              });
-                                            },
-                                            icon: const Icon(
-                                                Icons.keyboard_arrow_down),
-                                            underline: const SizedBox(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    Row(
-                                      children: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
@@ -362,35 +243,31 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                             ),
                                           ),
                                           onPressed: () async {
+                                            List<Map<String, dynamic>>
+                                                updatedData = data.map((row) {
+                                              return {
+                                                'id': row['attenid'],
+                                                'status': row['status'],
+                                              };
+                                            }).toList();
+
+                                            // เรียกใช้ updateAttendanceSchedules ด้วยรายการที่ถูกแก้ไข
+                                            // await attendanceScheduleController
+                                            //     .updateAttendanceStatus(
+                                            //         updatedData);
                                             await Future.delayed(Duration
                                                 .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                                    MaterialPageRoute(builder:
-                                                        (BuildContext context) {
-                                              return TeacherEditstatus(
-                                                sectionId: widget.sectionId,
-                                                weeknum: weekNum,
-                                              );
-                                            }));
+                                            await attendanceScheduleController
+                                                .updateAttendanceStatus(
+                                                    updatedData)
+                                                .then((result) {
+                                              if (result.statusCode == 200) {
+                                                showSuccessToChangeUserAlert();
+                                                print("บันทึกสำเร็จ");
+                                              }
+                                            });
                                           },
-                                          child: const Text('แก้ไขสถานะ'),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0), // กำหนดมุม
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            ListattenExport();
-                                          },
-                                          child: const Text('ExportReport'),
+                                          child: const Text('Submit'),
                                         ),
                                       ],
                                     )
@@ -531,19 +408,33 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                           ),
                                         ),
                                         DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['status'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
+                                          DropdownButton<String>(
+                                            value: row[
+                                                'status'], // ใช้ค่า status จาก data เป็นค่าเริ่มต้น
+                                            items: statusOptions
+                                                .map((String status) {
+                                              return DropdownMenuItem<String>(
+                                                value: status,
+                                                child: Text(
+                                                  status,
+                                                  style: CustomTextStyle
+                                                      .TextGeneral,
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged:
+                                                (String? selectedStatus) {
+                                              setState(() {
+                                                row['status'] = selectedStatus;
+                                              });
+                                            },
+                                            style: CustomTextStyle.TextGeneral
+                                                .copyWith(
+                                                    color: Colors
+                                                        .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
+                                            dropdownColor: Colors.grey,
                                           ),
                                         ),
-                                        // Add more DataCell as needed
                                       ],
                                     );
                                   }).toList(),
@@ -568,7 +459,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
   Widget TimeAndType() {
     if (checkInTimeandType) {
       return Text(
-        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภท : ${type ?? ""}   ",
+        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภท : ${type ?? ""}  Week:${WeekNo} ",
         style: CustomTextStyle.mainFontStyle,
       );
     } else {
