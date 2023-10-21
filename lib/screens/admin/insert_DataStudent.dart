@@ -109,16 +109,16 @@ class _InsertDataStudent extends State<InsertDataStudent> {
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: Column(children: [
-        NavbarAdmin(),
+        const NavbarAdmin(),
         Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Color.fromARGB(255, 226, 226, 226),
+                color: const Color.fromARGB(255, 226, 226, 226),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
@@ -141,10 +141,21 @@ class _InsertDataStudent extends State<InsertDataStudent> {
                                   ),
                                 ),
                                 ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                    textStyle: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), // กำหนดมุม
+                                    ),
+                                  ),
                                   onPressed: () {
                                     _pickFile(context);
                                   },
-                                  child: Text('เลือกไฟล์'),
+                                  child: const Text('เลือกไฟล์'),
                                 ),
                               ],
                             ),
@@ -153,6 +164,17 @@ class _InsertDataStudent extends State<InsertDataStudent> {
                             padding: const EdgeInsets.all(40),
                             child: Center(
                               child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
+                                    textStyle: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), // กำหนดมุม
+                                    ),
+                                  ),
                                   onPressed: () async {
                                     if (uploadfile != null) {
                                       print("Upload to API!");
@@ -165,7 +187,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
                                       }
                                     }
                                   },
-                                  child: Text("เพิ่ม")),
+                                  child: const Text("เพิ่ม")),
                             ),
                           ),
                         ],

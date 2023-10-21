@@ -25,16 +25,15 @@ class DetailTeacher extends StatefulWidget {
 
 class _DetailTeacherState extends State<DetailTeacher> {
   final UserController userController = UserController();
-
-  //List<Map<String, dynamic>> data = [];
   bool? isLoaded = false;
   bool showData = true;
   bool passToggle = true;
   User? users;
   Login? logins;
+  dynamic dropdownvalue;
+  String? user_id;
 
   TextEditingController user_idController = TextEditingController();
-
   TextEditingController emailController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -62,9 +61,6 @@ class _DetailTeacherState extends State<DetailTeacher> {
   }
 
 //ฟังชั่นโหลดข้อมูลเว็บ
-  dynamic dropdownvalue;
-  String? user_id;
-//ฟังชั่นโหลดข้อมูลเว็บ
   void userData(String id) async {
     setState(() {
       isLoaded = false;
@@ -85,7 +81,6 @@ class _DetailTeacherState extends State<DetailTeacher> {
   @override
   void initState() {
     super.initState();
-    // userData();
     userData(widget.id);
   }
 
@@ -119,16 +114,17 @@ class _DetailTeacherState extends State<DetailTeacher> {
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarAdmin(),
+            const NavbarAdmin(),
             Form(
               key: _formfield,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -157,12 +153,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "อีเมล : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -171,7 +166,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: emailController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -200,11 +195,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "ชื่อ : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -213,7 +208,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: fnameController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -242,11 +237,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "นามกุล : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -255,7 +250,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: lnameController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -284,7 +279,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: <Widget>[
-                                    Text("วันเกิด : ",
+                                    const Text("วันเกิด : ",
                                         style: CustomTextStyle.createFontStyle),
                                     ShowSelectDate(),
                                     ElevatedButton(
@@ -308,7 +303,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                         }
                                       },
                                       child: Row(
-                                        children: [
+                                        children: const [
                                           Icon(
                                             Icons
                                                 .calendar_today, // ไอคอนของปฏิทิน
@@ -320,7 +315,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
 
@@ -330,11 +325,11 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "เพศ : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         //genderController
                                         width:
                                             10), // Adjust the width for spacing
@@ -343,7 +338,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                       height: 40,
                                       alignment:
                                           AlignmentDirectional.centerStart,
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 5),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -353,7 +348,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                       child: DropdownButton<String>(
                                         isExpanded: true,
                                         value: dropdownvalue,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                         ),
                                         items: items.map(
@@ -369,14 +364,15 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                             dropdownvalue = newValue!;
                                           });
                                         },
-                                        icon: Icon(Icons.keyboard_arrow_down),
-                                        underline: SizedBox(),
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
+                                        underline: const SizedBox(),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               Row(
@@ -389,18 +385,18 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return ListTeacher();
+                                        return const ListTeacher();
                                       }));
                                     },
                                     child: Container(
                                         height: 35,
                                         width: 110,
                                         decoration: BoxDecoration(
-                                          color: maincolor,
+                                          color: Colors.red,
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text("ยกเลิก",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -408,7 +404,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                   fontWeight: FontWeight.bold)),
                                         )),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   InkWell(
@@ -442,7 +438,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text("ยืนยัน",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -472,7 +468,7 @@ class _DetailTeacherState extends State<DetailTeacher> {
         style: CustomTextStyle.createFontStyle,
       );
     } else {
-      return SizedBox
+      return const SizedBox
           .shrink(); // ถ้าไม่ควรแสดง QRCODE ให้ใช้ SizedBox.shrink() เพื่อซ่อน
     }
   }

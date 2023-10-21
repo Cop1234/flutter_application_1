@@ -310,7 +310,7 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                       height: 35,
                                       width: 110,
                                       decoration: BoxDecoration(
-                                        color: maincolor,
+                                        color: Colors.red,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: const Center(

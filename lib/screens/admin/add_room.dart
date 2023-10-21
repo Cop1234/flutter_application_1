@@ -136,6 +136,10 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                           fillColor: Colors.white,
                                           border: InputBorder
                                               .none, // กำหนดให้ไม่มีเส้นขอบ
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide
+                                                .none, // กำหนดให้ไม่มีเส้นขอบ
+                                          ),
                                         ),
                                         validator: (value) {
                                           bool roomNameValid =

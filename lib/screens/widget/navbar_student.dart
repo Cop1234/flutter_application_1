@@ -5,7 +5,7 @@ import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../student/edit_student_profile.dart';
+import '../student/detail_student_profile.dart';
 import '../student/view_student_subject.dart';
 
 class NavbarStudent extends StatefulWidget {

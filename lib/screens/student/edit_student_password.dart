@@ -11,7 +11,7 @@ import '../../controller/student_controller.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
-import 'edit_student_profile.dart';
+import 'detail_student_profile.dart';
 
 class DetailEditStudentProfile extends StatefulWidget {
   final String id;
@@ -256,7 +256,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                           height: 35,
                                           width: 110,
                                           decoration: BoxDecoration(
-                                            color: maincolor,
+                                            color: Colors.red,
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),

@@ -18,8 +18,8 @@ import 'package:http/http.dart' as http;
 
 import '../admin/insert_DataStudent.dart';
 import '../widget/mainTextStyle.dart';
-import 'detail_editstudentprofile.dart';
-import 'edit_student_profile.dart';
+import 'edit_student_password.dart';
+import 'detail_student_profile.dart';
 
 class ViewStudentSubject extends StatefulWidget {
   const ViewStudentSubject({super.key});

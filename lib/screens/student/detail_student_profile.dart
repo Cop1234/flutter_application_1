@@ -9,7 +9,7 @@ import '../../controller/student_controller.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
-import 'detail_editstudentprofile.dart';
+import 'edit_student_password.dart';
 
 class EditStudentProfile extends StatefulWidget {
   const EditStudentProfile({super.key});
@@ -149,7 +149,17 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                     ),
                                     Center(
                                       child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(),
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 15),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0), // กำหนดมุม
+                                          ),
+                                        ),
                                         onPressed: () async {
                                           await Future.delayed(Duration
                                               .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen

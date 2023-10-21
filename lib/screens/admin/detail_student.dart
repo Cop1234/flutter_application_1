@@ -102,7 +102,7 @@ class _DetailStudentState extends State<DetailStudent> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListStudent(),
+            builder: (context) => const ListStudent(),
           ),
         );
       },
@@ -116,16 +116,17 @@ class _DetailStudentState extends State<DetailStudent> {
         backgroundColor: Colors.white,
         body: ListView(children: [
           Column(children: [
-            NavbarAdmin(),
+            const NavbarAdmin(),
             Form(
               key: _formfield,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
+                  color: const Color.fromARGB(255, 226, 226, 226),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
@@ -167,12 +168,12 @@ class _DetailStudentState extends State<DetailStudent> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "อีเมล : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
 
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -181,7 +182,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: emailController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -210,11 +211,11 @@ class _DetailStudentState extends State<DetailStudent> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "ชื่อ : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -223,7 +224,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: fnameController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -252,11 +253,11 @@ class _DetailStudentState extends State<DetailStudent> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "นามกุล : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             10), // Adjust the width for spacing
                                     Container(
@@ -265,7 +266,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                         child: TextFormField(
                                           keyboardType: TextInputType.text,
                                           controller: lnameController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             errorStyle: TextStyle(),
                                             filled:
                                                 true, // เปิดการใช้งานการเติมพื้นหลัง
@@ -294,7 +295,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: <Widget>[
-                                    Text("วันเกิด : ",
+                                    const Text("วันเกิด : ",
                                         style: CustomTextStyle.createFontStyle),
                                     Text(
                                         '  ${DateFormat('dd-MM-yyyy').format(selecteData)}  ',
@@ -318,7 +319,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
 
@@ -328,11 +329,11 @@ class _DetailStudentState extends State<DetailStudent> {
                                     const EdgeInsets.only(top: 20, bottom: 5),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "เพศ : ",
                                       style: CustomTextStyle.createFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         //genderController
                                         width:
                                             10), // Adjust the width for spacing
@@ -341,7 +342,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                       height: 40,
                                       alignment:
                                           AlignmentDirectional.centerStart,
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 5),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -351,7 +352,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                       child: DropdownButton<String>(
                                         isExpanded: true,
                                         value: dropdownvalue,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                         ),
                                         items: items.map(
@@ -367,14 +368,15 @@ class _DetailStudentState extends State<DetailStudent> {
                                             dropdownvalue = newValue!;
                                           });
                                         },
-                                        icon: Icon(Icons.keyboard_arrow_down),
-                                        underline: SizedBox(),
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
+                                        underline: const SizedBox(),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               Row(
@@ -387,18 +389,18 @@ class _DetailStudentState extends State<DetailStudent> {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
-                                        return ListStudent();
+                                        return const ListStudent();
                                       }));
                                     },
                                     child: Container(
                                         height: 35,
                                         width: 110,
                                         decoration: BoxDecoration(
-                                          color: maincolor,
+                                          color: Colors.red,
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text("ยกเลิก",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -406,7 +408,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                                   fontWeight: FontWeight.bold)),
                                         )),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   InkWell(
@@ -441,7 +443,7 @@ class _DetailStudentState extends State<DetailStudent> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text("ยืนยัน",
                                               style: TextStyle(
                                                   color: Colors.white,
