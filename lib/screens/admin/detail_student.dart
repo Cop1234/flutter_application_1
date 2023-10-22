@@ -114,355 +114,384 @@ class _DetailStudentState extends State<DetailStudent> {
     return Scaffold(
         appBar: kMyAppBar,
         backgroundColor: Colors.white,
-        body: ListView(children: [
-          Column(children: [
+        body: Column(
+          children: [
             const NavbarAdmin(),
-            Form(
-              key: _formfield,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: const Color.fromARGB(255, 226, 226, 226),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      width: 1000,
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
+            Expanded(
+              child: ListView(children: [
+                Column(children: [
+                  Form(
+                    key: _formfield,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 30),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: const Color.fromARGB(255, 226, 226, 226),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: SizedBox(
+                            width: 1000,
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'ชื่อผู้ใช้ : ${users?.login?.username}',
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "รหัสประจำตัว : " + "${users?.userid}",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "อีเมล : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-
-                                    const SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: emailController,
-                                          decoration: const InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'ชื่อผู้ใช้ : ${users?.login?.username}',
+                                            style:
+                                                CustomTextStyle.createFontStyle,
                                           ),
-                                          validator: (value) {
-                                            bool subjectNameValid = RegExp(
-                                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
-                                                .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกอีเมล*";
-                                            } else if (!subjectNameValid) {
-                                              return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                        ],
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "รหัสประจำตัว : " +
+                                                "${users?.userid}",
+                                            style:
+                                                CustomTextStyle.createFontStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "อีเมล : ",
+                                            style:
+                                                CustomTextStyle.createFontStyle,
+                                          ),
+
+                                          const SizedBox(
+                                              width:
+                                                  10), // Adjust the width for spacing
+                                          Container(
+                                            width: 500,
+                                            child: Expanded(
+                                              child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                controller: emailController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  errorStyle: TextStyle(),
+                                                  filled:
+                                                      true, // เปิดการใช้งานการเติมพื้นหลัง
+                                                  fillColor: Colors.white,
+                                                  border: InputBorder
+                                                      .none, // กำหนดให้ไม่มีเส้นขอบ
+                                                ),
+                                                validator: (value) {
+                                                  bool subjectNameValid = RegExp(
+                                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                                                      .hasMatch(value!);
+                                                  if (value.isEmpty) {
+                                                    return "กรุณากรอกอีเมล*";
+                                                  } else if (!subjectNameValid) {
+                                                    return "กรุณากรอกอีเมลให้ถูกต้อง";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "ชื่อ : ",
+                                            style:
+                                                CustomTextStyle.createFontStyle,
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                                  10), // Adjust the width for spacing
+                                          Container(
+                                            width: 500,
+                                            child: Expanded(
+                                              child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                controller: fnameController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  errorStyle: TextStyle(),
+                                                  filled:
+                                                      true, // เปิดการใช้งานการเติมพื้นหลัง
+                                                  fillColor: Colors.white,
+                                                  border: InputBorder
+                                                      .none, // กำหนดให้ไม่มีเส้นขอบ
+                                                ),
+                                                validator: (value) {
+                                                  bool subjectNameValid =
+                                                      RegExp(r'^[ก-์]+$')
+                                                          .hasMatch(value!);
+                                                  if (value.isEmpty) {
+                                                    return "กรุณากรอกชื่อ*";
+                                                  } else if (!subjectNameValid) {
+                                                    return "ชื่อต้องเป็นภาษาไทยเท่านั้น";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "นามกุล : ",
+                                            style:
+                                                CustomTextStyle.createFontStyle,
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                                  10), // Adjust the width for spacing
+                                          Container(
+                                            width: 500,
+                                            child: Expanded(
+                                              child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                controller: lnameController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  errorStyle: TextStyle(),
+                                                  filled:
+                                                      true, // เปิดการใช้งานการเติมพื้นหลัง
+                                                  fillColor: Colors.white,
+                                                  border: InputBorder
+                                                      .none, // กำหนดให้ไม่มีเส้นขอบ
+                                                ),
+                                                validator: (value) {
+                                                  bool subjectNameValid =
+                                                      RegExp(r'^[ก-์]+$')
+                                                          .hasMatch(value!);
+                                                  if (value.isEmpty) {
+                                                    return "กรุณากรอกนามกุล*";
+                                                  } else if (!subjectNameValid) {
+                                                    return "ชื่อนามกุลต้องเป็นภาษาไทย";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: <Widget>[
+                                          const Text("วันเกิด : ",
+                                              style: CustomTextStyle
+                                                  .createFontStyle),
+                                          Text(
+                                              '  ${DateFormat('dd-MM-yyyy').format(selecteData)}  ',
+                                              style: CustomTextStyle
+                                                  .createFontStyle),
+                                          ElevatedButton(
+                                            child: const Text("Date"),
+                                            onPressed: () async {
+                                              final DateTime? dateTime =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: selecteData,
+                                                      firstDate: DateTime(1000),
+                                                      lastDate: DateTime(3000));
+                                              if (dateTime != null) {
+                                                setState(() {
+                                                  selecteData = dateTime;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+
+                                    //Longtitude
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "เพศ : ",
+                                            style:
+                                                CustomTextStyle.createFontStyle,
+                                          ),
+                                          const SizedBox(
+                                              //genderController
+                                              width:
+                                                  10), // Adjust the width for spacing
+                                          Container(
+                                            width: 100,
+                                            height: 40,
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            // dropdown below..
+                                            child: DropdownButton<String>(
+                                              isExpanded: true,
+                                              value: dropdownvalue,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                              items: items.map(
+                                                (String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Text(items),
+                                                  );
+                                                },
+                                              ).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownvalue = newValue!;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                              underline: const SizedBox(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            await Future.delayed(Duration
+                                                .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                                    MaterialPageRoute(builder:
+                                                        (BuildContext context) {
+                                              return const ListStudent();
+                                            }));
+                                          },
+                                          child: Container(
+                                              height: 35,
+                                              width: 110,
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: const Center(
+                                                child: Text("ยกเลิก",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              )),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            print(user_idController.text);
+                                            if (_formfield.currentState!
+                                                .validate()) {
+                                              http.Response response =
+                                                  await studentController
+                                                      .updateStudent(
+                                                          user_idController
+                                                              .text,
+                                                          emailController.text,
+                                                          fnameController.text,
+                                                          lnameController.text,
+                                                          birthdateController
+                                                              .text = DateFormat(
+                                                                  'dd/MM/yyyy')
+                                                              .format(
+                                                                  selecteData)
+                                                              .toString(),
+                                                          genderController
+                                                                  .text =
+                                                              dropdownvalue);
+
+                                              if (response.statusCode == 200) {
+                                                showSuccessToChangeUserAlert();
+                                                print("บันทึกสำเร็จ");
+                                              }
                                             }
                                           },
+                                          child: Container(
+                                              height: 35,
+                                              width: 110,
+                                              decoration: BoxDecoration(
+                                                color: maincolor,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: const Center(
+                                                child: Text("ยืนยัน",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              )),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "ชื่อ : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                    const SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: fnameController,
-                                          decoration: const InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
-                                          validator: (value) {
-                                            bool subjectNameValid =
-                                                RegExp(r'^[ก-์]+$')
-                                                    .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกชื่อ*";
-                                            } else if (!subjectNameValid) {
-                                              return "ชื่อต้องเป็นภาษาไทยเท่านั้น";
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "นามกุล : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                    const SizedBox(
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 500,
-                                      child: Expanded(
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          controller: lnameController,
-                                          decoration: const InputDecoration(
-                                            errorStyle: TextStyle(),
-                                            filled:
-                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                            fillColor: Colors.white,
-                                            border: InputBorder
-                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                          ),
-                                          validator: (value) {
-                                            bool subjectNameValid =
-                                                RegExp(r'^[ก-์]+$')
-                                                    .hasMatch(value!);
-                                            if (value.isEmpty) {
-                                              return "กรุณากรอกนามกุล*";
-                                            } else if (!subjectNameValid) {
-                                              return "ชื่อนามกุลต้องเป็นภาษาไทย";
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: <Widget>[
-                                    const Text("วันเกิด : ",
-                                        style: CustomTextStyle.createFontStyle),
-                                    Text(
-                                        '  ${DateFormat('dd-MM-yyyy').format(selecteData)}  ',
-                                        style: CustomTextStyle.createFontStyle),
-                                    ElevatedButton(
-                                      child: const Text("Date"),
-                                      onPressed: () async {
-                                        final DateTime? dateTime =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: selecteData,
-                                                firstDate: DateTime(1000),
-                                                lastDate: DateTime(3000));
-                                        if (dateTime != null) {
-                                          setState(() {
-                                            selecteData = dateTime;
-                                          });
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-
-                              //Longtitude
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "เพศ : ",
-                                      style: CustomTextStyle.createFontStyle,
-                                    ),
-                                    const SizedBox(
-                                        //genderController
-                                        width:
-                                            10), // Adjust the width for spacing
-                                    Container(
-                                      width: 100,
-                                      height: 40,
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      // dropdown below..
-                                      child: DropdownButton<String>(
-                                        isExpanded: true,
-                                        value: dropdownvalue,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                        items: items.map(
-                                          (String items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
-                                            );
-                                          },
-                                        ).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
-                                        },
-                                        icon: const Icon(
-                                            Icons.keyboard_arrow_down),
-                                        underline: const SizedBox(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      await Future.delayed(Duration
-                                          .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) {
-                                        return const ListStudent();
-                                      }));
-                                    },
-                                    child: Container(
-                                        height: 35,
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: const Center(
-                                          child: Text("ยกเลิก",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                        )),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      print(user_idController.text);
-                                      if (_formfield.currentState!.validate()) {
-                                        http.Response response =
-                                            await studentController
-                                                .updateStudent(
-                                                    user_idController.text,
-                                                    emailController.text,
-                                                    fnameController.text,
-                                                    lnameController.text,
-                                                    birthdateController.text =
-                                                        DateFormat('dd/MM/yyyy')
-                                                            .format(selecteData)
-                                                            .toString(),
-                                                    genderController.text =
-                                                        dropdownvalue);
-
-                                        if (response.statusCode == 200) {
-                                          showSuccessToChangeUserAlert();
-                                          print("บันทึกสำเร็จ");
-                                        }
-                                      }
-                                    },
-                                    child: Container(
-                                        height: 35,
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                          color: maincolor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: const Center(
-                                          child: Text("ยืนยัน",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            )
-          ]),
-        ]));
+                  )
+                ]),
+              ]),
+            ),
+          ],
+        ));
   }
 }

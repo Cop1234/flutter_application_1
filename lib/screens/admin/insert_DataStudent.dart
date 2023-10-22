@@ -110,94 +110,102 @@ class _InsertDataStudent extends State<InsertDataStudent> {
       backgroundColor: Colors.white,
       body: Column(children: [
         const NavbarAdmin(),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Card(
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: const Color.fromARGB(255, 226, 226, 226),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    width: 1200,
-                    child: Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(30),
-                            child: Row(
+        Expanded(
+          child: ListView(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 30),
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      color: const Color.fromARGB(255, 226, 226, 226),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: SizedBox(
+                          width: 1200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: _controller,
-                                    decoration: const InputDecoration(
-                                      border: UnderlineInputBorder(),
-                                      labelText: "",
-                                    ),
+                                Padding(
+                                  padding: const EdgeInsets.all(30),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: _controller,
+                                          decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(),
+                                            labelText: "",
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 15),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0), // กำหนดมุม
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          _pickFile(context);
+                                        },
+                                        child: const Text('เลือกไฟล์'),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 40, vertical: 15),
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          20.0), // กำหนดมุม
-                                    ),
+                                Padding(
+                                  padding: const EdgeInsets.all(40),
+                                  child: Center(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 15),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                20.0), // กำหนดมุม
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          if (uploadfile != null) {
+                                            print("Upload to API!");
+
+                                            var response =
+                                                await studentController.upload(
+                                                    uploadfile!, fileName);
+                                            if (response == 200) {
+                                              showSuccessToAddStudentAlert();
+                                              print("บันทึกสำเร็จ");
+                                            }
+                                          }
+                                        },
+                                        child: const Text("เพิ่ม")),
                                   ),
-                                  onPressed: () {
-                                    _pickFile(context);
-                                  },
-                                  child: const Text('เลือกไฟล์'),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Center(
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 40, vertical: 15),
-                                    textStyle: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          20.0), // กำหนดมุม
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    if (uploadfile != null) {
-                                      print("Upload to API!");
-
-                                      var response = await studentController
-                                          .upload(uploadfile!, fileName);
-                                      if (response == 200) {
-                                        showSuccessToAddStudentAlert();
-                                        print("บันทึกสำเร็จ");
-                                      }
-                                    }
-                                  },
-                                  child: const Text("เพิ่ม")),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ]),
     );
