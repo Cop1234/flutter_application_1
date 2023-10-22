@@ -147,54 +147,291 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: ListView(
+      body: Column(
         children: [
-          Center(
-            child: Column(children: [
-              NavbarTeacher(),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 10,
+          const NavbarTeacher(),
+          Expanded(
+            child: ListView(
+              children: [
+                Center(
+                  child: Column(children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 30),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Card(
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              color: const Color.fromARGB(255, 226, 226, 226),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: SizedBox(
+                                  width: 1200,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "รหัสวิชา : ${subjectid.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "ชื่อวิชา : ${subjectName.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "กลุ่ม : ${sectionNumber.text}   " +
+                                              "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "ห้อง : ${room.text}   " +
+                                              "ตึก : ${building.text}   ",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    ),
+                  ]),
+                ),
+                Center(
+                  child: Column(
+                    children: [
                       Card(
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        color: Color.fromARGB(255, 226, 226, 226),
+                        color: const Color.fromARGB(255, 226, 226, 226),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: 1200,
+                          child: IntrinsicWidth(
                             child: Padding(
                               padding: const EdgeInsets.all(30.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "รหัสวิชา : ${subjectid.text}",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
-                                  Text(
-                                    "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
-                                  Text(
-                                    "ชื่อวิชา : ${subjectName.text}   " +
-                                        "กลุ่ม : ${sectionNumber.text}   " +
-                                        "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                        "ห้อง : ${room.text}   " +
-                                        "ตึก : ${building.text}   ",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
                                   SizedBox(
-                                    height: 15,
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            setState(() {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(builder:
+                                                          (BuildContext
+                                                              context) {
+                                                return TeacherAddStudent(
+                                                    sectionId:
+                                                        '${section?.id}');
+                                              }));
+                                            });
+                                          },
+                                          child: Container(
+                                              height: 35,
+                                              width: 110,
+                                              decoration: BoxDecoration(
+                                                color: maincolor,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: const Center(
+                                                child: Text("เพิ่มนักศึกษา",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              )),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  DataTable(
+                                    headingRowColor:
+                                        MaterialStateColor.resolveWith(
+                                            (states) => maincolor),
+                                    dataRowColor:
+                                        MaterialStateColor.resolveWith(
+                                            (states) => Colors.black),
+                                    columns: const <DataColumn>[
+                                      DataColumn(
+                                        label: SizedBox(
+                                          width:
+                                              200, // กำหนดความกว้างของ DataColumn
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'รหัสนักศึกษา',
+                                              style:
+                                                  CustomTextStyle.TextHeadBar,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: SizedBox(
+                                          width:
+                                              200, // กำหนดความกว้างของ DataColumn
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'ชื่อ',
+                                              style:
+                                                  CustomTextStyle.TextHeadBar,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: SizedBox(
+                                          width:
+                                              200, // กำหนดความกว้างของ DataColumn
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'นามสกุล',
+                                              style:
+                                                  CustomTextStyle.TextHeadBar,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                        label: SizedBox(
+                                          width:
+                                              200, // กำหนดความกว้างของ DataColumn
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'จัดการ',
+                                              style:
+                                                  CustomTextStyle.TextHeadBar,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // Add more DataColumn as needed
+                                    ],
+                                    rows: data.asMap().entries.map((entry) {
+                                      Map<String, dynamic> row = entry.value;
+                                      return DataRow(
+                                        cells: <DataCell>[
+                                          DataCell(Container(
+                                            width: 200,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                row['userid'],
+                                                style:
+                                                    CustomTextStyle.TextGeneral,
+                                              ),
+                                            ),
+                                          )),
+                                          DataCell(
+                                            Container(
+                                              width: 200,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  row['fname'],
+                                                  style: CustomTextStyle
+                                                      .TextGeneral,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataCell(
+                                            Container(
+                                              width: 200,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  row['lname'],
+                                                  style: CustomTextStyle
+                                                      .TextGeneral,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataCell(Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Container(
+                                              width: 200,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: PopupMenuButton(
+                                                  icon: const Icon(
+                                                    Icons.settings,
+                                                    color: Colors.white,
+                                                  ),
+                                                  itemBuilder: (context) => [
+                                                    PopupMenuItem(
+                                                      child: Row(
+                                                        children: const <
+                                                            Widget>[
+                                                          Icon(Icons.delete,
+                                                              color:
+                                                                  Colors.black),
+                                                          SizedBox(width: 10.0),
+                                                          Text('ลบ'),
+                                                        ],
+                                                      ),
+                                                      onTap: () {
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 0),
+                                                            () => showSureToDeleteStudent(
+                                                                row['id']
+                                                                    .toString(),
+                                                                '${section?.id}'));
+                                                        //String? gg = row['id'].toString() ?? "";
+                                                        //print(gg);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                          // Add more DataCell as needed
+                                        ],
+                                      );
+                                    }).toList(),
                                   ),
                                 ],
                               ),
@@ -203,209 +440,6 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-            ]),
-          ),
-          Center(
-            child: Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Color.fromARGB(255, 226, 226, 226),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: IntrinsicWidth(
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 15),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      setState(() {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return TeacherAddStudent(
-                                              sectionId: '${section?.id}');
-                                        }));
-                                      });
-                                    },
-                                    child: Container(
-                                        height: 35,
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                          color: maincolor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: Center(
-                                          child: Text("เพิ่มนักศึกษา",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                        )),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            DataTable(
-                              headingRowColor: MaterialStateColor.resolveWith(
-                                  (states) => maincolor),
-                              dataRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.black),
-                              columns: const <DataColumn>[
-                                DataColumn(
-                                  label: SizedBox(
-                                    width: 200, // กำหนดความกว้างของ DataColumn
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'รหัสนักศึกษา',
-                                        style: CustomTextStyle.TextHeadBar,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: SizedBox(
-                                    width: 200, // กำหนดความกว้างของ DataColumn
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'ชื่อ',
-                                        style: CustomTextStyle.TextHeadBar,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: SizedBox(
-                                    width: 200, // กำหนดความกว้างของ DataColumn
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'นามสกุล',
-                                        style: CustomTextStyle.TextHeadBar,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: SizedBox(
-                                    width: 200, // กำหนดความกว้างของ DataColumn
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'จัดการ',
-                                        style: CustomTextStyle.TextHeadBar,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Add more DataColumn as needed
-                              ],
-                              rows: data.asMap().entries.map((entry) {
-                                Map<String, dynamic> row = entry.value;
-                                return DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Container(
-                                      width: 200,
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          row['userid'],
-                                          style: CustomTextStyle.TextGeneral,
-                                        ),
-                                      ),
-                                    )),
-                                    DataCell(
-                                      Container(
-                                        width: 200,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            row['fname'],
-                                            style: CustomTextStyle.TextGeneral,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Container(
-                                        width: 200,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            row['lname'],
-                                            style: CustomTextStyle.TextGeneral,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: Container(
-                                        width: 200,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: PopupMenuButton(
-                                            icon: Icon(
-                                              Icons.settings,
-                                              color: Colors.white,
-                                            ),
-                                            itemBuilder: (context) => [
-                                              PopupMenuItem(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Icon(Icons.delete,
-                                                        color: Colors.black),
-                                                    SizedBox(width: 10.0),
-                                                    Text('ลบ'),
-                                                  ],
-                                                ),
-                                                onTap: () {
-                                                  Future.delayed(
-                                                      const Duration(
-                                                          seconds: 0),
-                                                      () =>
-                                                          showSureToDeleteStudent(
-                                                              row['id']
-                                                                  .toString(),
-                                                              '${section?.id}'));
-                                                  //String? gg = row['id'].toString() ?? "";
-                                                  //print(gg);
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )),
-                                    // Add more DataCell as needed
-                                  ],
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],

@@ -140,318 +140,351 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: ListView(children: [
-        const NavbarTeacher(),
-        Column(
-          children: [
-            Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: const Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 1200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "รหัสวิชา : ${subjectid.text}",
-                                  style: CustomTextStyle.mainFontStyle,
+      body: Column(
+        children: [
+          const NavbarTeacher(),
+          Expanded(
+            child: ListView(children: [
+              Column(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 226, 226, 226),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 1200,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "รหัสวิชา : ${subjectid.text}",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
+                                      Text(
+                                        "ชื่อวิชา : ${subjectName.text}",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
+                                      Text(
+                                        "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
+                                      Text(
+                                        "กลุ่ม : ${sectionNumber.text}   " +
+                                            "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
+                                      Text(
+                                        "ห้อง : ${room.text}   " +
+                                            "ตึก : ${building.text}   ",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
+                                      TimeAndType(),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "ชื่อวิชา : ${subjectName.text}   " +
-                                      "กลุ่ม : ${sectionNumber.text}   " +
-                                      "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                Text(
-                                  "ห้อง : ${room.text}   " +
-                                      "ตึก : ${building.text}   ",
-                                  style: CustomTextStyle.mainFontStyle,
-                                ),
-                                TimeAndType(),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: const Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: IntrinsicWidth(
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0), // กำหนดมุม
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            List<Map<String, dynamic>>
-                                                updatedData = data.map((row) {
-                                              return {
-                                                'id': row['attenid'],
-                                                'status': row['status'],
-                                              };
-                                            }).toList();
-
-                                            // เรียกใช้ updateAttendanceSchedules ด้วยรายการที่ถูกแก้ไข
-                                            // await attendanceScheduleController
-                                            //     .updateAttendanceStatus(
-                                            //         updatedData);
-                                            await Future.delayed(Duration
-                                                .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                            await attendanceScheduleController
-                                                .updateAttendanceStatus(
-                                                    updatedData)
-                                                .then((result) {
-                                              if (result.statusCode == 200) {
-                                                showSuccessToChangeUserAlert();
-                                                print("บันทึกสำเร็จ");
-                                              }
-                                            });
-                                          },
-                                          child: const Text('Submit'),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                DataTable(
-                                  headingRowColor:
-                                      MaterialStateColor.resolveWith(
-                                          (states) => maincolor),
-                                  dataRowColor: MaterialStateColor.resolveWith(
-                                      (states) => Colors.black),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            200, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'รหัสนักศึกษา',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 226, 226, 226),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: IntrinsicWidth(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30.0),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 20,
                                       ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            150, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ชื่อ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            150, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'นามสกุล',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            150, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'เวลา',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            150, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'สถานะ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Add more DataColumn as needed
-                                  ],
-                                  rows: data.asMap().entries.map((entry) {
-                                    Map<String, dynamic> row = entry.value;
-                                    return DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(Container(
-                                          width: 200,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['userid'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
-                                            ),
-                                          ),
-                                        )),
-                                        DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['fname'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['lname'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                DateFormat('HH:mm:ss').format(
-                                                    DateTime.parse(row['time'])
-                                                        .toLocal()),
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          DropdownButton<String>(
-                                            value: row[
-                                                'status'], // ใช้ค่า status จาก data เป็นค่าเริ่มต้น
-                                            items: statusOptions
-                                                .map((String status) {
-                                              return DropdownMenuItem<String>(
-                                                value: status,
-                                                child: Text(
-                                                  status,
-                                                  style: CustomTextStyle
-                                                      .TextGeneral,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 40,
+                                                      vertical: 15),
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0), // กำหนดมุม
+                                                  ),
                                                 ),
-                                              );
-                                            }).toList(),
-                                            onChanged:
-                                                (String? selectedStatus) {
-                                              setState(() {
-                                                row['status'] = selectedStatus;
-                                              });
-                                            },
-                                            style: CustomTextStyle.TextGeneral
-                                                .copyWith(
-                                                    color: Colors
-                                                        .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
-                                            dropdownColor: Colors.grey,
+                                                onPressed: () async {
+                                                  List<Map<String, dynamic>>
+                                                      updatedData =
+                                                      data.map((row) {
+                                                    return {
+                                                      'id': row['attenid'],
+                                                      'status': row['status'],
+                                                    };
+                                                  }).toList();
+
+                                                  // เรียกใช้ updateAttendanceSchedules ด้วยรายการที่ถูกแก้ไข
+                                                  // await attendanceScheduleController
+                                                  //     .updateAttendanceStatus(
+                                                  //         updatedData);
+                                                  await Future.delayed(Duration
+                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                  await attendanceScheduleController
+                                                      .updateAttendanceStatus(
+                                                          updatedData)
+                                                      .then((result) {
+                                                    if (result.statusCode ==
+                                                        200) {
+                                                      showSuccessToChangeUserAlert();
+                                                      print("บันทึกสำเร็จ");
+                                                    }
+                                                  });
+                                                },
+                                                child: const Text('ตกลง'),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      DataTable(
+                                        headingRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => maincolor),
+                                        dataRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.black),
+                                        columns: const <DataColumn>[
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  200, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'รหัสนักศึกษา',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  }).toList(),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  150, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'ชื่อ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  150, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'นามสกุล',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  150, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'เวลา',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  150, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'สถานะ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          // Add more DataColumn as needed
+                                        ],
+                                        rows: data.asMap().entries.map((entry) {
+                                          Map<String, dynamic> row =
+                                              entry.value;
+                                          return DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(Container(
+                                                width: 200,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    row['userid'],
+                                                    style: CustomTextStyle
+                                                        .TextGeneral,
+                                                  ),
+                                                ),
+                                              )),
+                                              DataCell(
+                                                Container(
+                                                  width: 150,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['fname'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Container(
+                                                  width: 150,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['lname'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Container(
+                                                  width: 150,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      DateFormat('HH:mm:ss')
+                                                          .format(DateTime
+                                                                  .parse(row[
+                                                                      'time'])
+                                                              .toLocal()),
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                DropdownButton<String>(
+                                                  value: row[
+                                                      'status'], // ใช้ค่า status จาก data เป็นค่าเริ่มต้น
+                                                  items: statusOptions
+                                                      .map((String status) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: status,
+                                                      child: Text(
+                                                        status,
+                                                        style: CustomTextStyle
+                                                            .TextGeneral,
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  onChanged:
+                                                      (String? selectedStatus) {
+                                                    setState(() {
+                                                      row['status'] =
+                                                          selectedStatus;
+                                                    });
+                                                  },
+                                                  style: CustomTextStyle
+                                                          .TextGeneral
+                                                      .copyWith(
+                                                          color: Colors
+                                                              .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
+                                                  dropdownColor: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        )
-      ]),
+                  ),
+                ],
+              )
+            ]),
+          ),
+        ],
+      ),
     );
   }
 

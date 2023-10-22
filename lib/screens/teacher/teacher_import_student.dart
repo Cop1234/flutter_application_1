@@ -101,7 +101,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ListClassScreen(),
+            builder: (context) => const ListClassScreen(),
           ),
         );
       },
@@ -125,7 +125,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
 
         // สามารถลบบรรทัดนี้ได้หากไม่ต้องการแสดงผล response
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File uploaded successfully')),
+          const SnackBar(content: Text('File uploaded successfully')),
         );
       }
     } catch (e) {
@@ -148,146 +148,188 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     return Scaffold(
         appBar: kMyAppBar,
         backgroundColor: Colors.white,
-        body: ListView(
+        body: Column(
           children: [
-            Center(
-              child: Column(children: [
-                NavbarTeacher(),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 10,
+            const NavbarTeacher(),
+            Expanded(
+              child: ListView(
+                children: [
+                  Center(
+                    child: Column(children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 30),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Card(
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                color: const Color.fromARGB(255, 226, 226, 226),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: SizedBox(
+                                    width: 1200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(30.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "รหัสวิชา : ${subjectid.text}",
+                                            style:
+                                                CustomTextStyle.mainFontStyle,
+                                          ),
+                                          Text(
+                                            "ชื่อวิชา : ${subjectName.text}",
+                                            style:
+                                                CustomTextStyle.mainFontStyle,
+                                          ),
+                                          Text(
+                                            "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                            style:
+                                                CustomTextStyle.mainFontStyle,
+                                          ),
+                                          Text(
+                                            "กลุ่ม : ${sectionNumber.text}   " +
+                                                "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                            style:
+                                                CustomTextStyle.mainFontStyle,
+                                          ),
+                                          Text(
+                                            "ห้อง : ${room.text}   " +
+                                                "ตึก : ${building.text}   ",
+                                            style:
+                                                CustomTextStyle.mainFontStyle,
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        Card(
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: Color.fromARGB(255, 226, 226, 226),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: SizedBox(
-                              width: 1200,
-                              child: Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "รหัสวิชา : ${subjectid.text}",
-                                      style: CustomTextStyle.mainFontStyle,
-                                    ),
-                                    Text(
-                                      "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                      style: CustomTextStyle.mainFontStyle,
-                                    ),
-                                    Text(
-                                      "ชื่อวิชา : ${subjectName.text}   " +
-                                          "กลุ่ม : ${sectionNumber.text}   " +
-                                          "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                          "ห้อง : ${room.text}   " +
-                                          "ตึก : ${building.text}   ",
-                                      style: CustomTextStyle.mainFontStyle,
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                  ],
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 30),
+                          child: Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 226, 226, 226),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 1200,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(30),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: _controller,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  border:
+                                                      UnderlineInputBorder(),
+                                                  labelText: "",
+                                                ),
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40,
+                                                        vertical: 15),
+                                                textStyle: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0), // กำหนดมุม
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                _pickFile(context);
+                                              },
+                                              child: const Text('เลือกไฟล์'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(40),
+                                        child: Center(
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40,
+                                                        vertical: 15),
+                                                textStyle: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0), // กำหนดมุม
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                if (uploadfile != null) {
+                                                  print("Upload to API!");
+
+                                                  var response =
+                                                      await registrationController
+                                                          .upload(
+                                                              uploadfile!,
+                                                              fileName,
+                                                              '${section?.id.toString()}');
+                                                  if (response == 200) {
+                                                    showSuccessToAddStudentAlert();
+                                                    print("บันทึกสำเร็จ");
+                                                  }
+                                                }
+                                              },
+                                              child: const Text("เพิ่ม")),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 1200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(30),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextFormField(
-                                          controller: _controller,
-                                          decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(),
-                                            labelText: "",
-                                          ),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                20.0), // กำหนดมุม
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          _pickFile(context);
-                                        },
-                                        child: const Text('เลือกไฟล์'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(40),
-                                  child: Center(
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                20.0), // กำหนดมุม
-                                          ),
-                                        ),
-                                        onPressed: () async {
-                                          if (uploadfile != null) {
-                                            print("Upload to API!");
-
-                                            var response =
-                                                await registrationController.upload(
-                                                    uploadfile!,
-                                                    fileName,
-                                                    '${section?.id.toString()}');
-                                            if (response == 200) {
-                                              showSuccessToAddStudentAlert();
-                                              print("บันทึกสำเร็จ");
-                                            }
-                                          }
-                                        },
-                                        child: const Text("เพิ่ม")),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                       ),
-                    ),
+                    ]),
                   ),
-                ),
-              ]),
+                ],
+              ),
             ),
           ],
         ));

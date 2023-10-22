@@ -166,129 +166,144 @@ class _TeacherQRState extends State<TeacherQR> {
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: ListView(
+      body: Column(
         children: [
-          Center(
-            child: Column(children: [
-              const NavbarTeacher(),
-              Center(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        width: 10,
+          const NavbarTeacher(),
+          Expanded(
+            child: ListView(
+              children: [
+                Center(
+                  child: Column(children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 30),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Card(
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              color: const Color.fromARGB(255, 226, 226, 226),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: SizedBox(
+                                  width: 1200,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "รหัสวิชา : ${subjectid.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "ชื่อวิชา : ${subjectName.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "กลุ่ม : ${sectionNumber.text}   " +
+                                              "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        Text(
+                                          "ห้อง : ${room.text}   " +
+                                              "ตึก : ${building.text}   ",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        color: const Color.fromARGB(255, 226, 226, 226),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: 1200,
-                            child: Padding(
-                              padding: const EdgeInsets.all(30.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "รหัสวิชา : ${subjectid.text}",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
-                                  Text(
-                                    "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
-                                  Text(
-                                    "ชื่อวิชา : ${subjectName.text}   " +
-                                        "กลุ่ม : ${sectionNumber.text}   " +
-                                        "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                        "ห้อง : ${room.text}   " +
-                                        "ตึก : ${building.text}   ",
-                                    style: CustomTextStyle.mainFontStyle,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                ],
+                    ),
+                  ]),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          color: const Color.fromARGB(255, 226, 226, 226),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: SizedBox(
+                              width: 1200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                        height:
+                                            16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
+                                    Row(
+                                      children: [
+                                        const Center(
+                                          child: Text("Week : "),
+                                        ),
+                                        Center(
+                                          child: DropdownButton<String>(
+                                            value: selectedDropdownValue,
+                                            onChanged: onChangedDropdown,
+                                            items: dropdownItems
+                                                .map<DropdownMenuItem<String>>(
+                                                    (String item) {
+                                              return DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(item),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    Center(
+                                      child: buildQRCodeWidget(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Card(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    color: const Color.fromARGB(255, 226, 226, 226),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: SizedBox(
-                        width: 1200,
-                        child: Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                  height:
-                                      16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
-                              Row(
-                                children: [
-                                  const Center(
-                                    child: Text("Week : "),
-                                  ),
-                                  Center(
-                                    child: DropdownButton<String>(
-                                      value: selectedDropdownValue,
-                                      onChanged: onChangedDropdown,
-                                      items: dropdownItems
-                                          .map<DropdownMenuItem<String>>(
-                                              (String item) {
-                                        return DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(item),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Center(
-                                child: buildQRCodeWidget(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

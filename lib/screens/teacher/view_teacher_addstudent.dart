@@ -132,26 +132,93 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: ListView(
+      body: Column(
         children: [
-          Form(
-            key: _formfield,
-            child: Column(
+          const NavbarTeacher(),
+          Expanded(
+            child: ListView(
               children: [
-                Center(
-                  child: Column(children: [
-                    const NavbarTeacher(),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 30),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 10,
+                Form(
+                  key: _formfield,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Column(children: [
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 30),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Card(
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    color: const Color.fromARGB(
+                                        255, 226, 226, 226),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: SizedBox(
+                                        width: 1200,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(30.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "รหัสวิชา : ${subjectid.text}",
+                                                style: CustomTextStyle
+                                                    .mainFontStyle,
+                                              ),
+                                              Text(
+                                                "ชื่อวิชา : ${subjectName.text}",
+                                                style: CustomTextStyle
+                                                    .mainFontStyle,
+                                              ),
+                                              Text(
+                                                "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
+                                                style: CustomTextStyle
+                                                    .mainFontStyle,
+                                              ),
+                                              Text(
+                                                "กลุ่ม : ${sectionNumber.text}   " +
+                                                    "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                                style: CustomTextStyle
+                                                    .mainFontStyle,
+                                              ),
+                                              Text(
+                                                "ห้อง : ${room.text}   " +
+                                                    "ตึก : ${building.text}   ",
+                                                style: CustomTextStyle
+                                                    .mainFontStyle,
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                          ),
+                        ]),
+                      ),
+                      Center(
+                        child: Column(
+                          children: [
                             Card(
                               elevation: 10,
                               shape: RoundedRectangleBorder(
@@ -159,35 +226,158 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                               color: const Color.fromARGB(255, 226, 226, 226),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: SizedBox(
-                                  width: 1200,
+                                child: IntrinsicWidth(
                                   child: Padding(
                                     padding: const EdgeInsets.all(30.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "รหัสวิชา : ${subjectid.text}",
-                                          style: CustomTextStyle.mainFontStyle,
+                                        const SizedBox(
+                                          height: 20,
                                         ),
-                                        Text(
-                                          "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
-                                          style: CustomTextStyle.mainFontStyle,
-                                        ),
-                                        Text(
-                                          "ชื่อวิชา : ${subjectName.text}   " +
-                                              "กลุ่ม : ${sectionNumber.text}   " +
-                                              "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                              "ห้อง : ${room.text}   " +
-                                              "ตึก : ${building.text}   ",
-                                          style: CustomTextStyle.mainFontStyle,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 20, bottom: 5),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                "รหัสนักศึกษา : ",
+                                                style: CustomTextStyle
+                                                    .createFontStyle,
+                                              ),
+                                              const SizedBox(
+                                                  width:
+                                                      10), // Adjust the width for spacing
+                                              Container(
+                                                width: 500,
+                                                child: Expanded(
+                                                  child: TextFormField(
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    controller:
+                                                        useridController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      errorStyle: TextStyle(),
+                                                      filled:
+                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
+                                                      fillColor: Colors.white,
+                                                      border: InputBorder
+                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
+                                                    ),
+                                                    validator: (value) {
+                                                      bool subjectIdValid =
+                                                          RegExp(r'^[\d]+$')
+                                                              .hasMatch(value!);
+                                                      if (value.isEmpty) {
+                                                        return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
+                                                      } else if (!subjectIdValid) {
+                                                        return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 15,
                                         ),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  await Future.delayed(Duration
+                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                    return TeacherViewStudent(
+                                                      sectionId:
+                                                          '${section?.id}',
+                                                    );
+                                                  }));
+                                                },
+                                                child: Container(
+                                                    height: 35,
+                                                    width: 110,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Text("ยกเลิก",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    )),
+                                              ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  if (_formfield.currentState!
+                                                      .validate()) {
+                                                    String userId =
+                                                        useridController.text;
+                                                    // เช็คว่า userId มีอยู่ใน registration หรือไม่
+                                                    bool isExists =
+                                                        isUserIdExists(userId);
+                                                    if (isExists) {
+                                                      // แสดง Alert หรือข้อความว่า userId มีอยู่ในระบบแล้ว
+                                                      showErrorUserIdExistsAlert(
+                                                          userId);
+                                                    } else {
+                                                      // ทำการ addUser เมื่อ userId ไม่ซ้ำ
+                                                      http.Response response =
+                                                          await registrationController
+                                                              .do_update(
+                                                        useridController.text,
+                                                        '${section?.id}',
+                                                      );
+
+                                                      if (response.statusCode ==
+                                                          200) {
+                                                        showSuccessToAddUserAlert(
+                                                            '${section?.id}');
+                                                        print("บันทึกสำเร็จ");
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                child: Container(
+                                                    height: 35,
+                                                    width: 110,
+                                                    decoration: BoxDecoration(
+                                                      color: maincolor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Text("ยืนยัน",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    )),
+                                              ),
+                                            ])
                                       ],
                                     ),
                                   ),
@@ -195,164 +385,6 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                Center(
-                  child: Column(
-                    children: [
-                      Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        color: const Color.fromARGB(255, 226, 226, 226),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: IntrinsicWidth(
-                            child: Padding(
-                              padding: const EdgeInsets.all(30.0),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 20, bottom: 5),
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          "รหัสนักศึกษา : ",
-                                          style:
-                                              CustomTextStyle.createFontStyle,
-                                        ),
-                                        const SizedBox(
-                                            width:
-                                                10), // Adjust the width for spacing
-                                        Container(
-                                          width: 500,
-                                          child: Expanded(
-                                            child: TextFormField(
-                                              keyboardType: TextInputType.text,
-                                              controller: useridController,
-                                              decoration: const InputDecoration(
-                                                errorStyle: TextStyle(),
-                                                filled:
-                                                    true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                fillColor: Colors.white,
-                                                border: InputBorder
-                                                    .none, // กำหนดให้ไม่มีเส้นขอบ
-                                              ),
-                                              validator: (value) {
-                                                bool subjectIdValid =
-                                                    RegExp(r'^[\d]+$')
-                                                        .hasMatch(value!);
-                                                if (value.isEmpty) {
-                                                  return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
-                                                } else if (!subjectIdValid) {
-                                                  return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            await Future.delayed(Duration
-                                                .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                                    MaterialPageRoute(builder:
-                                                        (BuildContext context) {
-                                              return TeacherViewStudent(
-                                                sectionId: '${section?.id}',
-                                              );
-                                            }));
-                                          },
-                                          child: Container(
-                                              height: 35,
-                                              width: 110,
-                                              decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: const Center(
-                                                child: Text("ยกเลิก",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        InkWell(
-                                          onTap: () async {
-                                            if (_formfield.currentState!
-                                                .validate()) {
-                                              String userId =
-                                                  useridController.text;
-                                              // เช็คว่า userId มีอยู่ใน registration หรือไม่
-                                              bool isExists =
-                                                  isUserIdExists(userId);
-                                              if (isExists) {
-                                                // แสดง Alert หรือข้อความว่า userId มีอยู่ในระบบแล้ว
-                                                showErrorUserIdExistsAlert(
-                                                    userId);
-                                              } else {
-                                                // ทำการ addUser เมื่อ userId ไม่ซ้ำ
-                                                http.Response response =
-                                                    await registrationController
-                                                        .do_update(
-                                                  useridController.text,
-                                                  '${section?.id}',
-                                                );
-
-                                                if (response.statusCode ==
-                                                    200) {
-                                                  showSuccessToAddUserAlert(
-                                                      '${section?.id}');
-                                                  print("บันทึกสำเร็จ");
-                                                }
-                                              }
-                                            }
-                                          },
-                                          child: Container(
-                                              height: 35,
-                                              width: 110,
-                                              decoration: BoxDecoration(
-                                                color: maincolor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: const Center(
-                                                child: Text("ยืนยัน",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              )),
-                                        ),
-                                      ])
-                                ],
-                              ),
-                            ),
-                          ),
                         ),
                       ),
                     ],
