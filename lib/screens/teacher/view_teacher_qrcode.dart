@@ -24,8 +24,8 @@ class _TeacherQRState extends State<TeacherQR> {
   final SectionController sectionController = SectionController();
   bool? isLoaded;
   String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-  Timer? timer;
-  String? selectedDropdownValue;
+
+  String? selectedDropdownValue = "1";
   bool showQRCode = false;
   int? sectionid;
 
@@ -94,15 +94,21 @@ class _TeacherQRState extends State<TeacherQR> {
 
   void onChangedDropdown(String? newValue) {
     setState(() {
-      startTimer();
-
+      // Stop the existing countdown timer if it's running
+      timecountdown?.cancel();
+      QRCode?.cancel();
       selectedDropdownValue = newValue;
       showQRCode = true;
+      // Start a new countdown timer
+      startTimer();
+      // Reset the QR code
+      Qrcodereset();
+      countdown = 10;
     });
   }
 
 //////////////////////////////////////////////////////////////////////////////
-
+  Timer? QRCode;
   // สร้าง QR code และเปลี่ยนข้อมูลทุก 10 วินาที
   void generateQRCode() {
     setState(() {
@@ -111,16 +117,23 @@ class _TeacherQRState extends State<TeacherQR> {
     });
   }
 
+  void Qrcodereset() {
+    if (stop == false) {
+      QRCode = Timer.periodic(const Duration(seconds: 10), (QRCode) {
+        generateQRCode();
+        Qrcodereset();
+      });
+    }
+  }
+
+////////////////////////////////////////////////////////////////////////////
   int countdown = 10;
 
   Timer? timecountdown;
+
   // เริ่มต้น Timer
   void startTimer() {
     if (stop == false) {
-      timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-        generateQRCode();
-      });
-
       timecountdown =
           Timer.periodic(const Duration(seconds: 1), (timecountdown) {
         setState(() {
