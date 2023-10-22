@@ -24,7 +24,7 @@ class _TeacherQRState extends State<TeacherQR> {
   final SectionController sectionController = SectionController();
   bool? isLoaded;
   String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-
+  int countdown = 30;
   String? selectedDropdownValue = "1";
   bool showQRCode = false;
   int? sectionid;
@@ -103,12 +103,13 @@ class _TeacherQRState extends State<TeacherQR> {
       startTimer();
       // Reset the QR code
       Qrcodereset();
-      countdown = 10;
+      countdown = 30;
     });
   }
 
 //////////////////////////////////////////////////////////////////////////////
   Timer? QRCode;
+  int? timeqrcode;
   // สร้าง QR code และเปลี่ยนข้อมูลทุก 10 วินาที
   void generateQRCode() {
     setState(() {
@@ -119,15 +120,15 @@ class _TeacherQRState extends State<TeacherQR> {
 
   void Qrcodereset() {
     if (stop == false) {
-      QRCode = Timer.periodic(const Duration(seconds: 10), (QRCode) {
+      QRCode = Timer.periodic(const Duration(seconds: 30), (QRCode) {
         generateQRCode();
         Qrcodereset();
       });
+      print('QRCODE $timeqrcode');
     }
   }
 
 ////////////////////////////////////////////////////////////////////////////
-  int countdown = 10;
 
   Timer? timecountdown;
 
@@ -140,7 +141,7 @@ class _TeacherQRState extends State<TeacherQR> {
           if (countdown > 1) {
             countdown--;
           } else {
-            countdown = 10; // รีเซ็ตนับถอยหลังเป็น 10 วินาทีอีกครั้ง
+            countdown = 30;
           }
         });
       });
@@ -154,6 +155,9 @@ class _TeacherQRState extends State<TeacherQR> {
 
     userData(widget.sectionId);
     selectedDropdownValue = dropdownItems[0];
+    setState(() {
+      timeqrcode = countdown;
+    });
   }
 
   @override
@@ -317,9 +321,8 @@ class _TeacherQRState extends State<TeacherQR> {
         children: [
           Center(
             child: QrImage(
-              data: qrData +
-                  ",Week:" +
-                  selectedDropdownValue.toString(), // ข้อมูล QR code
+              data:
+                  '$qrData,Week:$selectedDropdownValue,timelimit:$timeqrcode', // ข้อมูล QR code
               version: QrVersions.auto,
               size: 200.0,
             ),
