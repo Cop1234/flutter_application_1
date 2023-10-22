@@ -244,12 +244,15 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
+                                  "ชื่อวิชา : ${subjectName.text}",
+                                  style: CustomTextStyle.mainFontStyle,
+                                ),
+                                Text(
                                   "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
                                 Text(
-                                  "ชื่อวิชา : ${subjectName.text}   " +
-                                      "กลุ่ม : ${sectionNumber.text}   " +
+                                  "กลุ่ม : ${sectionNumber.text}   " +
                                       "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
@@ -355,6 +358,11 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                       children: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 40, vertical: 15),
+                                            textStyle: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(
@@ -381,6 +389,11 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                         ),
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 40, vertical: 17),
+                                            textStyle: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(

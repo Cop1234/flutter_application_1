@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/user_controller.dart';
 import '../../model/user.dart';
-import 'detail_editteacherprofile.dart';
+import 'edit_teacher_password.dart';
 
 class EditProfileTeacherScreen extends StatefulWidget {
   const EditProfileTeacherScreen({super.key});
@@ -85,22 +85,23 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Column(children: [
-            NavbarTeacher(),
+            const NavbarTeacher(),
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      color: Color.fromARGB(255, 226, 226, 226),
+                      color: const Color.fromARGB(255, 226, 226, 226),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -135,12 +136,17 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                   "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
                                   style: CustomTextStyle.mainFontStyle,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Center(
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40, vertical: 15),
+                                      textStyle: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(
                                             20.0), // กำหนดมุม
@@ -156,7 +162,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                             id: '${users?.id.toString()}');
                                       }));
                                     },
-                                    child: Text("แก้ไขรหัสผ่าน"),
+                                    child: const Text("แก้ไขรหัสผ่าน"),
                                   ),
                                 )
                               ],

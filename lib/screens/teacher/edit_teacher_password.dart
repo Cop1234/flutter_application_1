@@ -10,7 +10,7 @@ import '../../color.dart';
 import '../../model/user.dart';
 import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
-import 'edit_teacher_profile.dart';
+import 'detail_teacher_profile.dart';
 
 class DetailEditTeacherProfile extends StatefulWidget {
   final String id;

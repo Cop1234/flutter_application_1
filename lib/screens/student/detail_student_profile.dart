@@ -87,9 +87,9 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         backgroundColor: Colors.white,
         body: ListView(
           children: [
+            const NavbarStudent(),
             Center(
               child: Column(children: [
-                const NavbarStudent(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

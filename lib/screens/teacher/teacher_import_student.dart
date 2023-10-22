@@ -183,18 +183,24 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                       style: CustomTextStyle.mainFontStyle,
                                     ),
                                     Text(
+                                      "ชื่อวิชา : ${subjectName.text}",
+                                      style: CustomTextStyle.mainFontStyle,
+                                    ),
+                                    Text(
                                       "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
                                       style: CustomTextStyle.mainFontStyle,
                                     ),
                                     Text(
-                                      "ชื่อวิชา : ${subjectName.text}   " +
-                                          "กลุ่ม : ${sectionNumber.text}   " +
-                                          "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                          "ห้อง : ${room.text}   " +
+                                      "กลุ่ม : ${sectionNumber.text}   " +
+                                          "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                      style: CustomTextStyle.mainFontStyle,
+                                    ),
+                                    Text(
+                                      "ห้อง : ${room.text}   " +
                                           "ตึก : ${building.text}   ",
                                       style: CustomTextStyle.mainFontStyle,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                   ],
@@ -238,6 +244,11 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                       ),
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 15),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 20.0), // กำหนดมุม
@@ -256,6 +267,11 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                   child: Center(
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40, vertical: 15),
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 20.0), // กำหนดมุม

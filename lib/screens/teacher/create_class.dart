@@ -569,7 +569,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     textStyle: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
-                                    primary: Colors.blue,
+                                    primary: Colors.red,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(
                                           20.0), // กำหนดมุม

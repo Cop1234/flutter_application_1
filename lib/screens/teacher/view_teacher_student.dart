@@ -96,15 +96,16 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
         children: [
           Center(
             child: Column(children: [
-              NavbarTeacher(),
+              const NavbarTeacher(),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Card(
@@ -127,18 +128,24 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                     style: CustomTextStyle.mainFontStyle,
                                   ),
                                   Text(
+                                    "ชื่อวิชา : ${subjectName.text}",
+                                    style: CustomTextStyle.mainFontStyle,
+                                  ),
+                                  Text(
                                     "อาจารย์ : ${teacherFName.text} ${teacherLName.text}",
                                     style: CustomTextStyle.mainFontStyle,
                                   ),
                                   Text(
-                                    "ชื่อวิชา : ${subjectName.text}   " +
-                                        "กลุ่ม : ${sectionNumber.text}   " +
-                                        "เวลา : ${DateFormat('jm').format(sectionTime)}   " +
-                                        "ห้อง : ${room.text}   " +
+                                    "กลุ่ม : ${sectionNumber.text}   " +
+                                        "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                    style: CustomTextStyle.mainFontStyle,
+                                  ),
+                                  Text(
+                                    "ห้อง : ${room.text}   " +
                                         "ตึก : ${building.text}   ",
                                     style: CustomTextStyle.mainFontStyle,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                 ],
