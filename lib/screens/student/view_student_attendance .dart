@@ -198,7 +198,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "รหัสวิชา : ${subjectid.text} ประเภท : ${regsubjecttype.text}",
+                                        "รหัสวิชา : ${subjectid.text}",
                                         style: CustomTextStyle.mainFontStyle,
                                       ),
                                       Text(
@@ -210,8 +210,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                         style: CustomTextStyle.mainFontStyle,
                                       ),
                                       Text(
-                                        "กลุ่ม : ${sectionNumber.text}   " +
-                                            "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                        "กลุ่ม : ${sectionNumber.text} เวลา : ${DateFormat('jm').format(sectionTime)} ประเภท : ${regsubjecttype.text}",
                                         style: CustomTextStyle.mainFontStyle,
                                       ),
                                       Text(
