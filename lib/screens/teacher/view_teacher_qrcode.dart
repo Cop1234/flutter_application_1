@@ -66,9 +66,10 @@ class _TeacherQRState extends State<TeacherQR> {
       startTimeForQR = section?.startTime;
       formattedStartTime = startTimeForQR?.replaceAll(':', '-');
       qrData =
-          'TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
+          'DateScan:${DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()},TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
       isLoaded = true;
     });
+    print('ทดสอบ QR ${qrData}');
   }
 
 ////////////////////////////// dropdownItems ////////////////////////////////////////////////
@@ -114,7 +115,7 @@ class _TeacherQRState extends State<TeacherQR> {
   void generateQRCode() {
     setState(() {
       qrData =
-          'TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
+          'DateScan:${DateFormat('dd-MM-yyyy').format(DateTime.now()).toString()},TimeScan:${DateFormat('HH-mm-ss').format(DateTime.now()).toString()},Section:${section?.id},StartTime:$formattedStartTime';
     });
   }
 
@@ -131,7 +132,6 @@ class _TeacherQRState extends State<TeacherQR> {
 ////////////////////////////////////////////////////////////////////////////
 
   Timer? timecountdown;
-
   // เริ่มต้น Timer
   void startTimer() {
     if (stop == false) {
@@ -273,14 +273,33 @@ class _TeacherQRState extends State<TeacherQR> {
                                         height:
                                             16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         const Center(
-                                          child: Text("Week : "),
+                                          child: Text("สัปดาห์ที่ : ",
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold)),
                                         ),
-                                        Center(
+                                        Container(
+                                          width: 100,
+                                          height: 40,
+                                          alignment:
+                                              AlignmentDirectional.centerStart,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          // dropdown below..s
                                           child: DropdownButton<String>(
+                                            isExpanded: true,
                                             value: selectedDropdownValue,
-                                            onChanged: onChangedDropdown,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
                                             items: dropdownItems
                                                 .map<DropdownMenuItem<String>>(
                                                     (String item) {
@@ -289,11 +308,17 @@ class _TeacherQRState extends State<TeacherQR> {
                                                 child: Text(item),
                                               );
                                             }).toList(),
+                                            onChanged: onChangedDropdown,
+                                            icon: const Icon(
+                                                Icons.keyboard_arrow_down),
+                                            underline: const SizedBox(),
                                           ),
                                         ),
                                       ],
                                     ),
-
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                     Center(
                                       child: buildQRCodeWidget(),
                                     ),
@@ -321,11 +346,15 @@ class _TeacherQRState extends State<TeacherQR> {
         children: [
           Center(
             child: QrImage(
-              data:
-                  '$qrData,Week:$selectedDropdownValue,timelimit:$timeqrcode', // ข้อมูล QR code
-              version: QrVersions.auto,
-              size: 200.0,
-            ),
+                data:
+                    '$qrData,Week:$selectedDropdownValue,timelimit:$timeqrcode', // ข้อมูล QR code
+                version: QrVersions.auto,
+                size: 400.0,
+                foregroundColor: Colors.green // สีของรหัส QR นั้นเอง
+                ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Center(
             child: Text(
