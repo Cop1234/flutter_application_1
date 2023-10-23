@@ -123,4 +123,17 @@ class AttendanceScheduleController {
       // print('Error: $e');
     }
   }
+
+  Future listAttendanceScheduleByRegistrationId(String RegistrationId) async {
+    var url = Uri.parse(
+        baseURL + '/attendanceschedule/listbyregistrationid/' + RegistrationId);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<AttendanceSchedule> list = jsonResponse
+        .map((e) => AttendanceSchedule.formJsonToAttendanceSchedule(e))
+        .toList();
+    print(list);
+    return list;
+  }
 }

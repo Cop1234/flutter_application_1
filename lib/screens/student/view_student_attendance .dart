@@ -2,29 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
+import 'package:flutter_application_1/controller/Registration_Controller.dart';
 import 'package:flutter_application_1/controller/attendanceschedule_controller.dart';
+import 'package:flutter_application_1/model/registration.dart';
 
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_student.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/section_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../model/attendanceSchedule.dart';
 import '../../model/section.dart';
+import '../../model/user.dart';
 
 class StudentAtten extends StatefulWidget {
   final String sectionId;
-  final String idUser;
-  const StudentAtten(
-      {super.key, required this.sectionId, required this.idUser});
+  final String regid;
+  const StudentAtten({super.key, required this.sectionId, required this.regid});
 
   @override
   State<StudentAtten> createState() => _StudentAttenState();
 }
 
 class _StudentAttenState extends State<StudentAtten> {
+  final UserController userController = UserController();
+  final RegistrationController registrationController =
+      RegistrationController();
   final SectionController sectionController = SectionController();
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
@@ -34,8 +41,10 @@ class _StudentAttenState extends State<StudentAtten> {
   String? selectedDropdownValue;
 
   int? sectionid;
-
+  String? iduser;
   Section? section;
+  User? user;
+  Registration? registration;
   TextEditingController subjectid = TextEditingController();
   TextEditingController subjectName = TextEditingController();
   TextEditingController teacherFName = TextEditingController();
@@ -59,6 +68,13 @@ class _StudentAttenState extends State<StudentAtten> {
   }
 
   void userData(String sectionId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    if (username != null) {
+      user = await userController.get_UserByUsername(username);
+      iduser = user?.id.toString();
+      regData(sectionId, iduser!);
+    }
     section = await sectionController.get_Section(sectionId);
     setDataToText();
     setState(() {
@@ -66,62 +82,70 @@ class _StudentAttenState extends State<StudentAtten> {
     });
   }
 
+  TextEditingController reguserid = TextEditingController();
+  TextEditingController regfname = TextEditingController();
+  TextEditingController reglname = TextEditingController();
+  TextEditingController regsubjecttype = TextEditingController();
+
+  void setregData() {
+    reguserid.text = registration?.user?.userid ?? "";
+    regfname.text = registration?.user?.fname ?? "";
+    reglname.text = registration?.user?.lname ?? "";
+    regsubjecttype.text = registration?.section?.type ?? "";
+  }
+
+  void regData(String secid, String iduser) async {
+    registration = await registrationController
+        .get_RegistrationIdBySectionIdandIdUser(secid, iduser);
+    setregData();
+  }
+
 /////////////////////////////////////////////////////////////
-  String weekNum = '1';
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  var weekNumItems = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-  ];
   List<Map<String, dynamic>> data = [];
   List<AttendanceSchedule>? attendance;
 
-  String? checkInTime;
-  String? type;
-  bool checkInTimeandType = false;
+  String? attenuserid;
+  String? attenfname;
+  String? attenlname;
+  bool checkuseridandname = false;
 
-  void showAtten(String week, String secid, String idUser) async {
-    print(week + " : " + secid + " : " + idUser);
+  void showAtten(String regId) async {
     List<AttendanceSchedule> atten = await attendanceScheduleController
-        .get_ListAttendanceStudent(week, secid, idUser);
+        .listAttendanceScheduleByRegistrationId(regId);
 
-    print(atten);
     setState(() {
       attendance = atten;
+
       data = atten
-          .map((atten) => {
-                'userid': atten.registration?.user?.userid ?? "",
-                'fname': atten.registration?.user?.fname ?? "",
-                'lname': atten.registration?.user?.lname ?? "",
-                'time': atten.checkInTime ?? "",
-                'type': atten.registration?.section?.type ?? "",
-                'status': atten.status ?? "",
+          .map((attenData) => {
+                'userid': attenData.registration?.user?.userid ?? "",
+                'fname': attenData.registration?.user?.fname ?? "",
+                'lname': attenData.registration?.user?.lname ?? "",
+                'week': attenData.weekNo
+                    .toString(), // แก้ตรงนี้เพื่อให้แต่ละแถวมีค่า week ต่างกัน
+                'time': attenData.checkInTime ?? "",
+                'status': attenData.status ?? "",
               })
           .toList();
 
-      checkInTime = data.isNotEmpty ? data[0]['time'] : null;
-      type = data.isNotEmpty ? data[0]['type'] : null;
+      // data = List.generate(15, (index) {
+      //   if (atten != null && index < atten.length) {
+      //     AttendanceSchedule attenData = atten[index];
+      //     return {
 
-      if (checkInTime != null && type != null) {
-        checkInTimeandType = true;
-      } else {
-        checkInTimeandType = false;
-      }
+      //     };
+      //   } else {
+      //     return {
+      //       'userid': null,
+      //       'fname': null,
+      //       'lname': null,
+      //       'week': null, // แก้ตรงนี้เพื่อให้แต่ละแถวมีค่า week ต่างกัน
+      //       'time': null,
+      //       'status': null,
+      //     };
+      //   }}
+      // );
     });
   }
 
@@ -131,10 +155,7 @@ class _StudentAttenState extends State<StudentAtten> {
     super.initState();
 
     userData(widget.sectionId);
-    showAtten(weekNum, widget.sectionId, widget.idUser);
-    setState(() {
-      Iduser = widget.idUser;
-    });
+    showAtten(widget.regid);
   }
 
   @override
@@ -177,7 +198,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "รหัสวิชา : ${subjectid.text}",
+                                        "รหัสวิชา : ${subjectid.text} ประเภท : ${regsubjecttype.text}",
                                         style: CustomTextStyle.mainFontStyle,
                                       ),
                                       Text(
@@ -198,7 +219,10 @@ class _StudentAttenState extends State<StudentAtten> {
                                             "ตึก : ${building.text}   ",
                                         style: CustomTextStyle.mainFontStyle,
                                       ),
-                                      TimeAndType(),
+                                      Text(
+                                        "รหัสนักศึกษา :  ${reguserid.text} ชื่อ : ${regfname.text} ${reglname.text}",
+                                        style: CustomTextStyle.mainFontStyle,
+                                      ),
                                       const SizedBox(
                                         height: 15,
                                       ),
@@ -230,60 +254,6 @@ class _StudentAttenState extends State<StudentAtten> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Text("สัปดาห์ที่ : ",
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold)),
-                                        Container(
-                                          width: 150,
-                                          height: 40,
-                                          alignment:
-                                              AlignmentDirectional.centerStart,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          // dropdown below..
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            value: weekNum,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                            items: weekNumItems.map(
-                                              (String typesub) {
-                                                return DropdownMenuItem(
-                                                  value: typesub,
-                                                  child: Text(typesub),
-                                                );
-                                              },
-                                            ).toList(),
-                                            onChanged: (String? newValue) {
-                                              //print('USERID : ' + Iduser!);
-                                              setState(() {
-                                                weekNum = newValue!;
-                                                showAtten(newValue,
-                                                    '${section?.id}', Iduser!);
-                                              });
-                                            },
-                                            icon:
-                                                Icon(Icons.keyboard_arrow_down),
-                                            underline: SizedBox(),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
                                     DataTable(
                                       headingRowColor:
                                           MaterialStateColor.resolveWith(
@@ -295,11 +265,11 @@ class _StudentAttenState extends State<StudentAtten> {
                                         DataColumn(
                                           label: SizedBox(
                                             width:
-                                                200, // กำหนดความกว้างของ DataColumn
+                                                150, // กำหนดความกว้างของ DataColumn
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
-                                                'รหัสนักศึกษา',
+                                                'สัปดาห์',
                                                 style:
                                                     CustomTextStyle.TextHeadBar,
                                               ),
@@ -309,35 +279,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                         DataColumn(
                                           label: SizedBox(
                                             width:
-                                                150, // กำหนดความกว้างของ DataColumn
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                'ชื่อ',
-                                                style:
-                                                    CustomTextStyle.TextHeadBar,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: SizedBox(
-                                            width:
-                                                150, // กำหนดความกว้างของ DataColumn
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                'นามสกุล',
-                                                style:
-                                                    CustomTextStyle.TextHeadBar,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: SizedBox(
-                                            width:
-                                                150, // กำหนดความกว้างของ DataColumn
+                                                300, // กำหนดความกว้างของ DataColumn
                                             child: Align(
                                               alignment: Alignment.center,
                                               child: Text(
@@ -367,26 +309,36 @@ class _StudentAttenState extends State<StudentAtten> {
                                       ],
                                       rows: data.asMap().entries.map((entry) {
                                         Map<String, dynamic> row = entry.value;
+
                                         return DataRow(
                                           cells: <DataCell>[
-                                            DataCell(Container(
-                                              width: 200,
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  row['userid'],
-                                                  style: CustomTextStyle
-                                                      .TextGeneral,
-                                                ),
-                                              ),
-                                            )),
                                             DataCell(
                                               Container(
                                                 width: 150,
                                                 child: Align(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    row['fname'],
+                                                    row['week'] ?? "",
+                                                    style: CustomTextStyle
+                                                        .TextGeneral,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Container(
+                                                width: 300,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    row['time'] != null
+                                                        ? DateFormat(
+                                                                'dd/MM/yyyy HH:mm:ss')
+                                                            .format(DateTime
+                                                                    .parse(row[
+                                                                        'time'])
+                                                                .toLocal())
+                                                        : "",
                                                     style: CustomTextStyle
                                                         .TextGeneral,
                                                   ),
@@ -399,44 +351,13 @@ class _StudentAttenState extends State<StudentAtten> {
                                                 child: Align(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    row['lname'],
+                                                    row['status'] ?? "",
                                                     style: CustomTextStyle
                                                         .TextGeneral,
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            DataCell(
-                                              Container(
-                                                width: 150,
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    DateFormat('HH:mm:ss')
-                                                        .format(DateTime.parse(
-                                                                row['time'])
-                                                            .toLocal()),
-                                                    style: CustomTextStyle
-                                                        .TextGeneral,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-                                            DataCell(
-                                              Container(
-                                                width: 150,
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    row['status'],
-                                                    style: CustomTextStyle
-                                                        .TextGeneral,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            // Add more DataCell as needed
                                           ],
                                         );
                                       }).toList(),
@@ -460,17 +381,5 @@ class _StudentAttenState extends State<StudentAtten> {
         ],
       ),
     );
-  }
-
-  // ignore: non_constant_identifier_names
-  Widget TimeAndType() {
-    if (checkInTimeandType) {
-      return Text(
-        "วันที่เข้าเรียน : ${DateFormat('dd-MM-yyyy').format(DateTime.parse(checkInTime!).toLocal())}  ประเภท : ${type ?? ""}   ",
-        style: CustomTextStyle.mainFontStyle,
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
   }
 }

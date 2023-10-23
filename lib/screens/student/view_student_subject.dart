@@ -55,6 +55,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
           registration = reg;
           data = reg
               .map((reg) => {
+                    'regid': reg.id ?? "",
                     'id': reg.section?.id ?? "",
                     'subjectid': reg.section?.course?.subject?.subjectId ?? "",
                     'subjectName':
@@ -295,8 +296,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                 itemBuilder: (context) => [
                                                   PopupMenuItem(
                                                       child: Row(
-                                                        children: const <
-                                                            Widget>[
+                                                        children: const <Widget>[
                                                           Icon(
                                                               Icons
                                                                   .change_circle,
@@ -318,7 +318,8 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                           return StudentAtten(
                                                             sectionId: row['id']
                                                                 .toString(),
-                                                            idUser: IdUser!,
+                                                            regid: row['regid']
+                                                                .toString(),
                                                           );
                                                         }));
                                                       }),

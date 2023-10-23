@@ -140,7 +140,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                 'รหัสนักศึกษา': atten.registration?.user?.userid ?? "",
                 'ชื่อ': atten.registration?.user?.fname ?? "",
                 'นามสกุล': atten.registration?.user?.lname ?? "",
-                'เวลาเข้าเรียน': DateFormat('HH:mm:ss')
+                'เวลาเข้าเรียน': DateFormat('dd-MM-yyyy HH:mm:ss')
                     .format(DateTime.parse(atten.checkInTime ?? "").toLocal()),
                 // 'type': atten.registration?.section?.type ?? "",
                 'สถานะ': atten.status ?? "",
