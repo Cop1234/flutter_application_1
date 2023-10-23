@@ -89,4 +89,16 @@ class RegistrationController {
     print(response.body);
     return response;
   }
+
+  Future get_RegistrationIdBySectionIdandIdUser(
+      String sectionId, String IdUser) async {
+    var url = Uri.parse(
+        baseURL + '/registrations/getregid/' + sectionId + '/' + IdUser);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    var jsonResponse = json.decode(utf8Body);
+    Registration registration =
+        Registration.formJsonToRegistration(jsonResponse);
+    return registration;
+  }
 }
