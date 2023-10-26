@@ -123,229 +123,258 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const NavbarStudent(),
-          Expanded(
-            child: ListView(
+      body: isLoaded == false
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(maincolor),
+                  ),
+                ),
+              ],
+            )
+          : Column(
               children: [
-                Column(
-                  children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    ),
-                    Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: const Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: IntrinsicWidth(
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                DataTable(
-                                  headingRowColor:
-                                      MaterialStateColor.resolveWith(
-                                          (states) => maincolor),
-                                  dataRowColor: MaterialStateColor.resolveWith(
-                                      (states) => Colors.black),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'รหัสวิชา',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
+                const NavbarStudent(),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 30),
+                          ),
+                          Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 226, 226, 226),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: IntrinsicWidth(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30.0),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 20,
                                       ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            400, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ชื่อวิชา',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            150, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ประเภท',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'กลุ่ม',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'จัดการ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Add more DataColumn as needed
-                                  ],
-                                  rows: data.asMap().entries.map((entry) {
-                                    Map<String, dynamic> row = entry.value;
-                                    return DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(Container(
-                                          width: 100,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              row['subjectid'],
-                                              style:
-                                                  CustomTextStyle.TextGeneral,
-                                            ),
-                                          ),
-                                        )),
-                                        DataCell(
-                                          Container(
-                                            width: 400,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: AutoSizeText(
-                                                row['subjectName'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign
-                                                    .center, // จัดให้อยู่ตรงกลาง
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['type'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 100,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['group'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        DataCell(Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Container(
-                                            width: 100,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: PopupMenuButton(
-                                                icon: const Icon(
-                                                  Icons.settings,
-                                                  color: Colors.white,
+                                      DataTable(
+                                        headingRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => maincolor),
+                                        dataRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.black),
+                                        columns: const <DataColumn>[
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  100, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'รหัสวิชา',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
                                                 ),
-                                                itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      child: Row(
-                                                        children: const <Widget>[
-                                                          Icon(
-                                                              Icons
-                                                                  .change_circle,
-                                                              color:
-                                                                  Colors.black),
-                                                          SizedBox(width: 10.0),
-                                                          Text('ดูการเข้าห้อง'),
-                                                        ],
-                                                      ),
-                                                      onTap: () async {
-                                                        await Future.delayed(
-                                                            Duration
-                                                                .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                        Navigator.of(context)
-                                                            .pushReplacement(
-                                                                MaterialPageRoute(builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                          return StudentAtten(
-                                                            sectionId: row['id']
-                                                                .toString(),
-                                                            regid: row['regid']
-                                                                .toString(),
-                                                          );
-                                                        }));
-                                                      }),
-                                                ],
                                               ),
                                             ),
                                           ),
-                                        )),
-                                        // Add more DataCell as needed
-                                      ],
-                                    );
-                                  }).toList(),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  400, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'ชื่อวิชา',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  150, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'ประเภท',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  100, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'กลุ่ม',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  100, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'จัดการ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          // Add more DataColumn as needed
+                                        ],
+                                        rows: data.asMap().entries.map((entry) {
+                                          Map<String, dynamic> row =
+                                              entry.value;
+                                          return DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(Container(
+                                                width: 100,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    row['subjectid'],
+                                                    style: CustomTextStyle
+                                                        .TextGeneral,
+                                                  ),
+                                                ),
+                                              )),
+                                              DataCell(
+                                                Container(
+                                                  width: 400,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: AutoSizeText(
+                                                      row['subjectName'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign: TextAlign
+                                                          .center, // จัดให้อยู่ตรงกลาง
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Container(
+                                                  width: 150,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['type'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Container(
+                                                  width: 100,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['group'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(Padding(
+                                                padding:
+                                                    const EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 100,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: PopupMenuButton(
+                                                      icon: const Icon(
+                                                        Icons.settings,
+                                                        color: Colors.white,
+                                                      ),
+                                                      itemBuilder: (context) =>
+                                                          [
+                                                        PopupMenuItem(
+                                                            child: Row(
+                                                              children: const <
+                                                                  Widget>[
+                                                                Icon(
+                                                                    Icons
+                                                                        .change_circle,
+                                                                    color: Colors
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width:
+                                                                        10.0),
+                                                                Text(
+                                                                    'ดูการเข้าห้อง'),
+                                                              ],
+                                                            ),
+                                                            onTap: () async {
+                                                              await Future.delayed(
+                                                                  Duration
+                                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pushReplacement(
+                                                                      MaterialPageRoute(builder:
+                                                                          (BuildContext
+                                                                              context) {
+                                                                return StudentAtten(
+                                                                  sectionId: row[
+                                                                          'id']
+                                                                      .toString(),
+                                                                  regid: row[
+                                                                          'regid']
+                                                                      .toString(),
+                                                                );
+                                                              }));
+                                                            }),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              )),
+                                              // Add more DataCell as needed
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

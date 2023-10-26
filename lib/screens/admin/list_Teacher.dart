@@ -135,260 +135,292 @@ class _ListTeacherState extends State<ListTeacher>
     return Scaffold(
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const NavbarAdmin(),
-          Expanded(
-            child: ListView(
+      body: isLoaded == false
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(maincolor),
+                  ),
+                ),
+              ],
+            )
+          : Column(
               children: [
-                Column(
-                  children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    ),
-                    Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      color: const Color.fromARGB(255, 226, 226, 226),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 1100,
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 15),
-                                      child: InkWell(
-                                        onTap: () async {
-                                          setState(() {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                                    MaterialPageRoute(builder:
-                                                        (BuildContext context) {
-                                              return const AddTeacher();
-                                            }));
-                                          });
-                                        },
-                                        child: Container(
-                                            height: 35,
-                                            width: 110,
-                                            decoration: BoxDecoration(
-                                              color: maincolor,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: const Center(
-                                              child: Text("เพิ่มอาจารย์",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                DataTable(
-                                  headingRowColor:
-                                      MaterialStateColor.resolveWith(
-                                          (states) => maincolor),
-                                  dataRowColor: MaterialStateColor.resolveWith(
-                                      (states) => Colors.black),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ลำดับ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            300, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'ชื่อ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            300, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'นามสกุล',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        width:
-                                            100, // กำหนดความกว้างของ DataColumn
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'จัดการ',
-                                            style: CustomTextStyle.TextHeadBar,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Add more DataColumn as needed
-                                  ],
-                                  rows: data.asMap().entries.map((entry) {
-                                    int index =
-                                        entry.key + 1; // นับลำดับเริ่มจาก 1
-                                    Map<String, dynamic> row = entry.value;
-                                    isTeacherIdInDataForCheck(row['id']);
-                                    bool isTeacherEnabled =
-                                        isTeacherInUse; // ตั้งค่าตัวแปร isRoomEnabled เป็นค่า isRoomInUse
-                                    return DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(Container(
-                                          width: 100,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(index.toString(),
-                                                style: CustomTextStyle
-                                                    .TextGeneral),
-                                          ),
-                                        )),
-                                        DataCell(
-                                          Container(
-                                            width: 300,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['fname'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
+                const NavbarAdmin(),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 30),
+                          ),
+                          Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 226, 226, 226),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 1100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 15),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                setState(() {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                    return const AddTeacher();
+                                                  }));
+                                                });
+                                              },
+                                              child: Container(
+                                                  height: 35,
+                                                  width: 110,
+                                                  decoration: BoxDecoration(
+                                                    color: maincolor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  child: const Center(
+                                                    child: Text("เพิ่มอาจารย์",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  )),
                                             ),
                                           ),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 300,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                row['lname'],
-                                                style:
-                                                    CustomTextStyle.TextGeneral,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        DataCell(Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Container(
-                                            width: 100,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: PopupMenuButton(
-                                                icon: const Icon(
-                                                  Icons.settings,
-                                                  color: Colors.white,
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      DataTable(
+                                        headingRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => maincolor),
+                                        dataRowColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.black),
+                                        columns: const <DataColumn>[
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  100, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'ลำดับ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
                                                 ),
-                                                itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      child: Row(
-                                                        children: const <
-                                                            Widget>[
-                                                          Icon(
-                                                              Icons
-                                                                  .change_circle,
-                                                              color:
-                                                                  Colors.black),
-                                                          SizedBox(width: 10.0),
-                                                          Text('แก้ไข'),
-                                                        ],
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  300, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'ชื่อ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  300, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'นามสกุล',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn(
+                                            label: SizedBox(
+                                              width:
+                                                  100, // กำหนดความกว้างของ DataColumn
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'จัดการ',
+                                                  style: CustomTextStyle
+                                                      .TextHeadBar,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          // Add more DataColumn as needed
+                                        ],
+                                        rows: data.asMap().entries.map((entry) {
+                                          int index = entry.key +
+                                              1; // นับลำดับเริ่มจาก 1
+                                          Map<String, dynamic> row =
+                                              entry.value;
+                                          isTeacherIdInDataForCheck(row['id']);
+                                          bool isTeacherEnabled =
+                                              isTeacherInUse; // ตั้งค่าตัวแปร isRoomEnabled เป็นค่า isRoomInUse
+                                          return DataRow(
+                                            cells: <DataCell>[
+                                              DataCell(Container(
+                                                width: 100,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(index.toString(),
+                                                      style: CustomTextStyle
+                                                          .TextGeneral),
+                                                ),
+                                              )),
+                                              DataCell(
+                                                Container(
+                                                  width: 300,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['fname'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Container(
+                                                  width: 300,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      row['lname'],
+                                                      style: CustomTextStyle
+                                                          .TextGeneral,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+
+                                              DataCell(Padding(
+                                                padding:
+                                                    const EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 100,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: PopupMenuButton(
+                                                      icon: const Icon(
+                                                        Icons.settings,
+                                                        color: Colors.white,
                                                       ),
-                                                      onTap: () async {
-                                                        await Future.delayed(
-                                                            Duration
-                                                                .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                        Navigator.of(context)
-                                                            .pushReplacement(
-                                                                MaterialPageRoute(builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                          return DetailTeacher(
-                                                              id: row['id']
-                                                                  .toString());
-                                                        }));
-                                                      }),
-                                                  PopupMenuItem(
-                                                    child: Row(
-                                                      children: const <Widget>[
-                                                        Icon(Icons.delete,
-                                                            color:
-                                                                Colors.black),
-                                                        SizedBox(width: 10.0),
-                                                        Text('ลบ'),
+                                                      itemBuilder: (context) =>
+                                                          [
+                                                        PopupMenuItem(
+                                                            child: Row(
+                                                              children: const <
+                                                                  Widget>[
+                                                                Icon(
+                                                                    Icons
+                                                                        .change_circle,
+                                                                    color: Colors
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width:
+                                                                        10.0),
+                                                                Text('แก้ไข'),
+                                                              ],
+                                                            ),
+                                                            onTap: () async {
+                                                              await Future.delayed(
+                                                                  Duration
+                                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pushReplacement(
+                                                                      MaterialPageRoute(builder:
+                                                                          (BuildContext
+                                                                              context) {
+                                                                return DetailTeacher(
+                                                                    id: row['id']
+                                                                        .toString());
+                                                              }));
+                                                            }),
+                                                        PopupMenuItem(
+                                                          child: Row(
+                                                            children: const <
+                                                                Widget>[
+                                                              Icon(Icons.delete,
+                                                                  color: Colors
+                                                                      .black),
+                                                              SizedBox(
+                                                                  width: 10.0),
+                                                              Text('ลบ'),
+                                                            ],
+                                                          ),
+                                                          enabled:
+                                                              isTeacherEnabled,
+                                                          onTap: () {
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 0),
+                                                                () => showSureToDeleteTeacher(
+                                                                    row['id']
+                                                                        .toString()));
+                                                            //String? gg = row['id'].toString() ?? "";
+                                                            //print(gg);
+                                                          },
+                                                        ),
                                                       ],
                                                     ),
-                                                    enabled: isTeacherEnabled,
-                                                    onTap: () {
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              seconds: 0),
-                                                          () => showSureToDeleteTeacher(
-                                                              row['id']
-                                                                  .toString()));
-                                                      //String? gg = row['id'].toString() ?? "";
-                                                      //print(gg);
-                                                    },
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                        // Add more DataCell as needed
-                                      ],
-                                    );
-                                  }).toList(),
+                                                ),
+                                              )),
+                                              // Add more DataCell as needed
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
