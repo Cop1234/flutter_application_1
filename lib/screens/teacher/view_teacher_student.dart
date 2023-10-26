@@ -142,12 +142,12 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                         ),
                                         Text(
                                           "กลุ่ม : ${sectionNumber.text}   " +
-                                              "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                              "เวลา : ${DateFormat('jm').format(sectionTime)} ประเภท : ${section?.type}",
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         Text(
                                           "ห้อง : ${room.text}   " +
-                                              "ตึก : ${building.text}   ",
+                                              "ตึก : ${building.text}  ",
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         const SizedBox(
