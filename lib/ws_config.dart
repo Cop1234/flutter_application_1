@@ -2,9 +2,9 @@
 
 //ip หอ
 //C
-const String ipv4 = '192.168.88.81';
+// const String ipv4 = '192.168.88.81';
 //P
-//const String ipv4 = '192.168.199.130';
+const String ipv4 = '192.168.199.130';
 
 //ip ม.
 //const String ipv4 = '10.100.19.143';
