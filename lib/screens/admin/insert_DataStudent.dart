@@ -111,7 +111,7 @@ class _InsertDataStudent extends State<InsertDataStudent> {
     // TODO: implement initState
     super.initState();
     // Step 2 <- SEE HERE
-    _controller.text = 'Complete the story from here...';
+    _controller.text = '';
   }
 
   @override
