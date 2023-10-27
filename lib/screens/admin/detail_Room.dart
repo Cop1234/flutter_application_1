@@ -116,7 +116,6 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                   Expanded(
                     child: ListView(children: [
                       Column(children: [
-                        const NavbarAdmin(),
                         Form(
                           key: _formfield,
                           child: Padding(
