@@ -57,7 +57,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
                 });
               },
               child: Text(
-                "รายวิชา",
+                "คลาสเรียน",
                 style: pressed1
                     ? const TextStyle(
                         color: Colors.white,
