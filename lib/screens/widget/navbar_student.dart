@@ -37,7 +37,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
                     ));*/
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.menu_book,
               color: Colors.white,
               size: 30.0,
@@ -52,18 +52,18 @@ class _NavbarStudentState extends State<NavbarStudent> {
                   pressed1 = !pressed1;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ViewStudentSubject();
+                    return const ViewStudentSubject();
                   }));
                 });
               },
               child: Text(
                 "รายวิชา",
                 style: pressed1
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -72,11 +72,11 @@ class _NavbarStudentState extends State<NavbarStudent> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ViewStudentSubject();
+                  return const ViewStudentSubject();
                 }));
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.perm_contact_cal,
               color: Colors.white,
               size: 24.0,
@@ -90,18 +90,18 @@ class _NavbarStudentState extends State<NavbarStudent> {
                   pressed2 = !pressed2;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return EditStudentProfile();
+                    return const EditStudentProfile();
                   }));
                 });
               },
               child: Text(
                 "โปรไฟล์",
                 style: pressed2
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -115,7 +115,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
                   ));*/
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.logout,
               color: Colors.white,
               size: 24.0,
@@ -132,18 +132,18 @@ class _NavbarStudentState extends State<NavbarStudent> {
                   pressed3 = !pressed3;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return LoginScreen();
+                    return const LoginScreen();
                   }));
                 });
               },
               child: Text(
                 "ออกจากระบบ",
                 style: pressed3
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),

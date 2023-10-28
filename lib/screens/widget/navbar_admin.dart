@@ -36,13 +36,13 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ListRoomScreen();
+                  return const ListRoomScreen();
                 }));
               });
             },
             child: Icon(
               Icons.room,
-              color: Colors.white,
+              color: pressed1 ? Colors.white : Colors.black, // หน้าห้อง
               size: 30.0,
             ),
           ),
@@ -53,6 +53,15 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed1 = !pressed1;
+                  // ตัวอย่างเช็คหน้าห้อง
+                  if (!pressed1) {
+                    // ถ้าอยู่ในหน้าห้องให้เปลี่ยนสีของ Icon และ Text เป็นสีดำ
+                    // และตั้งค่า pressed2, pressed3, pressed4, pressed5 เป็น true เพื่อให้ Icon และ Text ของหน้าอื่น ๆ เป็นสีขาว
+                    pressed2 = true;
+                    pressed3 = true;
+                    pressed4 = true;
+                    pressed5 = true;
+                  }
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
                     return ListRoomScreen();
@@ -62,11 +71,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               child: Text(
                 "ห้อง",
                 style: pressed1
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -75,13 +84,13 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ListSubjectScreen();
+                  return const ListSubjectScreen();
                 }));
               });
             },
             child: Icon(
               Icons.menu_book,
-              color: Colors.white,
+              color: pressed2 ? Colors.white : Colors.black,
               size: 30.0,
             ),
           ),
@@ -94,18 +103,18 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                   pressed2 = !pressed2;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListSubjectScreen();
+                    return const ListSubjectScreen();
                   }));
                 });
               },
               child: Text(
                 "รายวิชา",
                 style: pressed2
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -115,13 +124,13 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                 pressed3 = !pressed3;
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ListStudent();
+                  return const ListStudent();
                 }));
               });
             },
             child: Icon(
               Icons.school,
-              color: Colors.white,
+              color: pressed3 ? Colors.white : Colors.black,
               size: 30.0,
             ),
           ),
@@ -134,18 +143,18 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                   pressed3 = !pressed3;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListStudent();
+                    return const ListStudent();
                   }));
                 });
               },
               child: Text(
                 "นักศึกษา",
                 style: pressed3
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -155,13 +164,13 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                 pressed4 = !pressed4;
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ListTeacher();
+                  return const ListTeacher();
                 }));
               });
             },
             child: Icon(
               Icons.person,
-              color: Colors.white,
+              color: pressed4 ? Colors.white : Colors.black,
               size: 30.0,
             ),
           ),
@@ -173,18 +182,18 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                   pressed4 = !pressed4;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListTeacher();
+                    return const ListTeacher();
                   }));
                 });
               },
               child: Text(
                 "อาจารย์",
                 style: pressed4
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -193,13 +202,13 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return LoginScreen();
+                  return const LoginScreen();
                 }));
               });
             },
             child: Icon(
               Icons.logout,
-              color: Colors.white,
+              color: pressed1 ? Colors.white : Colors.black,
               size: 24.0,
             ),
           ),
@@ -214,18 +223,18 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                   pressed5 = !pressed5;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return LoginScreen();
+                    return const LoginScreen();
                   }));
                 });
               },
               child: Text(
                 "ออกจากระบบ",
                 style: pressed5
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
