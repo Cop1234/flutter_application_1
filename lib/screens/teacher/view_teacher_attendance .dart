@@ -95,8 +95,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
   bool checkInTimeandType = false;
 
   void showAtten(String week, String secid) async {
-    List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, secid);
+    List<AttendanceSchedule> atten =
+        await attendanceScheduleController.ReportAttenByWeek(week, secid);
     showAttenExport(week, secid);
     setState(() {
       attendance = atten;
@@ -128,8 +128,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
   List<AttendanceSchedule>? attendanceExport;
 
   void showAttenExport(String week, String secid) async {
-    List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, secid);
+    List<AttendanceSchedule> atten =
+        await attendanceScheduleController.ReportAttenByWeek(week, secid);
     setState(() {
       attendanceExport = atten;
       dataExport = atten

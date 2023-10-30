@@ -77,7 +77,7 @@ class AttendanceScheduleController {
     return response;
   }
 
-  Future listAttendanceScheduleByWeek(String week, String secid) async {
+  Future ReportAttenByWeek(String week, String secid) async {
     var url = Uri.parse(
         baseURL + '/attendanceschedule/getbyweek/' + week + "/" + secid);
     http.Response response = await http.get(url);
@@ -124,7 +124,7 @@ class AttendanceScheduleController {
     }
   }
 
-  Future listAttendanceScheduleByRegistrationId(String RegistrationId) async {
+  Future get_listAttendancebyReg(String RegistrationId) async {
     var url = Uri.parse(
         baseURL + '/attendanceschedule/listbyregistrationid/' + RegistrationId);
     http.Response response = await http.get(url);

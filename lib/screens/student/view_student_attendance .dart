@@ -111,8 +111,8 @@ class _StudentAttenState extends State<StudentAtten> {
   bool checkuseridandname = false;
 
   void showAtten(String regId) async {
-    List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByRegistrationId(regId);
+    List<AttendanceSchedule> atten =
+        await attendanceScheduleController.get_listAttendancebyReg(regId);
 
     setState(() {
       attendance = atten;

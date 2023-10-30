@@ -697,46 +697,53 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                           BorderRadius.circular(
                                                               10)),
                                                   // dropdown below..
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    value: selectedRoom,
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
+                                                  child: AbsorbPointer(
+                                                    absorbing: false,
+                                                    child:
+                                                        DropdownButtonFormField<
+                                                            String>(
+                                                      isExpanded: true,
+                                                      value: selectedRoom,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                      items: dataRoom.map(
+                                                          (Map<String, dynamic>
+                                                              room) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value:
+                                                              room['roomName'],
+                                                          child: Text(
+                                                              '${room['building']} - ${room['roomName']}'),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? newValue) {
+                                                        setState(() {
+                                                          selectedRoom =
+                                                              newValue;
+                                                        });
+                                                      },
+                                                      validator:
+                                                          (String? value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'กรุณาเลือกห้องเรียน';
+                                                        }
+                                                        // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                                        return null;
+                                                      },
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        hintText:
+                                                            'กรุณาเลือกห้องเรียน',
+                                                        border:
+                                                            InputBorder.none,
+                                                      ),
+                                                      icon: Icon(Icons
+                                                          .keyboard_arrow_down),
                                                     ),
-                                                    items: dataRoom.map(
-                                                        (Map<String, dynamic>
-                                                            room) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: room['roomName'],
-                                                        child: Text(
-                                                            '${room['building']} - ${room['roomName']}'),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      setState(() {
-                                                        selectedRoom = newValue;
-                                                      });
-                                                    },
-                                                    validator: (String? value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'กรุณาเลือกห้องเรียน';
-                                                      }
-                                                      // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      hintText:
-                                                          'กรุณาเลือกห้องเรียน',
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    icon: Icon(Icons
-                                                        .keyboard_arrow_down),
                                                   )),
                                             ],
                                           ),

@@ -76,8 +76,8 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
     section = await sectionController.get_Section(sectionId);
     setDataToText();
 
-    List<AttendanceSchedule> atten = await attendanceScheduleController
-        .listAttendanceScheduleByWeek(week, sectionId);
+    List<AttendanceSchedule> atten =
+        await attendanceScheduleController.ReportAttenByWeek(week, sectionId);
 
     print('week : ' + week + 'secid' + sectionId);
     setState(() {

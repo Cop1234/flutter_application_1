@@ -18,7 +18,7 @@ class SectionController {
     return list;
   }
 
-  Future listSectionsByUserId(String IdUser) async {
+  Future get_ListClasstbyUserId(String IdUser) async {
     var url = Uri.parse(baseURL + '/section/listbyiduser/' + IdUser);
     http.Response response = await http.get(url);
     final utf8Body = utf8.decode(response.bodyBytes);
