@@ -290,7 +290,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                           child: Row(
                                             children: [
                                               const Text(
-                                                "ลองติจูด : ",
+                                                "ลองจิจูด : ",
                                                 style: CustomTextStyle
                                                     .createFontStyle,
                                               ),

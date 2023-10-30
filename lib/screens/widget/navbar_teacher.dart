@@ -38,11 +38,11 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ListClassScreen();
+                  return const ListClassScreen();
                 }));
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.menu_book,
               color: Colors.white,
               size: 30.0,
@@ -57,18 +57,18 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed1 = !pressed1;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListClassScreen();
+                    return const ListClassScreen();
                   }));
                 });
               },
               child: Text(
-                "รายวิชา",
+                "คลาสเรียน",
                 style: pressed1
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -77,11 +77,11 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return TeacherCreateClass();
+                  return const TeacherCreateClass();
                 }));
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.class_,
               color: Colors.white,
               size: 24.0,
@@ -95,18 +95,18 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed2 = !pressed2;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return TeacherCreateClass();
+                    return const TeacherCreateClass();
                   }));
                 });
               },
               child: Text(
                 "สร้างคลาสเรียน",
                 style: pressed2
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -115,11 +115,11 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return EditProfileTeacherScreen();
+                  return const EditProfileTeacherScreen();
                 }));
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.perm_contact_cal,
               color: Colors.white,
               size: 24.0,
@@ -133,18 +133,18 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed3 = !pressed3;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return EditProfileTeacherScreen();
+                    return const EditProfileTeacherScreen();
                   }));
                 });
               },
               child: Text(
                 "โปรไฟล์",
                 style: pressed3
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),
@@ -153,11 +153,11 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return LoginScreen();
+                  return const LoginScreen();
                 }));
               });
             },
-            child: Icon(
+            child: const Icon(
               Icons.logout,
               color: Colors.white,
               size: 24.0,
@@ -174,18 +174,18 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed4 = !pressed4;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return LoginScreen();
+                    return const LoginScreen();
                   }));
                 });
               },
               child: Text(
                 "ออกจากระบบ",
                 style: pressed4
-                    ? TextStyle(
+                    ? const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       )
-                    : TextStyle(color: Colors.black, fontSize: 20),
+                    : const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
           ),

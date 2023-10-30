@@ -377,7 +377,7 @@ class _AddTeacherState extends State<AddTeacher>
                                     child: Row(
                                       children: [
                                         const Text(
-                                          "นามกุล : ",
+                                          "นามสกุล : ",
                                           style:
                                               CustomTextStyle.createFontStyle,
                                         ),
