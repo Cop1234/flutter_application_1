@@ -108,6 +108,17 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     );
   }
 
+  void showErrorUserNameExistsAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "กรุณาเลือกไฟล์!!!",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+      //barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
+    );
+  }
+
   Future<void> _pickFile(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -337,6 +348,8 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                           showSuccessToAddStudentAlert();
                                                           print("บันทึกสำเร็จ");
                                                         }
+                                                      } else {
+                                                        showErrorUserNameExistsAlert();
                                                       }
                                                     },
                                                     child: const Text("เพิ่ม")),

@@ -285,34 +285,39 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                         horizontal: 10,
                                                         vertical: 5),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    color: const Color.fromARGB(
+                                                        255, 197, 197, 197),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10)),
                                                 // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedTerm,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: Terms.map(
-                                                    (String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items),
-                                                      );
+                                                child: AbsorbPointer(
+                                                  absorbing: true,
+                                                  child: DropdownButton<String>(
+                                                    isExpanded: true,
+                                                    value: selectedTerm,
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                    items: Terms.map(
+                                                      (String items) {
+                                                        return DropdownMenuItem(
+                                                          value: items,
+                                                          child: Text(items),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        selectedTerm =
+                                                            newValue!;
+                                                      });
                                                     },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedTerm = newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
+                                                    icon: const Icon(Icons
+                                                        .keyboard_arrow_down),
+                                                    underline: const SizedBox(),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -336,57 +341,68 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                   alignment:
                                                       AlignmentDirectional
                                                           .centerStart,
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10),
+                                                  padding:
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              197,
+                                                              197,
+                                                              197),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10)),
                                                   // dropdown below..
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    value: selectedSubjectId,
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
+                                                  child: AbsorbPointer(
+                                                    absorbing: true,
+                                                    child:
+                                                        DropdownButtonFormField<
+                                                            String>(
+                                                      isExpanded: true,
+                                                      value: selectedSubjectId,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                      items: dataSubject.map(
+                                                          (Map<String, dynamic>
+                                                              subject) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: subject[
+                                                              'subjectId'],
+                                                          child: Text(subject[
+                                                              'subjectId']),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? newValue) {
+                                                        setState(() {
+                                                          selectedSubjectId =
+                                                              newValue;
+                                                        });
+                                                      },
+                                                      validator:
+                                                          (String? value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'กรุณาเลือกวิชา';
+                                                        }
+                                                        // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                                        return null;
+                                                      },
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        hintText:
+                                                            'กรุณาเลือกวิชา',
+                                                        border:
+                                                            InputBorder.none,
+                                                      ),
+                                                      icon: Icon(Icons
+                                                          .keyboard_arrow_down),
                                                     ),
-                                                    items: dataSubject.map(
-                                                        (Map<String, dynamic>
-                                                            subject) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: subject[
-                                                            'subjectId'],
-                                                        child: Text(subject[
-                                                            'subjectId']),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      setState(() {
-                                                        selectedSubjectId =
-                                                            newValue;
-                                                      });
-                                                    },
-                                                    validator: (String? value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'กรุณาเลือกวิชา';
-                                                      }
-                                                      // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      hintText:
-                                                          'กรุณาเลือกวิชา',
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    icon: Icon(Icons
-                                                        .keyboard_arrow_down),
                                                   )),
                                             ],
                                           ),
@@ -413,35 +429,39 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                         horizontal: 10,
                                                         vertical: 5),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    color: const Color.fromARGB(
+                                                        255, 197, 197, 197),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10)),
                                                 // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedGroupStu,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: GStu.map(
-                                                    (String GStu) {
-                                                      return DropdownMenuItem(
-                                                        value: GStu,
-                                                        child: Text(GStu),
-                                                      );
+                                                child: AbsorbPointer(
+                                                  absorbing: true,
+                                                  child: DropdownButton<String>(
+                                                    isExpanded: true,
+                                                    value: selectedGroupStu,
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                    items: GStu.map(
+                                                      (String GStu) {
+                                                        return DropdownMenuItem(
+                                                          value: GStu,
+                                                          child: Text(GStu),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        selectedGroupStu =
+                                                            newValue!;
+                                                      });
                                                     },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedGroupStu =
-                                                          newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
+                                                    icon: const Icon(Icons
+                                                        .keyboard_arrow_down),
+                                                    underline: const SizedBox(),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -636,35 +656,39 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                         horizontal: 10,
                                                         vertical: 5),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    color: const Color.fromARGB(
+                                                        255, 197, 197, 197),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10)),
                                                 // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedTypeSubject,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: typesub.map(
-                                                    (String typesub) {
-                                                      return DropdownMenuItem(
-                                                        value: typesub,
-                                                        child: Text(typesub),
-                                                      );
+                                                child: AbsorbPointer(
+                                                  absorbing: true,
+                                                  child: DropdownButton<String>(
+                                                    isExpanded: true,
+                                                    value: selectedTypeSubject,
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                    items: typesub.map(
+                                                      (String typesub) {
+                                                        return DropdownMenuItem(
+                                                          value: typesub,
+                                                          child: Text(typesub),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        selectedTypeSubject =
+                                                            newValue!;
+                                                      });
                                                     },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedTypeSubject =
-                                                          newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
+                                                    icon: const Icon(Icons
+                                                        .keyboard_arrow_down),
+                                                    underline: const SizedBox(),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -688,55 +712,68 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                   alignment:
                                                       AlignmentDirectional
                                                           .centerStart,
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10),
+                                                  padding:
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              197,
+                                                              197,
+                                                              197),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10)),
                                                   // dropdown below..
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    value: selectedRoom,
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
+                                                  child: AbsorbPointer(
+                                                    absorbing: true,
+                                                    child:
+                                                        DropdownButtonFormField<
+                                                            String>(
+                                                      isExpanded: false,
+                                                      value: selectedRoom,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                      items: dataRoom.map(
+                                                          (Map<String, dynamic>
+                                                              room) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value:
+                                                              room['roomName'],
+                                                          child: Text(
+                                                              '${room['building']} - ${room['roomName']}'),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? newValue) {
+                                                        setState(() {
+                                                          selectedRoom =
+                                                              newValue;
+                                                        });
+                                                      },
+                                                      validator:
+                                                          (String? value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'กรุณาเลือกห้องเรียน';
+                                                        }
+                                                        // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                                        return null;
+                                                      },
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        hintText:
+                                                            'กรุณาเลือกห้องเรียน',
+                                                        border:
+                                                            InputBorder.none,
+                                                      ),
+                                                      icon: Icon(Icons
+                                                          .keyboard_arrow_down),
                                                     ),
-                                                    items: dataRoom.map(
-                                                        (Map<String, dynamic>
-                                                            room) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: room['roomName'],
-                                                        child: Text(
-                                                            '${room['building']} - ${room['roomName']}'),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      setState(() {
-                                                        selectedRoom = newValue;
-                                                      });
-                                                    },
-                                                    validator: (String? value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'กรุณาเลือกห้องเรียน';
-                                                      }
-                                                      // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      hintText:
-                                                          'กรุณาเลือกห้องเรียน',
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    icon: Icon(Icons
-                                                        .keyboard_arrow_down),
                                                   )),
                                             ],
                                           ),

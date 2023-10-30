@@ -76,7 +76,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
 
       // ค้นหาเซคชันที่เกี่ยวข้องโดยใช้รายการคอร์สที่ค้นพบ
       List<Section> userSections =
-          await sectionController.listSectionsByUserId(IdUser);
+          await sectionController.get_ListClasstbyUserId(IdUser);
 
       // ตอนนี้คุณมีข้อมูล userCourses และ userSections
       // สามารถใช้ข้อมูลเหล่านี้ในการสร้างตารางหรือแสดงข้อมูลอื่น ๆ ตามที่คุณต้องการ
@@ -327,8 +327,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .inventory_outlined,
@@ -359,8 +358,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .qr_code_scanner,
@@ -390,8 +388,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .people_alt,
@@ -422,8 +419,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .settings,
@@ -457,8 +453,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .group_add,
