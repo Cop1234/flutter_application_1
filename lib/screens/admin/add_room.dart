@@ -171,7 +171,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                       if (value.isEmpty) {
                                                         return "กรุณากรอกชื่อห้องเรียน*";
                                                       } else if (!roomNameValid) {
-                                                        return "ชื่อห้องเรียนต้องเป็นภาษาไทย หรือ อังกฤษ หรือ ตัวเลข";
+                                                        return "ชื่อห้องเรียนต้องเป็นภาษาไทย หรือ อังกฤษ หรือ ตัวเลข สามารถใส่อังษรพิเศษ - หรือ / ได้";
                                                       }
                                                     },
                                                   ),
@@ -222,7 +222,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                       if (value.isEmpty) {
                                                         return "กรุณากรอกตึกเรียน*";
                                                       } else if (!buildingValid) {
-                                                        return "ตึกเรียนต้องเป็นภาษาไทย หรือ อังกฤษ";
+                                                        return "ตึกเรียนต้องเป็นภาษาไทย หรือ อังกฤษ สามารถใส่อังษรพิเศษ - หรือ / ได้";
                                                       }
                                                     },
                                                   ),

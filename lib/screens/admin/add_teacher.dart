@@ -224,7 +224,7 @@ class _AddTeacherState extends State<AddTeacher>
                                                 if (value.isEmpty) {
                                                   return "กรุณากรอกรหัสผ่าน*";
                                                 } else if (!loginPasswordValid) {
-                                                  return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่หรือตัวเล็กอักษรพิเศษและตัวเลขความยาว 8-16 ให้ถูกต้อง";
+                                                  return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษตัวใหญ่หรือตัวเล็กอักษรพิเศษและตัวเลข \n ความยาว 8-16 ให้ถูกต้อง";
                                                 }
                                               },
                                             ),
@@ -362,7 +362,7 @@ class _AddTeacherState extends State<AddTeacher>
                                                 if (value.isEmpty) {
                                                   return "กรุณากรอกชื่อ*";
                                                 } else if (!subjectNameValid) {
-                                                  return "ชื่อต้องเป็นภาษาไทยเท่านั้น";
+                                                  return "ชื่อต้องเป็นภาษาไทยเท่านั้นเท่านั้น";
                                                 }
                                               },
                                             ),
@@ -405,7 +405,7 @@ class _AddTeacherState extends State<AddTeacher>
                                                 if (value.isEmpty) {
                                                   return "กรุณากรอกนามกุล*";
                                                 } else if (!subjectNameValid) {
-                                                  return "ชื่อนามกุลต้องเป็นภาษาไทย";
+                                                  return "ชื่อนามกุลต้องเป็นภาษาไทยเท่านั้น";
                                                 }
                                               },
                                             ),
