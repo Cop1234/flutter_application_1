@@ -327,7 +327,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .inventory_outlined,
@@ -358,10 +359,11 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
-                                                                      .qr_code_scanner,
+                                                                      .qr_code_outlined,
                                                                   color: Colors
                                                                       .black),
                                                               SizedBox(
@@ -388,7 +390,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .people_alt,
@@ -419,7 +422,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .settings,
@@ -453,7 +457,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .group_add,

@@ -121,6 +121,16 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
     );
   }
 
+  void showErrorUserIdNotInDataBaseAlert(String userId) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "นักศึกษารหัส $userId ไม่มีอยู่ในระบบ",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -387,6 +397,9 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                                   '${section?.id}');
                                                               print(
                                                                   "บันทึกสำเร็จ");
+                                                            } else {
+                                                              showErrorUserIdNotInDataBaseAlert(
+                                                                  userId);
                                                             }
                                                           }
                                                         }

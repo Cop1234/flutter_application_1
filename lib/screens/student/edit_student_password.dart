@@ -196,7 +196,7 @@ class _DetailEditStudentProfileState extends State<DetailEditStudentProfile> {
                                                       if (value.isEmpty) {
                                                         return "กรุณากรอกรหัสผ่าน*";
                                                       } else if (!subjectNameValid) {
-                                                        return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลขความยาว8,16ให้ถูกต้อง";
+                                                        return "กรุณากรอกรหัสผ่านภาษาอังกฤษตัวใหญ่ตัวเล็กอักษรพิเศษและตัวเลข \nความยาว 8-16 ให้ถูกต้อง";
                                                       }
                                                     },
                                                   ),

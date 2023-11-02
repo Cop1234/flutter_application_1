@@ -38,6 +38,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   List<Map<String, dynamic>> dataRoom = [];
 
   bool? isLoaded = false;
+  bool? checkSelectSubjectId = false;
+  bool? checkSelectStartTime = false;
+  bool? checkSelectRoomName = false;
   List<Room>? rooms;
   List<Subject>? subjects;
   User? userNow;
@@ -88,7 +91,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   String selectedGroupStu = '1';
   dynamic selectedSubjectId;
   String selectedDuration = '1';
-  String selectedTypeSubject = 'LAB';
+  String selectedTypeSubject = 'ปฏิบัติการ';
   dynamic selectedRoom;
   String selectedSemesterNow = DateFormat('yyyy').format(DateTime.now());
   dynamic formattedTime;
@@ -100,7 +103,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   // List of items in our dropdown menu
   var Terms = ['1', '2'];
   var GStu = ['1', '2'];
-  var typesub = ['LAB', 'Lecture'];
+  var typesub = ['ปฏิบัติการ', 'บรรยาย'];
   var durationTime = ['1', '2', '3'];
 
   void showSuccessToCreateClassAlert() {
@@ -250,7 +253,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                               ),
                                               //ปุ่มเลือกรหัสวิชา
                                               Container(
-                                                  width: 150,
+                                                  width: 200,
                                                   height: 50,
                                                   alignment:
                                                       AlignmentDirectional
@@ -293,20 +296,32 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                     validator: (String? value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
-                                                        return 'กรุณาเลือกวิชา';
+                                                        setState(() {
+                                                          checkSelectSubjectId =
+                                                              true;
+                                                        });
+                                                      } else {
+                                                        setState(() {
+                                                          checkSelectSubjectId =
+                                                              false;
+                                                        });
                                                       }
-                                                      // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+
                                                       return null;
                                                     },
                                                     decoration:
                                                         const InputDecoration(
                                                       hintText:
-                                                          'กรุณาเลือกวิชา',
+                                                          'กรุณาเลือกรหัสวิชา',
                                                       border: InputBorder.none,
                                                     ),
                                                     icon: const Icon(Icons
                                                         .keyboard_arrow_down),
                                                   )),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              checkSubjectId()
                                             ],
                                           ),
                                         ),
@@ -452,7 +467,15 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                       validator: (value) {
                                                         if (value == null ||
                                                             value.isEmpty) {
-                                                          return 'กรุณากรอกเวลาเริ่มเรียน';
+                                                          setState(() {
+                                                            checkSelectStartTime =
+                                                                true;
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            checkSelectStartTime =
+                                                                false;
+                                                          });
                                                         }
                                                       },
                                                       inputFormatters: [
@@ -468,6 +491,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                   ),
                                                 ),
                                               ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              checkStartTime()
                                             ],
                                           ),
                                         ),
@@ -643,7 +670,13 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                     validator: (String? value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
-                                                        return 'กรุณาเลือกห้องเรียน';
+                                                        checkSelectRoomName =
+                                                            true;
+                                                      } else {
+                                                        setState(() {
+                                                          checkSelectRoomName =
+                                                              false;
+                                                        });
                                                       }
                                                       // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
                                                       return null;
@@ -657,6 +690,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                     icon: const Icon(Icons
                                                         .keyboard_arrow_down),
                                                   )),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              checkRoomName()
                                             ],
                                           ),
                                         ),
@@ -739,11 +776,14 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                         selectedRoom,
                                                   );
                                                   // ตรวจสอบว่าพบ subjectId ที่เลือกหรือไม่
-                                                  if (selectedSubject != null) {
+                                                  if (checkSelectSubjectId == false &&
+                                                      checkSelectStartTime ==
+                                                          false &&
+                                                      checkSelectRoomName ==
+                                                          false) {
                                                     var IdSubject =
                                                         selectedSubject['id'];
-                                                    print(
-                                                        'คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
+                                                    //print('คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
 
                                                     // เรียก addCourse และรอการตอบกลับ
                                                     http.Response response =
@@ -828,5 +868,38 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                   ),
                 ],
               ));
+  }
+
+  Widget checkSubjectId() {
+    if (checkSelectSubjectId == true) {
+      return const Text(
+        "กรุณาเลือกรหัสวิชา",
+        style: TextStyle(color: Colors.red),
+      );
+    } else {
+      return const Text("");
+    }
+  }
+
+  Widget checkStartTime() {
+    if (checkSelectStartTime == true) {
+      return const Text(
+        "กรุณากรอกเวลาเริ่มเรียน",
+        style: TextStyle(color: Colors.red),
+      );
+    } else {
+      return const Text("");
+    }
+  }
+
+  Widget checkRoomName() {
+    if (checkSelectRoomName == true) {
+      return const Text(
+        "กรุณาเลือกห้องเรียน",
+        style: TextStyle(color: Colors.red),
+      );
+    } else {
+      return const Text("");
+    }
   }
 }

@@ -378,7 +378,7 @@ class _TeacherQRState extends State<TeacherQR> {
                     '$qrData,Week:$selectedDropdownValue,timelimit:$timeqrcode', // ข้อมูล QR code
                 version: QrVersions.auto,
                 size: 400.0,
-                foregroundColor: Colors.green // สีของรหัส QR นั้นเอง
+                foregroundColor: Colors.black // สีของรหัส QR นั้นเอง
                 ),
           ),
           const SizedBox(

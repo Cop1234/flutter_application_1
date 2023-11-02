@@ -45,6 +45,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   List<Map<String, dynamic>> dataRoom = [];
 
   bool? isLoaded = false;
+  bool? checkSelectStartTime = false;
   List<Room>? rooms;
   List<Subject>? subjects;
   Course? course;
@@ -553,8 +554,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                       validator: (value) {
                                                         if (value == null ||
                                                             value.isEmpty) {
-                                                          return 'กรุณากรอกเวลาเริ่มเรียน';
+                                                          setState(() {
+                                                            checkSelectStartTime =
+                                                                true;
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            checkSelectStartTime =
+                                                                false;
+                                                          });
                                                         }
+                                                        return null;
                                                       },
                                                       inputFormatters: [
                                                         FilteringTextInputFormatter
@@ -569,6 +579,10 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                   ),
                                                 ),
                                               ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              checkStartTime()
                                             ],
                                           ),
                                         ),
@@ -987,5 +1001,16 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                   ),
                 ],
               ));
+  }
+
+  Widget checkStartTime() {
+    if (checkSelectStartTime == true) {
+      return const Text(
+        "กรุณากรอกเวลาเริ่มเรียน",
+        style: TextStyle(color: Colors.red),
+      );
+    } else {
+      return const Text("");
+    }
   }
 }
