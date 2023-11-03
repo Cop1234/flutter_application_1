@@ -50,8 +50,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    //String? username = 'MJU6304106318';
+    //String? username = prefs.getString('username');
+    String? username = 'Tanakorn63@gmail.com';
 
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
@@ -166,11 +166,14 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                     padding: const EdgeInsets.all(30.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                       children: [
-                                        //p1
+                                        const Text(
+                                          "การสร้างคลาสเรียน",
+                                          style: CustomTextStyle.mainFontStyle,
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               top: 5, bottom: 5),
@@ -181,16 +184,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                       .createFontStyle),
                                               Text(selectedSemesterNow,
                                                   style: CustomTextStyle
-                                                      .createFontStyle)
-                                            ],
-                                          ),
-                                        ),
-                                        //p2
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
+                                                      .createFontStyle),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
                                               const Text(
                                                 "เทอม : ",
                                                 style: CustomTextStyle
@@ -199,7 +196,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                               //ปุ่มเลือกเทอม
                                               Container(
                                                 width: 100,
-                                                height: 40,
+                                                height: 50,
                                                 alignment: AlignmentDirectional
                                                     .centerStart,
                                                 padding:
@@ -240,7 +237,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                             ],
                                           ),
                                         ),
-                                        //p3
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               top: 5, bottom: 5),
@@ -253,14 +249,15 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                               ),
                                               //ปุ่มเลือกรหัสวิชา
                                               Container(
-                                                  width: 200,
+                                                  width: 150,
                                                   height: 50,
                                                   alignment:
                                                       AlignmentDirectional
                                                           .centerStart,
                                                   padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10),
+                                                      .symmetric(
+                                                    horizontal: 10,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       borderRadius:
@@ -306,13 +303,11 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                               false;
                                                         });
                                                       }
-
                                                       return null;
                                                     },
                                                     decoration:
                                                         const InputDecoration(
-                                                      hintText:
-                                                          'กรุณาเลือกรหัสวิชา',
+                                                      hintText: 'เลือกรหัสวิชา',
                                                       border: InputBorder.none,
                                                     ),
                                                     icon: const Icon(Icons
@@ -321,7 +316,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                               const SizedBox(
                                                 width: 20,
                                               ),
-                                              checkSubjectId()
                                             ],
                                           ),
                                         ),

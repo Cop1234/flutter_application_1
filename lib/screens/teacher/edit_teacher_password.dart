@@ -74,7 +74,7 @@ class _EditPasswordTeacherScreenState extends State<EditPasswordTeacherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: kMyAppBar,
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 226, 226, 226),
         body: isLoaded == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -120,13 +120,12 @@ class _EditPasswordTeacherScreenState extends State<EditPasswordTeacherScreen> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10)),
-                                          color: const Color.fromARGB(
-                                              255, 226, 226, 226),
+                                          color: Colors.white,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: SizedBox(
-                                              width: 800,
+                                              width: 500,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(30.0),
