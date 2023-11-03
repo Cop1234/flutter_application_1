@@ -75,7 +75,7 @@ class UserController {
     return user;
   }
 
-  Future updateTeacherProfile(String loginid, String password) async {
+  Future updatePasswordTeacher(String loginid, String password) async {
     Map data = {"loginid": loginid, "password": password};
     var jsonData = json.encode(data);
     var url = Uri.parse(baseURL + '/teacher/updatepassword');

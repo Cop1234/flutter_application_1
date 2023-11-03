@@ -24,4 +24,10 @@ class CustomTextStyle {
     color: Colors.green,
     fontWeight: FontWeight.bold,
   );
+
+  static const TextStyle subFontStyle = TextStyle(
+    fontSize: 20,
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+  );
 }

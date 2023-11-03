@@ -115,7 +115,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
               setState(() {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return const EditProfileTeacherScreen();
+                  return const DetailTeacherProfile();
                 }));
               });
             },
@@ -133,7 +133,7 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                   pressed3 = !pressed3;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return const EditProfileTeacherScreen();
+                    return const DetailTeacherProfile();
                   }));
                 });
               },
