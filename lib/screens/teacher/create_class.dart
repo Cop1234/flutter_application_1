@@ -28,6 +28,7 @@ class TeacherCreateClass extends StatefulWidget {
 }
 
 class _TeacherCreateClassState extends State<TeacherCreateClass> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final RoomController roomController = RoomController();
   final SubjectController subjectController = SubjectController();
   final CourseController courseController = CourseController();
@@ -98,10 +99,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   String selectedSemesterNow = DateFormat('yyyy').format(DateTime.now());
   dynamic formattedTime;
   Alignment textHeaderbar = Alignment.centerLeft;
-
-  TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
-  TextEditingController timePicker = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // List of items in our dropdown menu
   var terms = ['1', '2'];
@@ -551,7 +548,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                   InputBorder
                                                                       .none,
                                                               hintText:
-                                                                  'ระบุกลุ่มเรียน',
+                                                                  'ระบุกลุ่มเรียนเป็นตัวเลขเช่น 1 2',
                                                               hintStyle: TextStyle(
                                                                   fontSize: 18,
                                                                   color: inputGroupNumber!
@@ -1064,6 +1061,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                     checkSelectStartTime ==
                                                                         false &&
                                                                     checkSelectRoomName ==
+                                                                        false &&
+                                                                    inputGroupNumber ==
                                                                         false) {
                                                                   var IdSubject =
                                                                       selectedSubject[
@@ -1167,38 +1166,5 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                   ])),
                 ],
               ));
-  }
-
-  Widget checkSubjectId() {
-    if (checkSelectSubjectId == true) {
-      return const Text(
-        "กรุณาเลือกรหัสวิชา",
-        style: TextStyle(color: Colors.red),
-      );
-    } else {
-      return const Text("");
-    }
-  }
-
-  Widget checkStartTime() {
-    if (checkSelectStartTime == true) {
-      return const Text(
-        "กรุณากรอกเวลาเริ่มเรียน",
-        style: TextStyle(color: Colors.red),
-      );
-    } else {
-      return const Text("");
-    }
-  }
-
-  Widget checkRoomName() {
-    if (checkSelectRoomName == true) {
-      return const Text(
-        "กรุณาเลือกห้องเรียน",
-        style: TextStyle(color: Colors.red),
-      );
-    } else {
-      return const Text("");
-    }
   }
 }
