@@ -41,6 +41,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   bool? checkSelectSubjectId = false;
   bool? checkSelectStartTime = false;
   bool? checkSelectRoomName = false;
+  bool? inputGroupNumber = false;
   List<Room>? rooms;
   List<Subject>? subjects;
   User? userNow;
@@ -50,8 +51,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = 'Tanakorn63@gmail.com';
+    String? username = prefs.getString('username');
+    //String? username = 'Tanakorn63@gmail.com';
 
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
@@ -88,30 +89,51 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   }
 
   String selectedTerm = '1';
-  String selectedGroupStu = '1';
+  String? selectedGroupStu;
   dynamic selectedSubjectId;
+  String selectedStartTime = '08:00';
   String selectedDuration = '1';
   String selectedTypeSubject = 'ปฏิบัติการ';
   dynamic selectedRoom;
   String selectedSemesterNow = DateFormat('yyyy').format(DateTime.now());
   dynamic formattedTime;
+  Alignment textHeaderbar = Alignment.centerLeft;
 
   TimeOfDay time = TimeOfDay(hour: 8, minute: 0);
   TextEditingController timePicker = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // List of items in our dropdown menu
-  var Terms = ['1', '2'];
-  var GStu = ['1', '2'];
+  var terms = ['1', '2'];
   var typesub = ['ปฏิบัติการ', 'บรรยาย'];
-  var durationTime = ['1', '2', '3'];
+  var startTime = [
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+  ];
+  var durationTime = ['1', '2', '3', '4'];
 
   void showSuccessToCreateClassAlert() {
     QuickAlert.show(
       context: context,
       title: "การสร้างคลาสเรียนสำเร็จ",
-      text: "ข้อมูลคลาสเรียนถุกเพิ่มเรียบร้อยแล้ว",
+      text: "คลาสเรียนถูกเพิ่มเรียบร้อยแล้ว",
       type: QuickAlertType.success,
+      barrierDismissible: false,
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
@@ -146,9 +168,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                 children: [
                   const NavbarTeacher(),
                   Expanded(
-                    child: ListView(children: [
-                      Column(children: [
-                        Form(
+                      child: ListView(children: [
+                    Column(children: [
+                      Form(
                           key: formKey,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -161,705 +183,988 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
-                                  width: 700,
+                                  width: 1000,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(30.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
+                                      padding: const EdgeInsets.all(30.0),
+                                      child: Column(children: [
                                         const Text(
                                           "การสร้างคลาสเรียน",
-                                          style: CustomTextStyle.mainFontStyle,
+                                          style: TextStyle(
+                                              fontSize: 50,
+                                              color: maincolor,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text("ปีการศึกษา : ",
-                                                  style: CustomTextStyle
-                                                      .createFontStyle),
-                                              Text(selectedSemesterNow,
-                                                  style: CustomTextStyle
-                                                      .createFontStyle),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const Text(
-                                                "เทอม : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกเทอม
-                                              Container(
-                                                width: 100,
-                                                height: 50,
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedTerm,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: Terms.map(
-                                                    (String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedTerm = newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "รหัสวิชา : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกรหัสวิชา
-                                              Container(
-                                                  width: 150,
-                                                  height: 50,
-                                                  alignment:
-                                                      AlignmentDirectional
-                                                          .centerStart,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  // dropdown below..
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    value: selectedSubjectId,
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
+                                        const SizedBox(height: 20),
+                                        //Tableหลัก
+                                        Table(
+                                          //border: TableBorder.all(),
+                                          columnWidths: const {
+                                            0: FractionColumnWidth(0.25),
+                                            1: FractionColumnWidth(0.5),
+                                          },
+                                          defaultColumnWidth:
+                                              const FixedColumnWidth(300.0),
+                                          children: [
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: const Text(
+                                                          "ปีการศึกษา",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle),
                                                     ),
-                                                    items: dataSubject.map(
-                                                        (Map<String, dynamic>
-                                                            subject) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: subject[
-                                                            'subjectId'],
-                                                        child: Text(subject[
-                                                            'subjectId']),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      setState(() {
-                                                        selectedSubjectId =
-                                                            newValue;
-                                                      });
-                                                    },
-                                                    validator: (String? value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        setState(() {
-                                                          checkSelectSubjectId =
-                                                              true;
-                                                        });
-                                                      } else {
-                                                        setState(() {
-                                                          checkSelectSubjectId =
-                                                              false;
-                                                        });
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      hintText: 'เลือกรหัสวิชา',
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    icon: const Icon(Icons
-                                                        .keyboard_arrow_down),
-                                                  )),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        //p4
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "กลุ่มเรียน : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกกลุ่มเรียน
-                                              Container(
-                                                width: 100,
-                                                height: 40,
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedGroupStu,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
                                                   ),
-                                                  items: GStu.map(
-                                                    (String GStu) {
-                                                      return DropdownMenuItem(
-                                                        value: GStu,
-                                                        child: Text(GStu),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedGroupStu =
-                                                          newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        //p5
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "เวลาเริ่มเรียน : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //เลือกเวลาเรียน
-                                              Container(
-                                                width: 300,
-                                                height: 40,
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                // dropdown below..
-                                                child: Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 8, left: 5),
-                                                    child: TextFormField(
-                                                      controller: timePicker,
-                                                      onTap: () async {
-                                                        TimeOfDay? newTime =
-                                                            await showTimePicker(
-                                                                context:
-                                                                    context,
-                                                                initialTime:
-                                                                    time);
-                                                        if (newTime == null) {
-                                                          return;
-                                                        }
-                                                        setState(() {
-                                                          time = newTime;
-                                                          int hour = time.hour;
-                                                          int minute =
-                                                              time.minute;
-
-                                                          // เพิ่มเลข 0 ข้างหน้าของชั่วโมงและนาทีที่น้อยกว่า 10
-                                                          String formattedHour =
-                                                              hour < 10
-                                                                  ? '0$hour'
-                                                                  : '$hour';
-                                                          String
-                                                              formattedMinute =
-                                                              minute < 10
-                                                                  ? '0$minute'
-                                                                  : '$minute';
-
-                                                          // สร้างเวลาในรูปแบบ "HH:mm:ss" หรือ "HH:mm"
-                                                          formattedTime =
-                                                              "$formattedHour:$formattedMinute";
-
-                                                          // ตรวจสอบความถูกต้องของ formattedTime
-                                                          if (formattedTime
-                                                                      .length ==
-                                                                  5 &&
-                                                              formattedTime[
-                                                                      2] !=
-                                                                  ':') {
-                                                            formattedTime =
-                                                                'Invalid Time';
-                                                          }
-
-                                                          // กำหนดค่าให้กับ TextField
-                                                          timePicker.text =
-                                                              formattedTime;
-
-                                                          print(time.hour);
-                                                        });
-                                                      },
-                                                      validator: (value) {
-                                                        if (value == null ||
-                                                            value.isEmpty) {
-                                                          setState(() {
-                                                            checkSelectStartTime =
-                                                                true;
-                                                          });
-                                                        } else {
-                                                          setState(() {
-                                                            checkSelectStartTime =
-                                                                false;
-                                                          });
-                                                        }
-                                                      },
-                                                      inputFormatters: [
-                                                        FilteringTextInputFormatter
-                                                            .digitsOnly, // บังคับให้กรอกแค่ตัวเลขเท่านั้น
-                                                      ],
-                                                      decoration:
-                                                          const InputDecoration(
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12.0,
+                                                              top: 17.0,
+                                                              right: 12.0,
+                                                              bottom: 12.0),
+                                                      alignment: Alignment
+                                                          .centerLeft, // ชิดซ้าย
+                                                      child: Text(
+                                                          selectedSemesterNow,
+                                                          style: CustomTextStyle
+                                                              .createFontStyle),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                        "เทอม",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 8.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
+                                                      child: Container(
+                                                        //width: 50,
+                                                        height: 50,
+                                                        alignment:
+                                                            AlignmentDirectional
+                                                                .centerStart,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 20.0,
+                                                                top: 5.0,
+                                                                right: 10.0,
+                                                                bottom: 5.0),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        // dropdown below..
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          isExpanded: true,
+                                                          value: selectedTerm,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          items: terms.map(
+                                                            (String items) {
+                                                              return DropdownMenuItem(
+                                                                value: items,
+                                                                child:
+                                                                    Text(items),
+                                                              );
+                                                            },
+                                                          ).toList(),
+                                                          onChanged: (String?
+                                                              newValue) {
+                                                            setState(() {
+                                                              selectedTerm =
+                                                                  newValue!;
+                                                            });
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .keyboard_arrow_down),
+                                                          underline:
+                                                              const SizedBox(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                        "รหัสวิชา",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 8.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
+                                                      child: Container(
+                                                          width: 150,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20.0,
+                                                                  top: 10.0,
+                                                                  right: 10.0,
+                                                                  bottom: 10.0),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              border: checkSelectSubjectId!
+                                                                  ? Border.all(
+                                                                      color: Colors
+                                                                          .red)
+                                                                  : null,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          // dropdown below..
+                                                          child:
+                                                              DropdownButtonFormField<
+                                                                  String>(
+                                                            isExpanded: true,
+                                                            value:
+                                                                selectedSubjectId,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+                                                            items: dataSubject
+                                                                .map((Map<
+                                                                        String,
+                                                                        dynamic>
+                                                                    subject) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value: subject[
+                                                                    'subjectId'],
+                                                                child: Text(subject[
+                                                                    'subjectId']),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged: (String?
+                                                                newValue) {
+                                                              setState(() {
+                                                                selectedSubjectId =
+                                                                    newValue;
+                                                              });
+                                                            },
+                                                            validator: (String?
+                                                                value) {
+                                                              if (value ==
+                                                                      null ||
+                                                                  value
+                                                                      .isEmpty) {
+                                                                setState(() {
+                                                                  checkSelectSubjectId =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  checkSelectSubjectId =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration
+                                                                    .collapsed(
+                                                              hintText:
+                                                                  'เลือกรหัสวิชา',
+                                                              hintStyle: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: checkSelectSubjectId!
+                                                                      ? Colors
+                                                                          .red
+                                                                          .withOpacity(
+                                                                              0.5)
+                                                                      : Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              0.5)), // กำหนดสีข้อความเป็นสีแดงเมื่อมีข้อผิดพลาด
                                                               border:
                                                                   InputBorder
-                                                                      .none),
+                                                                      .none,
+                                                            ),
+                                                            icon: const Icon(Icons
+                                                                .keyboard_arrow_down),
+                                                          )),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              checkStartTime()
-                                            ],
-                                          ),
-                                        ),
-                                        //p6
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ระยะเวลาเรียน : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกระยะเวลาเรียน
-                                              Container(
-                                                width: 300,
-                                                height: 40,
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedDuration,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: durationTime.map(
-                                                    (String durationTime) {
-                                                      return DropdownMenuItem(
-                                                        value: durationTime,
-                                                        child:
-                                                            Text(durationTime),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedDuration =
-                                                          newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
-                                                ),
-                                              ),
-                                              const Text(
-                                                " ชั่วโมง",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        //p7
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ประเภท : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกประเภท
-                                              Container(
-                                                width: 150,
-                                                height: 40,
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                // dropdown below..
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: selectedTypeSubject,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                  items: typesub.map(
-                                                    (String typesub) {
-                                                      return DropdownMenuItem(
-                                                        value: typesub,
-                                                        child: Text(typesub),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      selectedTypeSubject =
-                                                          newValue!;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .keyboard_arrow_down),
-                                                  underline: const SizedBox(),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        //p8
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ห้องเรียน : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              //ปุ่มเลือกห้องเรียน
-                                              Container(
-                                                  width: 300,
-                                                  height: 50,
-                                                  alignment:
-                                                      AlignmentDirectional
-                                                          .centerStart,
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  // dropdown below..
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    value: selectedRoom,
-                                                    style: const TextStyle(
-                                                      fontSize: 18,
-                                                    ),
-                                                    items: dataRoom.map(
-                                                        (Map<String, dynamic>
-                                                            room) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: room['roomName'],
-                                                        child: Text(
-                                                            '${room['building']} - ${room['roomName']}'),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      setState(() {
-                                                        selectedRoom = newValue;
-                                                      });
-                                                    },
-                                                    validator: (String? value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        checkSelectRoomName =
-                                                            true;
-                                                      } else {
-                                                        setState(() {
-                                                          checkSelectRoomName =
-                                                              false;
-                                                        });
-                                                      }
-                                                      // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      hintText:
-                                                          'กรุณาเลือกห้องเรียน',
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    icon: const Icon(Icons
-                                                        .keyboard_arrow_down),
-                                                  )),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              checkRoomName()
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 40,
-                                                        vertical: 15),
-                                                textStyle: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                primary: Colors.red,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0), // กำหนดมุม
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                    return const ListClassScreen();
-                                                  }));
-                                                });
-                                              },
-                                              child: Text("ยกเลิก"),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 40,
-                                                        vertical: 15),
-                                                textStyle: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0), // กำหนดมุม
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                        "กลุ่มเรียน",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              onPressed: () async {
-                                                if (formKey.currentState!
-                                                    .validate()) {
-                                                  print("ผ่าน");
-                                                  String IdUser =
-                                                      userNow?.id?.toString() ??
-                                                          "";
-                                                  // ค้นหา id ที่เกี่ยวข้องจาก dataSubject
-                                                  var selectedSubject =
-                                                      dataSubject.firstWhere(
-                                                    (subject) =>
-                                                        subject['subjectId'] ==
-                                                        selectedSubjectId,
-                                                  );
-                                                  // ค้นหา id ที่เกี่ยวข้องจาก dataRoom
-                                                  var selectedRoomName =
-                                                      dataRoom.firstWhere(
-                                                    (room) =>
-                                                        room['roomName'] ==
-                                                        selectedRoom,
-                                                  );
-                                                  // ตรวจสอบว่าพบ subjectId ที่เลือกหรือไม่
-                                                  if (checkSelectSubjectId == false &&
-                                                      checkSelectStartTime ==
-                                                          false &&
-                                                      checkSelectRoomName ==
-                                                          false) {
-                                                    var IdSubject =
-                                                        selectedSubject['id'];
-                                                    //print('คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 8.0,
+                                                                top: 8.0,
+                                                                right: 8.0,
+                                                                bottom: 8.0),
+                                                        child: Container(
+                                                          width: 120,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20.0,
+                                                                  top: 15.0,
+                                                                  right: 10.0,
+                                                                  bottom: 10.0),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              border: inputGroupNumber!
+                                                                  ? Border.all(
+                                                                      color: Colors
+                                                                          .red)
+                                                                  : null,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          // dropdown below..
+                                                          child: TextFormField(
+                                                            //ปรับให้กรอกแค่ตัวเลข
+                                                            keyboardType:
+                                                                const TextInputType
+                                                                        .numberWithOptions(
+                                                                    decimal:
+                                                                        true),
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      r'^[1-9]\d*')),
+                                                            ],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+                                                            onChanged:
+                                                                (String value) {
+                                                              setState(() {
+                                                                selectedGroupStu =
+                                                                    value;
+                                                              });
+                                                            },
+                                                            validator: (String?
+                                                                value) {
+                                                              if (value ==
+                                                                      null ||
+                                                                  value
+                                                                      .isEmpty) {
+                                                                setState(() {
+                                                                  inputGroupNumber =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  inputGroupNumber =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              errorBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'ระบุกลุ่มเรียน',
+                                                              hintStyle: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: inputGroupNumber!
+                                                                      ? Colors
+                                                                          .red
+                                                                          .withOpacity(
+                                                                              0.5)
+                                                                      : Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              0.5)),
+                                                            ),
+                                                          ),
+                                                        )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                        "เวลาเริ่มเรียน",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0,
+                                                          top: 8.0,
+                                                          right: 8.0,
+                                                          bottom: 8.0),
+                                                      child: //ปุ่มเลือกระยะเวลาเรียน
+                                                          Container(
+                                                        width: 300,
+                                                        height: 50,
+                                                        alignment:
+                                                            AlignmentDirectional
+                                                                .centerStart,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 20.0,
+                                                                top: 10.0,
+                                                                right: 10.0,
+                                                                bottom: 10.0),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        // dropdown below..
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          isExpanded: true,
+                                                          value:
+                                                              selectedStartTime,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          items: startTime.map(
+                                                            (String startTime) {
+                                                              return DropdownMenuItem(
+                                                                value:
+                                                                    startTime,
+                                                                child: Text(
+                                                                    startTime),
+                                                              );
+                                                            },
+                                                          ).toList(),
+                                                          onChanged: (String?
+                                                              newValue) {
+                                                            setState(() {
+                                                              selectedStartTime =
+                                                                  newValue!;
+                                                            });
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .keyboard_arrow_down),
+                                                          underline:
+                                                              const SizedBox(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      alignment: textHeaderbar,
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                        "ระยะเวลาเรียน",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 8.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
+                                                      child: //ปุ่มเลือกระยะเวลาเรียน
+                                                          Container(
+                                                        width: 300,
+                                                        height: 50,
+                                                        alignment:
+                                                            AlignmentDirectional
+                                                                .centerStart,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 20.0,
+                                                                top: 10.0,
+                                                                right: 10.0,
+                                                                bottom: 10.0),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        // dropdown below..
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          isExpanded: true,
+                                                          value:
+                                                              selectedDuration,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          items:
+                                                              durationTime.map(
+                                                            (String
+                                                                durationTime) {
+                                                              return DropdownMenuItem(
+                                                                value:
+                                                                    durationTime,
+                                                                child: Text(
+                                                                    durationTime),
+                                                              );
+                                                            },
+                                                          ).toList(),
+                                                          onChanged: (String?
+                                                              newValue) {
+                                                            setState(() {
+                                                              selectedDuration =
+                                                                  newValue!;
+                                                            });
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .keyboard_arrow_down),
+                                                          underline:
+                                                              const SizedBox(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      alignment: textHeaderbar,
+                                                      child: const Text(
+                                                        "ประเภท",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 8.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
+                                                      child: //ปุ่มเลือกประเภท
+                                                          Container(
+                                                        width: 150,
+                                                        height: 50,
+                                                        alignment:
+                                                            AlignmentDirectional
+                                                                .centerStart,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 20.0,
+                                                                top: 10.0,
+                                                                right: 10.0,
+                                                                bottom: 10.0),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        // drdown below..
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          isExpanded: true,
+                                                          value:
+                                                              selectedTypeSubject,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          items: typesub.map(
+                                                            (String typesub) {
+                                                              return DropdownMenuItem(
+                                                                value: typesub,
+                                                                child: Text(
+                                                                    typesub),
+                                                              );
+                                                            },
+                                                          ).toList(),
+                                                          onChanged: (String?
+                                                              newValue) {
+                                                            setState(() {
+                                                              selectedTypeSubject =
+                                                                  newValue!;
+                                                            });
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .keyboard_arrow_down),
+                                                          underline:
+                                                              const SizedBox(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      alignment: textHeaderbar,
+                                                      child: const Text(
+                                                        "ห้องเรียน",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: //ปุ่มเลือกห้องเรียน
+                                                          Container(
+                                                              width: 300,
+                                                              height: 50,
+                                                              alignment: AlignmentDirectional
+                                                                  .centerStart,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          20.0,
+                                                                      top: 10.0,
+                                                                      right:
+                                                                          10.0,
+                                                                      bottom:
+                                                                          10.0),
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: checkSelectRoomName!
+                                                                      ? Border.all(
+                                                                          color: Colors
+                                                                              .red)
+                                                                      : null,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              // dropdown below..
+                                                              child:
+                                                                  DropdownButtonFormField<
+                                                                      String>(
+                                                                isExpanded:
+                                                                    true,
+                                                                value:
+                                                                    selectedRoom,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 18,
+                                                                ),
+                                                                items: dataRoom
+                                                                    .map((Map<
+                                                                            String,
+                                                                            dynamic>
+                                                                        room) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: room[
+                                                                        'roomName'],
+                                                                    child: Text(
+                                                                        '${room['building']} - ${room['roomName']}'),
+                                                                  );
+                                                                }).toList(),
+                                                                onChanged: (String?
+                                                                    newValue) {
+                                                                  setState(() {
+                                                                    selectedRoom =
+                                                                        newValue;
+                                                                  });
+                                                                },
+                                                                validator:
+                                                                    (String?
+                                                                        value) {
+                                                                  if (value ==
+                                                                          null ||
+                                                                      value
+                                                                          .isEmpty) {
+                                                                    checkSelectRoomName =
+                                                                        true;
+                                                                  } else {
+                                                                    setState(
+                                                                        () {
+                                                                      checkSelectRoomName =
+                                                                          false;
+                                                                    });
+                                                                  }
+                                                                  // สามารถเพิ่มเงื่อนไขเพิ่มเติมตามความต้องการได้
+                                                                  return null;
+                                                                },
+                                                                decoration: InputDecoration.collapsed(
+                                                                    hintText:
+                                                                        'เลือกห้องเรียน',
+                                                                    hintStyle: TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: checkSelectRoomName!
+                                                                            ? Colors.red.withOpacity(
+                                                                                0.5)
+                                                                            : Colors.black.withOpacity(
+                                                                                0.5)),
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none),
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_down),
+                                                              )),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: const Text(
+                                                        "",
+                                                        style: CustomTextStyle
+                                                            .createFontStyle,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TableCell(
+                                                  child: IntrinsicWidth(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: //ปุ่มเลือกห้องเรียน
+                                                          Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      40,
+                                                                  vertical: 15),
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              primary:
+                                                                  Colors.red,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0), // กำหนดมุม
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushReplacement(MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return const ListClassScreen();
+                                                                }));
+                                                              });
+                                                            },
+                                                            child:
+                                                                Text("ยกเลิก"),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      40,
+                                                                  vertical: 15),
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0), // กำหนดมุม
+                                                              ),
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              if (formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                print("ผ่าน");
+                                                                String IdUser =
+                                                                    userNow?.id
+                                                                            ?.toString() ??
+                                                                        "";
+                                                                // ค้นหา id ที่เกี่ยวข้องจาก dataSubject
+                                                                var selectedSubject =
+                                                                    dataSubject
+                                                                        .firstWhere(
+                                                                  (subject) =>
+                                                                      subject[
+                                                                          'subjectId'] ==
+                                                                      selectedSubjectId,
+                                                                );
+                                                                // ค้นหา id ที่เกี่ยวข้องจาก dataRoom
+                                                                var selectedRoomName =
+                                                                    dataRoom
+                                                                        .firstWhere(
+                                                                  (room) =>
+                                                                      room[
+                                                                          'roomName'] ==
+                                                                      selectedRoom,
+                                                                );
+                                                                // ตรวจสอบว่าพบ subjectId ที่เลือกหรือไม่
+                                                                if (checkSelectSubjectId == false &&
+                                                                    checkSelectStartTime ==
+                                                                        false &&
+                                                                    checkSelectRoomName ==
+                                                                        false) {
+                                                                  var IdSubject =
+                                                                      selectedSubject[
+                                                                          'id'];
+                                                                  //print('คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
 
-                                                    // เรียก addCourse และรอการตอบกลับ
-                                                    http.Response response =
-                                                        await courseController
-                                                            .addCourse(
-                                                      IdSubject.toString(),
-                                                      IdUser,
-                                                      selectedTerm.toString(),
-                                                      selectedSemesterNow
-                                                          .toString(),
-                                                    );
+                                                                  // เรียก addCourse และรอการตอบกลับ
+                                                                  http.Response
+                                                                      response =
+                                                                      await courseController
+                                                                          .addCourse(
+                                                                    IdSubject
+                                                                        .toString(),
+                                                                    IdUser,
+                                                                    selectedTerm
+                                                                        .toString(),
+                                                                    selectedSemesterNow
+                                                                        .toString(),
+                                                                  );
 
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      // เรียก addCourse สำเร็จ
+                                                                  if (response
+                                                                          .statusCode ==
+                                                                      200) {
+                                                                    // เรียก addCourse สำเร็จ
 
-                                                      // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
-                                                      Map<String, dynamic>
-                                                          responseBody =
-                                                          json.decode(
-                                                              response.body);
+                                                                    // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
+                                                                    Map<String,
+                                                                            dynamic>
+                                                                        responseBody =
+                                                                        json.decode(
+                                                                            response.body);
 
-                                                      // ดึง IdCourse ที่ได้รับจาก response ออกมา
-                                                      var IdCourse =
-                                                          responseBody['id'];
+                                                                    // ดึง IdCourse ที่ได้รับจาก response ออกมา
+                                                                    var IdCourse =
+                                                                        responseBody[
+                                                                            'id'];
 
-                                                      if (selectedRoomName !=
-                                                          null) {
-                                                        var IdRoom =
-                                                            selectedRoomName[
-                                                                'id'];
-                                                        print(
-                                                            'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
+                                                                    if (selectedRoomName !=
+                                                                        null) {
+                                                                      var IdRoom =
+                                                                          selectedRoomName[
+                                                                              'id'];
+                                                                      print(
+                                                                          'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
 
-                                                        // เรียก addSection และรอการตอบกลับ
-                                                        http.Response
-                                                            sectionResponse =
-                                                            await sectionController
-                                                                .addSection(
-                                                          timePicker.text,
-                                                          selectedDuration
-                                                              .toString(),
-                                                          selectedGroupStu
-                                                              .toString(),
-                                                          selectedTypeSubject
-                                                              .toString(),
-                                                          IdUser.toString(),
-                                                          IdCourse
-                                                              .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
-                                                          IdRoom.toString(),
-                                                        );
+                                                                      // เรียก addSection และรอการตอบกลับ
+                                                                      http.Response
+                                                                          sectionResponse =
+                                                                          await sectionController
+                                                                              .addSection(
+                                                                        selectedStartTime
+                                                                            .toString(),
+                                                                        selectedDuration
+                                                                            .toString(),
+                                                                        selectedGroupStu
+                                                                            .toString(),
+                                                                        selectedTypeSubject
+                                                                            .toString(),
+                                                                        IdUser
+                                                                            .toString(),
+                                                                        IdCourse
+                                                                            .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
+                                                                        IdRoom
+                                                                            .toString(),
+                                                                      );
 
-                                                        if (sectionResponse
-                                                                .statusCode ==
-                                                            200) {
-                                                          // เรียก addSection สำเร็จ
-                                                          showSuccessToCreateClassAlert();
-                                                          print("บันทึกสำเร็จ");
-                                                        }
-                                                      }
-                                                    }
-                                                  } else {
-                                                    print(
-                                                        'ไม่พบ subjectId: $selectedSubjectId ในรายการ');
-                                                  }
-                                                }
-                                              },
-                                              child: const Text("ยืนยัน"),
-                                            )
+                                                                      if (sectionResponse
+                                                                              .statusCode ==
+                                                                          200) {
+                                                                        // เรียก addSection สำเร็จ
+                                                                        showSuccessToCreateClassAlert();
+                                                                        print(
+                                                                            "บันทึกสำเร็จ");
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                } else {
+                                                                  print(
+                                                                      'ไม่พบ subjectId: $selectedSubjectId ในรายการ');
+                                                                }
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                                "ยืนยัน"),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                        )
+                                      ])),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      ]),
+                          )),
                     ]),
-                  ),
+                  ])),
                 ],
               ));
   }
