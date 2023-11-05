@@ -9,6 +9,7 @@ import 'package:flutter_application_1/screens/admin/list_student.dart';
 import 'package:flutter_application_1/screens/admin/list_subject.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:flutter_application_1/screens/student/detail_student_profile.dart';
+import 'package:flutter_application_1/screens/student/view_student_subject.dart';
 import 'package:flutter_application_1/screens/teacher/create_class.dart';
 import 'package:flutter_application_1/screens/teacher/detail_teacher_profile.dart';
 import 'package:flutter_application_1/screens/teacher/list_class.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: maincolor,
       ),
-      home: const ListClassScreen(),
+      home: const ViewStudentSubject(),
       //home: const LoginScreen(),
     );
   }

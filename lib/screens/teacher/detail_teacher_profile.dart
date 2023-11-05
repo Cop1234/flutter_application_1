@@ -151,7 +151,7 @@ class _DetailTeacherProfileState extends State<DetailTeacherProfile> {
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         Text(
-                                          "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
+                                          "วัน เดือน ปี เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         const SizedBox(

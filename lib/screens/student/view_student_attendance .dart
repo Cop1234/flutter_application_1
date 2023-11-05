@@ -36,12 +36,10 @@ class _StudentAttenState extends State<StudentAtten> {
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
   bool? isLoaded = false;
-  String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-
-  String? selectedDropdownValue;
-
   int? sectionid;
   String? iduser;
+  late Widget statusIconWidget;
+
   Section? section;
   User? user;
   Registration? registration;
@@ -69,7 +67,8 @@ class _StudentAttenState extends State<StudentAtten> {
 
   void userData(String sectionId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
+    //String? username = prefs.getString('username');
+    String? username = "MJU6304106304";
     if (username != null) {
       user = await userController.get_UserByUsername(username);
       iduser = user?.id.toString();
@@ -109,6 +108,7 @@ class _StudentAttenState extends State<StudentAtten> {
   String? attenfname;
   String? attenlname;
   bool checkuseridandname = false;
+  String? checkInTime;
 
   void showAtten(String regId) async {
     List<AttendanceSchedule> atten =
@@ -127,6 +127,7 @@ class _StudentAttenState extends State<StudentAtten> {
                 'status': attenData.status ?? "",
               })
           .toList();
+      checkInTime = data.isNotEmpty ? data[0]['time'] : null;
       isLoaded = true;
     });
   }
@@ -208,18 +209,18 @@ class _StudentAttenState extends State<StudentAtten> {
                                                   CustomTextStyle.mainFontStyle,
                                             ),
                                             Text(
-                                              "กลุ่ม : ${sectionNumber.text} เวลา : ${DateFormat('jm').format(sectionTime)} ประเภท : ${regsubjecttype.text}",
+                                              "กลุ่ม : ${sectionNumber.text}  เวลา : ${DateFormat('HH:mm').format(sectionTime)} น.  ประเภท : ${regsubjecttype.text}",
                                               style:
                                                   CustomTextStyle.mainFontStyle,
                                             ),
                                             Text(
-                                              "ห้อง : ${room.text}   " +
+                                              "ห้อง : ${room.text}  " +
                                                   "ตึก : ${building.text}   ",
                                               style:
                                                   CustomTextStyle.mainFontStyle,
                                             ),
                                             Text(
-                                              "รหัสนักศึกษา :  ${reguserid.text} ชื่อ : ${regfname.text} ${reglname.text}",
+                                              "รหัสนักศึกษา : ${reguserid.text}  ชื่อ : ${regfname.text} ${reglname.text}",
                                               style:
                                                   CustomTextStyle.mainFontStyle,
                                             ),
@@ -357,10 +358,23 @@ class _StudentAttenState extends State<StudentAtten> {
                                                       child: Align(
                                                         alignment:
                                                             Alignment.center,
-                                                        child: Text(
-                                                          row['status'] ?? "",
-                                                          style: CustomTextStyle
-                                                              .TextGeneral,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              row['status'],
+                                                              style: CustomTextStyle
+                                                                  .TextGeneral,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            statusIconWidget =
+                                                                getStatusIcon(row[
+                                                                    'status']),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
@@ -387,6 +401,30 @@ class _StudentAttenState extends State<StudentAtten> {
                 ),
               ],
             ),
+    );
+  }
+
+  Widget getStatusIcon(String statusCheck) {
+    IconData iconData;
+    Color iconColor;
+
+    if (statusCheck == 'เข้าเรียนปกติ') {
+      iconData = Icons.check_circle;
+      iconColor = Colors.green;
+    } else if (statusCheck == 'เข้าเรียนสาย') {
+      iconData = Icons.access_time;
+      iconColor = Colors.orange;
+    } else if (statusCheck == 'ขาดเรียน') {
+      iconData = Icons.cancel;
+      iconColor = Colors.red;
+    } else {
+      iconData = Icons.info;
+      iconColor = Colors.black;
+    }
+
+    return Icon(
+      iconData,
+      color: iconColor,
     );
   }
 }

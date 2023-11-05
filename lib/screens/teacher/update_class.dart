@@ -96,8 +96,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     print("CheckTime - ${selectedStartTime}");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = "Tanakorn63@gmail.com";
+    String? username = prefs.getString('username');
+    //String? username = "Tanakorn63@gmail.com";
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
       print("ชื่อผู้ใช้ขณะนี้ " + username);
@@ -155,6 +155,10 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     '15:00',
     '15:30',
     '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
   ];
   var durationTime = ['1', '2', '3', '4'];
 
@@ -1045,97 +1049,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                   child: IntrinsicWidth(
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.all(8.0),
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 30.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
                                                       child: //ปุ่มเลือกห้องเรียน
                                                           Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .end,
+                                                                .start,
                                                         children: [
-                                                          ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20.0), // กำหนดมุม
-                                                              ),
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      40,
-                                                                  vertical: 15),
-                                                              textStyle: const TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                              primary:
-                                                                  Colors.blue,
-                                                            ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushReplacement(MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                  return const ListClassScreen();
-                                                                }));
-                                                              });
-                                                            },
-                                                            child: const Text(
-                                                                "ยกเลิก"),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20.0), // กำหนดมุม
-                                                              ),
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      40,
-                                                                  vertical: 15),
-                                                              textStyle: const TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                              primary:
-                                                                  Colors.red,
-                                                            ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Future.delayed(
-                                                                    const Duration(
-                                                                        seconds:
-                                                                            0),
-                                                                    () => showSureToDeleteClass(
-                                                                        sectionIdNow
-                                                                            .toString(),
-                                                                        courseIdNow
-                                                                            .toString()));
-                                                              });
-                                                            },
-                                                            child: const Text(
-                                                                "ลบ"),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
                                                           ElevatedButton(
                                                             style: ElevatedButton
                                                                 .styleFrom(
@@ -1148,7 +1072,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                     padding: const EdgeInsets
                                                                             .symmetric(
                                                                         horizontal:
-                                                                            40,
+                                                                            80,
                                                                         vertical:
                                                                             15),
                                                                     textStyle: const TextStyle(
@@ -1271,7 +1195,91 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                             },
                                                             child: const Text(
                                                                 "แก้ไข"),
-                                                          )
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0), // กำหนดมุม
+                                                              ),
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      40,
+                                                                  vertical: 15),
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              primary:
+                                                                  Colors.red,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                Future.delayed(
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            0),
+                                                                    () => showSureToDeleteClass(
+                                                                        sectionIdNow
+                                                                            .toString(),
+                                                                        courseIdNow
+                                                                            .toString()));
+                                                              });
+                                                            },
+                                                            child: const Text(
+                                                                "ลบ"),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0), // กำหนดมุม
+                                                              ),
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      40,
+                                                                  vertical: 15),
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              primary:
+                                                                  Colors.blue,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushReplacement(MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return const ListClassScreen();
+                                                                }));
+                                                              });
+                                                            },
+                                                            child: const Text(
+                                                                "ยกเลิก"),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),

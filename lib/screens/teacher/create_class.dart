@@ -121,6 +121,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
     '15:00',
     '15:30',
     '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
   ];
   var durationTime = ['1', '2', '3', '4'];
 
@@ -958,12 +962,16 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                   child: IntrinsicWidth(
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.all(8.0),
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              top: 30.0,
+                                                              right: 8.0,
+                                                              bottom: 8.0),
                                                       child: //ปุ่มเลือกห้องเรียน
                                                           Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .end,
+                                                                .start,
                                                         children: [
                                                           ElevatedButton(
                                                             style:
@@ -972,48 +980,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                               padding: const EdgeInsets
                                                                       .symmetric(
                                                                   horizontal:
-                                                                      40,
-                                                                  vertical: 15),
-                                                              textStyle: const TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                              primary:
-                                                                  Colors.red,
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20.0), // กำหนดมุม
-                                                              ),
-                                                            ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushReplacement(MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                  return const ListClassScreen();
-                                                                }));
-                                                              });
-                                                            },
-                                                            child:
-                                                                Text("ยกเลิก"),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      40,
+                                                                      80,
                                                                   vertical: 15),
                                                               textStyle: const TextStyle(
                                                                   fontSize: 15,
@@ -1147,7 +1114,48 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                             },
                                                             child: const Text(
                                                                 "ยืนยัน"),
-                                                          )
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      40,
+                                                                  vertical: 15),
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              primary:
+                                                                  Colors.red,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0), // กำหนดมุม
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushReplacement(MaterialPageRoute(builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                  return const ListClassScreen();
+                                                                }));
+                                                              });
+                                                            },
+                                                            child:
+                                                                Text("ยกเลิก"),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
