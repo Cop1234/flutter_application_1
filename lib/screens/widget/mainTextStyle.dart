@@ -24,4 +24,16 @@ class CustomTextStyle {
     color: Colors.green,
     fontWeight: FontWeight.bold,
   );
+
+  static const TextStyle TextGeneral2 = TextStyle(
+    fontSize: 20,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle Textheader = TextStyle(
+    fontSize: 60,
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+  );
 }

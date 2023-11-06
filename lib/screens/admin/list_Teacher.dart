@@ -223,7 +223,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -299,7 +299,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                   alignment: Alignment.center,
                                                   child: Text(index.toString(),
                                                       style: CustomTextStyle
-                                                          .TextGeneral),
+                                                          .TextGeneral2),
                                                 ),
                                               )),
                                               DataCell(
@@ -310,7 +310,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                     child: Text(
                                                       row['fname'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -323,7 +323,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                     child: Text(
                                                       row['lname'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -339,14 +339,13 @@ class _ListTeacherState extends State<ListTeacher>
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -375,8 +374,7 @@ class _ListTeacherState extends State<ListTeacher>
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(Icons.delete,
                                                                   color: Colors
                                                                       .black),

@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
 import 'package:flutter_application_1/screens/widget/navbar_teacher.dart';
 import 'package:intl/intl.dart';
+import 'package:popup_banner/popup_banner.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../color.dart';
 import '../widget/mainTextStyle.dart';
@@ -119,6 +121,28 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     );
   }
 
+  void showErrorNullValue() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "ในไฟล์ควรไม่มีค่าว่าง!",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+      //barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
+    );
+  }
+
+  void showErrorValueError() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "ข้อความในไฟล์มีข้อผิดพลาด",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+      //barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
+    );
+  }
+
   Future<void> _pickFile(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -145,6 +169,21 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
         SnackBar(content: Text('File upload failed: $e')),
       );
     }
+  }
+
+  List<String> images = [
+    "images/import/ImportStudent_class.png",
+  ];
+  void showHideDotsPopup() {
+    PopupBanner(
+      context: context,
+      images: images,
+      autoSlide: false,
+      useDots: false,
+      onClick: (index) {
+        debugPrint("CLICKED $index");
+      },
+    ).show();
   }
 
   @override
@@ -267,6 +306,14 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                         padding: const EdgeInsets.all(30.0),
                                         child: Column(
                                           children: [
+                                            const Center(
+                                                child: Text(
+                                              "เพิ่มนักศึกษา",
+                                              style: CustomTextStyle.Textheader,
+                                            )),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
                                             Padding(
                                               padding: const EdgeInsets.all(30),
                                               child: Row(
@@ -277,7 +324,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                       decoration:
                                                           const InputDecoration(
                                                         border:
-                                                            UnderlineInputBorder(),
+                                                            OutlineInputBorder(),
                                                         labelText: "",
                                                       ),
                                                     ),
@@ -288,19 +335,13 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           horizontal: 40,
-                                                          vertical: 15),
+                                                          vertical: 22),
                                                       textStyle:
                                                           const TextStyle(
                                                               fontSize: 15,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                20.0), // กำหนดมุม
-                                                      ),
                                                     ),
                                                     onPressed: () {
                                                       _pickFile(context);
@@ -310,6 +351,29 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                   ),
                                                 ],
                                               ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(30),
+                                              child: GestureDetector(
+                                                  onTap: () {
+                                                    showHideDotsPopup();
+                                                  },
+                                                  child: Align(
+                                                    alignment: Alignment
+                                                        .centerLeft, // กำหนดให้ชิดซ้าย
+                                                    child: Text(
+                                                      "ตัวอย่างไฟล์",
+                                                      style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        fontSize: 16,
+                                                        color: Colors.blue,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.all(40),
@@ -335,9 +399,23 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      if (uploadfile != null) {
-                                                        print("Upload to API!");
+                                                      // if (uploadfile != null) {
+                                                      //   print("Upload to API!");
 
+                                                      //   var response =
+                                                      //       await registrationController
+                                                      //           .upload(
+                                                      //               uploadfile!,
+                                                      //               fileName,
+                                                      //               '${section?.id.toString()}');
+                                                      //   if (response == 200) {
+                                                      //     showSuccessToAddStudentAlert();
+                                                      //     print("บันทึกสำเร็จ");
+                                                      //   }
+                                                      // } else {
+                                                      //   showErrorUserNameExistsAlert();
+                                                      // }
+                                                      try {
                                                         var response =
                                                             await registrationController
                                                                 .upload(
@@ -347,9 +425,25 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                         if (response == 200) {
                                                           showSuccessToAddStudentAlert();
                                                           print("บันทึกสำเร็จ");
+                                                        } else {
+                                                          showErrorValueError();
                                                         }
-                                                      } else {
+                                                      } on DioError catch (e) {
+                                                        // จัดการข้อผิดพลาดจาก Dio
+                                                        print(
+                                                            "DioError: ${e.message}");
+                                                        if (e.response !=
+                                                            null) {
+                                                          print(
+                                                              "ข้อมูลการตอบรับ: ${e.response!.data}");
+                                                          showErrorNullValue();
+                                                        }
+                                                        // คุณสามารถแสดงข้อความข้อผิดพลาดให้ผู้ใช้หรือบันทึกรายละเอียดเพิ่มเติมเกี่ยวกับข้อผิดพลาด.
+                                                      } catch (e) {
+                                                        // จัดการข้อยกเว้นอื่น ๆ
+                                                        print("ข้อผิดพลาด: $e");
                                                         showErrorUserNameExistsAlert();
+                                                        // จัดการข้อยกเว้นอื่น ๆ ตามความจำเป็น
                                                       }
                                                     },
                                                     child: const Text("เพิ่ม")),

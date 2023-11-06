@@ -214,7 +214,7 @@ class _ListStudentState extends State<ListStudent> {
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -289,7 +289,7 @@ class _ListStudentState extends State<ListStudent> {
                                                   child: Text(
                                                     row['userid'],
                                                     style: CustomTextStyle
-                                                        .TextGeneral,
+                                                        .TextGeneral2,
                                                   ),
                                                 ),
                                               )),
@@ -301,7 +301,7 @@ class _ListStudentState extends State<ListStudent> {
                                                     child: Text(
                                                       row['fname'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -314,7 +314,7 @@ class _ListStudentState extends State<ListStudent> {
                                                     child: Text(
                                                       row['lname'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -330,14 +330,13 @@ class _ListStudentState extends State<ListStudent> {
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -366,8 +365,7 @@ class _ListStudentState extends State<ListStudent> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(Icons.delete,
                                                                   color: Colors
                                                                       .black),
