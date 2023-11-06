@@ -10,15 +10,14 @@ import '../../controller/user_controller.dart';
 import '../../model/user.dart';
 import 'edit_teacher_password.dart';
 
-class EditProfileTeacherScreen extends StatefulWidget {
-  const EditProfileTeacherScreen({super.key});
+class DetailTeacherProfile extends StatefulWidget {
+  const DetailTeacherProfile({super.key});
 
   @override
-  State<EditProfileTeacherScreen> createState() =>
-      _EditProfileTeacherScreenState();
+  State<DetailTeacherProfile> createState() => _DetailTeacherProfileState();
 }
 
-class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
+class _DetailTeacherProfileState extends State<DetailTeacherProfile> {
   bool passToggle = true;
 
   final UserController userController = UserController();
@@ -60,6 +59,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
   void userData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    //String? username = 'Tanakorn63@gmail.com';
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
@@ -151,7 +151,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         Text(
-                                          "วัน เดือน ปี ที่เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
+                                          "วัน เดือน ปี เกิด : ${DateFormat('dd-MM-yyyy').format(selecteData)}",
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         const SizedBox(
@@ -181,7 +181,7 @@ class _EditProfileTeacherScreenState extends State<EditProfileTeacherScreen> {
                                                       MaterialPageRoute(builder:
                                                           (BuildContext
                                                               context) {
-                                                return DetailEditTeacherProfile(
+                                                return EditPasswordTeacherScreen(
                                                     id: '${users?.id.toString()}');
                                               }));
                                             },

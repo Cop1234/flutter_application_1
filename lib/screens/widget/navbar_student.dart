@@ -90,7 +90,7 @@ class _NavbarStudentState extends State<NavbarStudent> {
                   pressed2 = !pressed2;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return const EditStudentProfile();
+                    return const DetailStudentProfile();
                   }));
                 });
               },

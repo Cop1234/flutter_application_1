@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/model/registration.dart';
@@ -116,6 +117,16 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
       title: "แจ้งเตือน",
       text:
           "นักศึกษารหัส $userId มีอยู่ ${subjectid.text} ${subjectName.text} แล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
+  }
+
+  void showErrorUserIdNotInDataBaseAlert(String userId) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "นักศึกษารหัส $userId ไม่มีอยู่ในระบบ",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
     );
@@ -267,37 +278,47 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                             10), // Adjust the width for spacing
                                                     Container(
                                                       width: 500,
-                                                      child: Expanded(
-                                                        child: TextFormField(
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          controller:
-                                                              useridController,
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            errorStyle:
-                                                                TextStyle(),
-                                                            filled:
-                                                                true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                            fillColor:
-                                                                Colors.white,
-                                                            border: InputBorder
-                                                                .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                          ),
-                                                          validator: (value) {
-                                                            bool
-                                                                subjectIdValid =
-                                                                RegExp(r'^[\d]+$')
-                                                                    .hasMatch(
-                                                                        value!);
-                                                            if (value.isEmpty) {
-                                                              return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
-                                                            } else if (!subjectIdValid) {
-                                                              return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
-                                                            }
-                                                          },
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: TextFormField(
+                                                        //ปรับให้กรอกแค่ตัวเลข
+                                                        keyboardType:
+                                                            const TextInputType
+                                                                    .numberWithOptions(
+                                                                decimal: true),
+                                                        inputFormatters: <
+                                                            TextInputFormatter>[
+                                                          FilteringTextInputFormatter
+                                                              .allow(RegExp(
+                                                                  r'^[0-9]\d*')),
+                                                        ],
+                                                        controller:
+                                                            useridController,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          filled:
+                                                              true, // เปิดการใช้งานการเติมพื้นหลัง
+                                                          fillColor:
+                                                              Colors.white,
+                                                          border:
+                                                              OutlineInputBorder(),
                                                         ),
+                                                        validator: (value) {
+                                                          bool subjectIdValid =
+                                                              RegExp(r'^[\d]+$')
+                                                                  .hasMatch(
+                                                                      value!);
+                                                          if (value == null ||
+                                                              value.isEmpty) {
+                                                            return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
+                                                          } else if (!subjectIdValid) {
+                                                            return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
+                                                          }
+                                                        },
                                                       ),
                                                     ),
                                                   ],
@@ -387,6 +408,9 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                                   '${section?.id}');
                                                               print(
                                                                   "บันทึกสำเร็จ");
+                                                            } else {
+                                                              showErrorUserIdNotInDataBaseAlert(
+                                                                  userId);
                                                             }
                                                           }
                                                         }

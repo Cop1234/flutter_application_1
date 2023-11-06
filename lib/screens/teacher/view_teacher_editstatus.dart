@@ -484,36 +484,39 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                       ),
                                                     ),
                                                     DataCell(
-                                                      DropdownButton<String>(
-                                                        value: row[
-                                                            'status'], // ใช้ค่า status จาก data เป็นค่าเริ่มต้น
-                                                        items: statusOptions
-                                                            .map((String
-                                                                status) {
-                                                          return DropdownMenuItem<
-                                                              String>(
-                                                            value: status,
-                                                            child: Text(
-                                                              status,
-                                                              style: CustomTextStyle
-                                                                  .TextGeneral,
-                                                            ),
-                                                          );
-                                                        }).toList(),
-                                                        onChanged: (String?
-                                                            selectedStatus) {
-                                                          setState(() {
-                                                            row['status'] =
-                                                                selectedStatus;
-                                                          });
-                                                        },
-                                                        style: CustomTextStyle
-                                                                .TextGeneral
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
-                                                        dropdownColor:
-                                                            Colors.grey,
+                                                      Center(
+                                                        child: DropdownButton<
+                                                            String>(
+                                                          value: row[
+                                                              'status'], // ใช้ค่า status จาก data เป็นค่าเริ่มต้น
+                                                          items: statusOptions
+                                                              .map((String
+                                                                  status) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              value: status,
+                                                              child: Text(
+                                                                status,
+                                                                style: CustomTextStyle
+                                                                    .TextGeneral,
+                                                              ),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (String?
+                                                              selectedStatus) {
+                                                            setState(() {
+                                                              row['status'] =
+                                                                  selectedStatus;
+                                                            });
+                                                          },
+                                                          style: CustomTextStyle
+                                                                  .TextGeneral
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
+                                                          dropdownColor:
+                                                              Colors.grey,
+                                                        ),
                                                       ),
                                                     ),
                                                   ],

@@ -428,13 +428,6 @@ class _AddTeacherState extends State<AddTeacher>
                                       const SizedBox(
                                         height: 15,
                                       ),
-
-                                      //Longtitude
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(
-                                      //       top: 20, bottom: 5),
-                                      //   child:
-                                      // ),
                                       const SizedBox(
                                         height: 15,
                                       ),

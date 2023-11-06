@@ -166,7 +166,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                     ),
                                                     validator: (value) {
                                                       bool subjectIdValid =
-                                                          RegExp(r'^[0-9ก-๙\s\-/]+$')
+                                                          RegExp(r'^[0-9ก-๙\s\-/]*$')
                                                               .hasMatch(value!);
                                                       if (value.isEmpty) {
                                                         return "กรุณากรอกรหัสวิชา*";

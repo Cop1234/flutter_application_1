@@ -71,7 +71,7 @@ class StudentController {
     return response;
   }
 
-  Future updatepassword_Student(String loginid, String password) async {
+  Future updatePasswordStudent(String loginid, String password) async {
     Map data = {"loginid": loginid, "password": password};
     var jsonData = json.encode(data);
     var url = Uri.parse(baseURL + '/student/updatepassword');

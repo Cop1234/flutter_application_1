@@ -25,7 +25,7 @@ class _TeacherQRState extends State<TeacherQR> {
   final SectionController sectionController = SectionController();
   bool? isLoaded;
   String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
-  int countdown = 30;
+  int countdown = 300;
   String? selectedDropdownValue = "1";
   bool showQRCode = false;
   int? sectionid;
@@ -105,7 +105,7 @@ class _TeacherQRState extends State<TeacherQR> {
       startTimer();
       // Reset the QR code
       Qrcodereset();
-      countdown = 30;
+      countdown = 300;
     });
   }
 
@@ -142,7 +142,7 @@ class _TeacherQRState extends State<TeacherQR> {
           if (countdown > 1) {
             countdown--;
           } else {
-            countdown = 30;
+            countdown = 300;
           }
         });
       });
@@ -287,13 +287,27 @@ class _TeacherQRState extends State<TeacherQR> {
                                       padding: const EdgeInsets.all(30.0),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.center,
                                         children: [
+                                          const Text("สร้างคิวอาร์โค้ด",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 35)),
                                           const SizedBox(
-                                              height:
-                                                  16.0), // เพิ่มระยะห่างระหว่างปุ่มและ QR code
+                                            height: 5,
+                                          ),
+                                          const Text(
+                                              "เลือกสัปดาห์เพื่อสร้างคิวอาร์โค้ด*",
+                                              style: TextStyle(
+                                                  color: maincolor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
+                                          // เพิ่มระยะห่างระหว่างปุ่มและ QR code
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -378,7 +392,7 @@ class _TeacherQRState extends State<TeacherQR> {
                     '$qrData,Week:$selectedDropdownValue,timelimit:$timeqrcode', // ข้อมูล QR code
                 version: QrVersions.auto,
                 size: 400.0,
-                foregroundColor: Colors.green // สีของรหัส QR นั้นเอง
+                foregroundColor: Colors.black // สีของรหัส QR นั้นเอง
                 ),
           ),
           const SizedBox(
@@ -386,7 +400,7 @@ class _TeacherQRState extends State<TeacherQR> {
           ),
           Center(
             child: Text(
-              'Countdown: ${countdown} seconds',
+              'คิวอาร์โค้ดจะหมดอายุใน: ${countdown} วินาที',
               style: const TextStyle(fontSize: 24),
             ),
           ),

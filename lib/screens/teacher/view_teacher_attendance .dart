@@ -29,6 +29,7 @@ class TeacherAtten extends StatefulWidget {
 }
 
 class _TeacherAttenState extends State<TeacherAtten> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final SectionController sectionController = SectionController();
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
@@ -37,6 +38,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
   String? namefile;
   String? selectedDropdownValue;
   int? sectionid;
+  late Widget statusIconWidget;
 
   Section? section;
   TextEditingController subjectid = TextEditingController();
@@ -68,9 +70,6 @@ class _TeacherAttenState extends State<TeacherAtten> {
 
 /////////////////////////////////////////////////////////////
   String weekNum = '1';
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   var weekNumItems = [
     '1',
     '2',
@@ -270,8 +269,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                   CustomTextStyle.mainFontStyle,
                                             ),
                                             Text(
-                                              "กลุ่ม : ${sectionNumber.text}   " +
-                                                  "เวลา : ${DateFormat('jm').format(sectionTime)}   ",
+                                              "กลุ่ม : ${sectionNumber.text}  " +
+                                                  "เวลา : ${DateFormat('HH:mm').format(sectionTime)} น. ",
                                               style:
                                                   CustomTextStyle.mainFontStyle,
                                             ),
@@ -629,11 +628,23 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                         child: Align(
                                                           alignment:
                                                               Alignment.center,
-                                                          child: Text(
-                                                            row['status'],
-                                                            style:
-                                                                CustomTextStyle
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                row['status'],
+                                                                style: CustomTextStyle
                                                                     .TextGeneral,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              statusIconWidget =
+                                                                  getStatusIcon(
+                                                                      row['status']),
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
@@ -672,5 +683,29 @@ class _TeacherAttenState extends State<TeacherAtten> {
     } else {
       return const SizedBox.shrink();
     }
+  }
+
+  Widget getStatusIcon(String statusCheck) {
+    IconData iconData;
+    Color iconColor;
+
+    if (statusCheck == 'เข้าเรียนปกติ') {
+      iconData = Icons.check_circle;
+      iconColor = Colors.green;
+    } else if (statusCheck == 'เข้าเรียนสาย') {
+      iconData = Icons.access_time;
+      iconColor = Colors.orange;
+    } else if (statusCheck == 'ขาดเรียน') {
+      iconData = Icons.cancel;
+      iconColor = Colors.red;
+    } else {
+      iconData = Icons.info;
+      iconColor = Colors.black;
+    }
+
+    return Icon(
+      iconData,
+      color: iconColor,
+    );
   }
 }

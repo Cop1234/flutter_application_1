@@ -12,14 +12,14 @@ import '../widget/mainTextStyle.dart';
 import '../widget/my_abb_bar.dart';
 import 'edit_student_password.dart';
 
-class EditStudentProfile extends StatefulWidget {
-  const EditStudentProfile({super.key});
+class DetailStudentProfile extends StatefulWidget {
+  const DetailStudentProfile({super.key});
 
   @override
-  State<EditStudentProfile> createState() => _EditStudentProfileState();
+  State<DetailStudentProfile> createState() => _DetailStudentProfileState();
 }
 
-class _EditStudentProfileState extends State<EditStudentProfile> {
+class _DetailStudentProfileState extends State<DetailStudentProfile> {
   final StudentController studentController = StudentController();
   final UserController userController = UserController();
   //List<Map<String, dynamic>> data = [];
@@ -61,7 +61,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
   void userData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
-    //String? username = prefs.getString('MJU6304106304');
+    //String? username = "MJU6304106304";
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
@@ -207,7 +207,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                                                   builder:
                                                                       (BuildContext
                                                                           context) {
-                                                        return DetailEditStudentProfile(
+                                                        return EditPasswordStudent(
                                                             id: '${users?.id.toString()}');
                                                       }));
                                                     },

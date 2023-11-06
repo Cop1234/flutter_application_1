@@ -116,7 +116,7 @@ class _loginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.text,
                           controller: usernameController,
                           decoration: const InputDecoration(
-                            labelText: "Username",
+                            labelText: "ชื่อผู้ใช้",
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.person),
                           ),
@@ -143,7 +143,7 @@ class _loginScreenState extends State<LoginScreen> {
                           controller: passworldController,
                           obscureText: passToggle,
                           decoration: InputDecoration(
-                              labelText: "Password",
+                              labelText: "รหัสผ่าน",
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.lock),
                               suffixIcon: InkWell(
@@ -236,7 +236,7 @@ class _loginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: const Center(
-                                child: Text("Log In",
+                                child: Text("เข้าสู่ระบบ",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
