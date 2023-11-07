@@ -169,7 +169,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -255,7 +255,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                   child: Text(
                                                     row['subjectid'],
                                                     style: CustomTextStyle
-                                                        .TextGeneral,
+                                                        .TextGeneral2,
                                                   ),
                                                 ),
                                               )),
@@ -267,7 +267,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                     child: AutoSizeText(
                                                       row['subjectName'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -285,7 +285,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                     child: Text(
                                                       row['type'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -298,7 +298,7 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                     child: Text(
                                                       row['group'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -313,14 +313,13 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
