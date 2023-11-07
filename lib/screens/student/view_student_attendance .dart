@@ -67,8 +67,8 @@ class _StudentAttenState extends State<StudentAtten> {
 
   void userData(String sectionId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = "MJU6304106304";
+    String? username = prefs.getString('username');
+    //String? username = "MJU6304106304";
     if (username != null) {
       user = await userController.get_UserByUsername(username);
       iduser = user?.id.toString();

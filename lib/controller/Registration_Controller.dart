@@ -101,4 +101,16 @@ class RegistrationController {
         Registration.formJsonToRegistration(jsonResponse);
     return registration;
   }
+
+  /*Future listRegBySemester(String semester, String regid) async {
+    var url = Uri.parse(
+        baseURL + '/registrations/getbysemester/' + semester + "/" + regid);
+    http.Response response = await http.get(url);
+    final utf8Body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(utf8Body);
+    List<Registration> list = jsonResponse
+        .map((e) => Registration.formJsonToRegistration(e))
+        .toList();
+    return list;
+  }*/
 }

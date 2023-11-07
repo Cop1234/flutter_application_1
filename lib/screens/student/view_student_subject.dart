@@ -33,19 +33,25 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
       RegistrationController();
   final UserController userController = UserController();
   List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> filterSemesterData = [];
+  List<Map<String, dynamic>> filterTermData = [];
   bool? isLoaded = false;
   List<Registration>? registration;
   String? IdUser;
+  String? selectedSemester = 'ทั้งหมด';
+  List<String> semesters = ['ทั้งหมด'];
+  String? selectedTerm = 'ทั้งหมด';
+  List<String> terms = ['ทั้งหมด', '1', '2'];
 
   void fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = "MJU6304106304";
+    String? username = prefs.getString('username');
+    //String? username = "MJU6304106304";
 
     //print(username);
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
-      print(user?.id);
+      IdUser = user?.id.toString();
       if (user != null) {
         print(IdUser);
         List<Registration> reg =
@@ -63,54 +69,35 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                         reg.section?.course?.subject?.subjectName ?? "",
                     'type': reg.section?.type ?? "",
                     'group': reg.section?.sectionNumber,
+                    'semester': reg.section?.course?.semester,
+                    'term': reg.section?.course?.term,
                   })
               .toList();
           isLoaded = true;
+
+          // เพิ่มค่า semester ลงใน semesters
+          data.forEach((row) {
+            String? semester = row['semester'].toString();
+            if (semester != null && !semesters.contains(semester)) {
+              semesters.add(semester);
+            }
+          });
+          filterSemesterData = data
+              .where((row) =>
+                  selectedSemester == 'ทั้งหมด' ||
+                  row['semester'].toString() == selectedSemester)
+              .toList();
+          filterData();
         });
       }
     }
   }
 
-  void showSureToDeleteStudent(String id) {
-    QuickAlert.show(
-        context: context,
-        title: "คุณแน่ใจหรือไม่ ? ",
-        text: "คุณต้องการลบข้อมูลหรือไม่ ? ",
-        type: QuickAlertType.warning,
-        confirmBtnText: "ลบ",
-        onConfirmBtnTap: () async {
-          http.Response response = await userController.deleteTeacher(id);
-
-          if (response.statusCode == 200) {
-            Navigator.pop(context);
-            showUpDeleteStudentSuccessAlert();
-          } else {
-            showFailToDeleteStudentAlert();
-          }
-        },
-        cancelBtnText: "ยกเลิก",
-        showCancelBtn: true);
-  }
-
-  void showFailToDeleteStudentAlert() {
-    QuickAlert.show(
-        context: context,
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่สามารถลบข้อมูลได้",
-        type: QuickAlertType.error);
-  }
-
-  void showUpDeleteStudentSuccessAlert() {
-    QuickAlert.show(
-        context: context,
-        title: "สำเร็จ",
-        text: "ลบข้อมูลสำเร็จ",
-        type: QuickAlertType.success,
-        confirmBtnText: "ตกลง",
-        onConfirmBtnTap: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const ViewStudentSubject()));
-        });
+  void filterData() {
+    filterTermData = filterSemesterData.where((row) {
+      return (selectedTerm == 'ทั้งหมด' ||
+          row['term'].toString() == selectedTerm);
+    }).toList();
   }
 
   @override
@@ -160,6 +147,117 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   padding: const EdgeInsets.all(30.0),
                                   child: Column(
                                     children: [
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "ปีการศึกษา : ",
+                                            style: CustomTextStyle.TextGeneral2,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 50,
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                top: 1.0,
+                                                right: 10.0,
+                                                bottom: 5.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              value: selectedSemester,
+                                              items: semesters.map((semester) {
+                                                return DropdownMenuItem(
+                                                  value: semester,
+                                                  child: Text(
+                                                    semester,
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  selectedSemester = newValue;
+                                                  filterSemesterData = data
+                                                      .where((row) =>
+                                                          selectedSemester ==
+                                                              'ทั้งหมด' ||
+                                                          row['semester']
+                                                                  .toString() ==
+                                                              selectedSemester)
+                                                      .toList();
+                                                  selectedTerm = 'ทั้งหมด';
+                                                  filterData();
+                                                });
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: InputBorder
+                                                    .none, // กำหนด border เป็น InputBorder.none เพื่อลบ underline
+                                              ),
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          const Text(
+                                            "เทอม : ",
+                                            style: CustomTextStyle.TextGeneral2,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 50,
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                top: 1.0,
+                                                right: 10.0,
+                                                bottom: 5.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              value: selectedTerm,
+                                              items: terms.map((term) {
+                                                return DropdownMenuItem(
+                                                  value: term,
+                                                  child: Text(term),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  selectedTerm = newValue;
+                                                  filterData();
+                                                });
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: InputBorder
+                                                    .none, // กำหนด border เป็น InputBorder.none เพื่อลบ underline
+                                              ),
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       const SizedBox(
                                         height: 20,
                                       ),
@@ -243,9 +341,13 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                           ),
                                           // Add more DataColumn as needed
                                         ],
-                                        rows: data.asMap().entries.map((entry) {
+                                        rows: filterTermData
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
                                           Map<String, dynamic> row =
                                               entry.value;
+
                                           return DataRow(
                                             cells: <DataCell>[
                                               DataCell(Container(
