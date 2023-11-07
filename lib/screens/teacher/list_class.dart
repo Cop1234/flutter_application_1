@@ -41,14 +41,19 @@ class _ListClassScreenState extends State<ListClassScreen> {
   List<Map<String, dynamic>> dataCourse = [];
   List<Map<String, dynamic>> dataSection = [];
   List<Map<String, dynamic>> combinedData = [];
+  List<Map<String, dynamic>> filterSemesterData = [];
+  List<Map<String, dynamic>> filterTermData = [];
 
   bool? isLoaded = false;
   List<Subject>? subjects;
   List<Course>? courses;
   List<Section>? sections;
   User? userNow;
-
   String? IdUser;
+  String? selectedSemester = 'ทั้งหมด';
+  List<String> semesters = ['ทั้งหมด'];
+  String? selectedTerm = 'ทั้งหมด';
+  List<String> terms = ['ทั้งหมด', '1', '2'];
 
   void fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -101,14 +106,36 @@ class _ListClassScreenState extends State<ListClassScreen> {
           'sectionId': sectionId,
           'subjectName': course.subject?.subjectName,
           'subjectId': course.subject?.subjectId,
+          'semester': course.semester,
+          'term': course.term,
           'type': section.type,
           'sectionNumber': section.sectionNumber,
         });
+        // ทำอะไรกับ combinedData ต่อไปได้ตามที่คุณต้องการ
+        // เช่น นำข้อมูลไปแสดงใน DataTable
+        //----------------------------------------------//
+        // เพิ่มค่า semester ลงใน semesters
+        combinedData.forEach((row) {
+          String? semester = row['semester'].toString();
+          if (semester != null && !semesters.contains(semester)) {
+            semesters.add(semester);
+          }
+        });
+        filterSemesterData = combinedData
+            .where((row) =>
+                selectedSemester == 'ทั้งหมด' ||
+                row['semester'].toString() == selectedSemester)
+            .toList();
+        filterData();
       }
-
-      // ทำอะไรกับ combinedData ต่อไปได้ตามที่คุณต้องการ
-      // เช่น นำข้อมูลไปแสดงใน DataTable
     });
+  }
+
+  void filterData() {
+    filterTermData = filterSemesterData.where((row) {
+      return (selectedTerm == 'ทั้งหมด' ||
+          row['term'].toString() == selectedTerm);
+    }).toList();
   }
 
   @override
@@ -161,6 +188,117 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                   padding: const EdgeInsets.all(30.0),
                                   child: Column(
                                     children: [
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "ปีการศึกษา : ",
+                                            style: CustomTextStyle.TextGeneral2,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 50,
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                top: 1.0,
+                                                right: 10.0,
+                                                bottom: 5.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              value: selectedSemester,
+                                              items: semesters.map((semester) {
+                                                return DropdownMenuItem(
+                                                  value: semester,
+                                                  child: Text(
+                                                    semester,
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  selectedSemester = newValue;
+                                                  filterSemesterData = combinedData
+                                                      .where((row) =>
+                                                          selectedSemester ==
+                                                              'ทั้งหมด' ||
+                                                          row['semester']
+                                                                  .toString() ==
+                                                              selectedSemester)
+                                                      .toList();
+                                                  selectedTerm = 'ทั้งหมด';
+                                                  filterData();
+                                                });
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: InputBorder
+                                                    .none, // กำหนด border เป็น InputBorder.none เพื่อลบ underline
+                                              ),
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          const Text(
+                                            "เทอม : ",
+                                            style: CustomTextStyle.TextGeneral2,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 50,
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                top: 1.0,
+                                                right: 10.0,
+                                                bottom: 5.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              value: selectedTerm,
+                                              items: terms.map((term) {
+                                                return DropdownMenuItem(
+                                                  value: term,
+                                                  child: Text(term),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  selectedTerm = newValue;
+                                                  filterData();
+                                                });
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: InputBorder
+                                                    .none, // กำหนด border เป็น InputBorder.none เพื่อลบ underline
+                                              ),
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       const SizedBox(
                                         height: 20,
                                       ),
@@ -244,7 +382,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                           ),
                                           // Add more DataColumn as needed
                                         ],
-                                        rows: (combinedData ?? [])
+                                        rows: (filterTermData ?? [])
                                             .asMap()
                                             .entries
                                             .map((entry) {

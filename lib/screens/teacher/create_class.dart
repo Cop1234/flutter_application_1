@@ -249,7 +249,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                     child: Container(
                                                       alignment: textHeaderbar,
                                                       padding:
-                                                          EdgeInsets.all(12.0),
+                                                          const EdgeInsets.all(
+                                                              12.0),
                                                       child: const Text(
                                                         "เทอม",
                                                         style: CustomTextStyle
