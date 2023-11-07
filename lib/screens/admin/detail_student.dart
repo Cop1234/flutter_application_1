@@ -437,13 +437,18 @@ class _DetailStudentState extends State<DetailStudent> {
                                                                   horizontal:
                                                                       10,
                                                                   vertical: 5),
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .green,
+                                                                width: 2.0),
+                                                          ),
                                                           // dropdown below..
                                                           child: DropdownButton<
                                                               String>(
