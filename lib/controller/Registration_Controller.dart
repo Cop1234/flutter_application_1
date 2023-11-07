@@ -20,7 +20,7 @@ class RegistrationController {
     String url = baseURL + '/registrations/upload';
     Response response = await dio.post(url, data: formData);
     print("Student : " + response.data);
-    return response.statusCode;
+    return response;
   }
 
   Future deleteRegistration(String id) async {
@@ -37,7 +37,7 @@ class RegistrationController {
     List<Registration> list = jsonResponse
         .map((e) => Registration.formJsonToRegistration(e))
         .toList();
-    //print(list);
+    // print(list.);
     return list;
   }
 

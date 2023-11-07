@@ -253,6 +253,13 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
+                                            const Center(
+                                                child: Text("ดูรายการเข้าเรียน",
+                                                    style: CustomTextStyle
+                                                        .Textheader)),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
                                             Text(
                                               "รหัสวิชา : ${subjectid.text}",
                                               style:
@@ -472,7 +479,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                           maincolor),
                                               dataRowColor: MaterialStateColor
                                                   .resolveWith(
-                                                      (states) => Colors.black),
+                                                      (states) => Colors.white),
                                               columns: const <DataColumn>[
                                                 DataColumn(
                                                   label: SizedBox(
@@ -568,7 +575,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                         child: Text(
                                                           row['userid'],
                                                           style: CustomTextStyle
-                                                              .TextGeneral,
+                                                              .TextGeneral2,
                                                         ),
                                                       ),
                                                     )),
@@ -580,9 +587,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                               Alignment.center,
                                                           child: Text(
                                                             row['fname'],
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -595,9 +601,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                               Alignment.center,
                                                           child: Text(
                                                             row['lname'],
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -615,9 +620,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                                         .parse(row[
                                                                             'time'])
                                                                     .toLocal()),
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -636,7 +640,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                               Text(
                                                                 row['status'],
                                                                 style: CustomTextStyle
-                                                                    .TextGeneral,
+                                                                    .TextGeneral2,
                                                               ),
                                                               const SizedBox(
                                                                 width: 5,

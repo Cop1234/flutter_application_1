@@ -2,12 +2,14 @@ import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/controller/registration_Controller.dart';
 import 'package:flutter_application_1/controller/section_controller.dart';
+import 'package:flutter_application_1/controller/student_controller.dart';
 import 'package:flutter_application_1/model/section.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/screens/widget/my_abb_bar.dart';
@@ -30,6 +32,7 @@ class TeacherImportStu extends StatefulWidget {
 }
 
 class _TeacherImportStuState extends State<TeacherImportStu> {
+  final StudentController studentController = StudentController();
   final RegistrationController registrationController =
       RegistrationController();
   final SectionController sectionController = SectionController();
@@ -44,6 +47,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
   Uint8List? uploadfile;
   bool? isLoaded;
   Section? section;
+  bool? showDataStudent = false;
 
   TextEditingController subjectid = TextEditingController();
   TextEditingController subjectName = TextEditingController();
@@ -143,22 +147,81 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     );
   }
 
+  // void setuserData() async {
+
+  //   List<Map<String, dynamic>> data = [];
+  //   setDataToText();
+  //   setState(() {
+
+  //     data = userstudent
+  //         .map((user) => {
+  //               'userid': user.userid ?? "",
+  //               'fname': user.fname ?? "",
+  //               'lname': user.lname ?? "",
+  //             })
+  //         .toList();
+  //   });
+  // }
+
+  List<List<String>> tableData = [];
   Future<void> _pickFile(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['xls', 'xlsx'],
       );
-
       if (result != null) {
         uploadfile = result.files.single.bytes;
         fileName = result.files.first.name;
-
         _controller.text = fileName ?? "";
-
         print(fileName);
 
-        // สามารถลบบรรทัดนี้ได้หากไม่ต้องการแสดงผล response
+        // Open the Excel file
+        final excel = Excel.decodeBytes(uploadfile!);
+
+        // Assuming that you want to read data from the first sheet
+        final sheet = excel.tables.keys.first;
+
+        // Clear the existing data
+        tableData.clear();
+
+        // Get the userstudent data
+        List<User> userstudent = await studentController.listAllStudent();
+        List<Map<String, dynamic>> userData = userstudent
+            .map((user) => {
+                  'userid': user.userid ?? "",
+                  'fname': user.fname ?? "",
+                  'lname': user.lname ?? "",
+                })
+            .toList();
+
+        for (var i = 1; i <= excel[sheet]!.maxCols; i++) {
+          List<String> rowData = [];
+          for (var cell in excel[sheet]!.row(i)) {
+            rowData.add(cell!.value.toString());
+          }
+
+          // Check if rowData matches any user from userstudent
+          bool matchFound = false;
+          for (var userDataItem in userData) {
+            if (userDataItem['userid'] == rowData[0] &&
+                userDataItem['fname'] == rowData[1] &&
+                userDataItem['lname'] == rowData[2]) {
+              matchFound = true;
+              break;
+            }
+          }
+
+          if (!matchFound) {
+            tableData.add(rowData); // Add to tableData if no match is found
+          }
+        }
+
+        setState(() {
+          showDataStudent = true;
+        });
+
+        // You can display a message indicating that the file was uploaded successfully.
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('File uploaded successfully')),
         );
@@ -248,6 +311,14 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
+                                                const Center(
+                                                    child: Text(
+                                                        "เพิ่มนักศึกษาเข้าคลาสเรียน",
+                                                        style: CustomTextStyle
+                                                            .Textheader)),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
                                                 Text(
                                                   "รหัสวิชา : ${subjectid.text}",
                                                   style: CustomTextStyle
@@ -306,13 +377,8 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                         padding: const EdgeInsets.all(30.0),
                                         child: Column(
                                           children: [
-                                            const Center(
-                                                child: Text(
-                                              "เพิ่มนักศึกษา",
-                                              style: CustomTextStyle.Textheader,
-                                            )),
                                             const SizedBox(
-                                              height: 30,
+                                              height: 50,
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.all(30),
@@ -375,6 +441,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                     ),
                                                   )),
                                             ),
+                                            ShowSelectDate(),
                                             Padding(
                                               padding: const EdgeInsets.all(40),
                                               child: Center(
@@ -399,22 +466,6 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      // if (uploadfile != null) {
-                                                      //   print("Upload to API!");
-
-                                                      //   var response =
-                                                      //       await registrationController
-                                                      //           .upload(
-                                                      //               uploadfile!,
-                                                      //               fileName,
-                                                      //               '${section?.id.toString()}');
-                                                      //   if (response == 200) {
-                                                      //     showSuccessToAddStudentAlert();
-                                                      //     print("บันทึกสำเร็จ");
-                                                      //   }
-                                                      // } else {
-                                                      //   showErrorUserNameExistsAlert();
-                                                      // }
                                                       try {
                                                         var response =
                                                             await registrationController
@@ -464,5 +515,39 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                   ),
                 ],
               ));
+  }
+
+  Widget ShowSelectDate() {
+    if (showDataStudent == true) {
+      // Replace this with the data you want to display in the table
+
+      return Column(
+        children: [
+          Text(
+            'หมายเหตุ * : รายชื่อที่แสดงไม่มีข้อมูลนักศึกษา',
+            style: TextStyle(color: Colors.red),
+          ),
+          DataTable(
+            columns: [
+              DataColumn(label: Text('รหัสนักศึกษา')),
+              DataColumn(label: Text('ชื่อ')),
+              DataColumn(label: Text('นามสกุล')),
+            ],
+            rows: tableData.map((row) {
+              return DataRow(
+                cells: row.map((cell) {
+                  return DataCell(Text(
+                    cell,
+                    style: TextStyle(color: Colors.red),
+                  ));
+                }).toList(),
+              );
+            }).toList(),
+          )
+        ],
+      );
+    } else {
+      return SizedBox.shrink(); // Hide the table when showDataStudent is false
+    }
   }
 }

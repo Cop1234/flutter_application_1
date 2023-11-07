@@ -235,7 +235,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: kMyAppBar,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 226, 226, 226),
         // ฟังชั้น โหลดข้อมูล
         body: isLoaded == false
             ? Column(
@@ -264,7 +264,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                               elevation: 10,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              color: const Color.fromARGB(255, 226, 226, 226),
+                              color: Colors.white,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
@@ -364,12 +364,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                 top: 5.0,
                                                                 right: 10.0,
                                                                 bottom: 5.0),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 2.0),
+                                                        ),
                                                         // dropdown below..
                                                         child: DropdownButton<
                                                             String>(
@@ -438,8 +443,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                               AlignmentDirectional
                                                                   .centerStart,
                                                           padding:
-                                                              const EdgeInsets
-                                                                      .only(
+                                                              const EdgeInsets.only(
                                                                   left: 20.0,
                                                                   top: 10.0,
                                                                   right: 10.0,
@@ -451,7 +455,11 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                   ? Border.all(
                                                                       color: Colors
                                                                           .red)
-                                                                  : null,
+                                                                  : Border.all(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      width:
+                                                                          2.0),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -579,7 +587,11 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                   ? Border.all(
                                                                       color: Colors
                                                                           .red)
-                                                                  : null,
+                                                                  : Border.all(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      width:
+                                                                          2.0),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -592,8 +604,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                         .numberWithOptions(
                                                                     decimal:
                                                                         true),
-                                                            inputFormatters: <
-                                                                TextInputFormatter>[
+                                                            inputFormatters: <TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[1-9]\d*')),
@@ -696,12 +707,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                 top: 10.0,
                                                                 right: 10.0,
                                                                 bottom: 10.0),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 2.0),
+                                                        ),
                                                         // dropdown below..
                                                         child: DropdownButton<
                                                             String>(
@@ -779,12 +795,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                 top: 10.0,
                                                                 right: 10.0,
                                                                 bottom: 10.0),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 2.0),
+                                                        ),
                                                         // dropdown below..
                                                         child: DropdownButton<
                                                             String>(
@@ -864,12 +885,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                 top: 10.0,
                                                                 right: 10.0,
                                                                 bottom: 10.0),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 2.0),
+                                                        ),
                                                         // drdown below..
                                                         child: DropdownButton<
                                                             String>(
@@ -932,18 +958,15 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                           Container(
                                                               width: 300,
                                                               height: 50,
-                                                              alignment: AlignmentDirectional
-                                                                  .centerStart,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          20.0,
-                                                                      top: 10.0,
-                                                                      right:
-                                                                          10.0,
-                                                                      bottom:
-                                                                          10.0),
+                                                              alignment:
+                                                                  AlignmentDirectional
+                                                                      .centerStart,
+                                                              padding: const EdgeInsets
+                                                                      .only(
+                                                                  left: 20.0,
+                                                                  top: 10.0,
+                                                                  right: 10.0,
+                                                                  bottom: 10.0),
                                                               decoration: BoxDecoration(
                                                                   color: Colors
                                                                       .white,
@@ -951,11 +974,14 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                       ? Border.all(
                                                                           color: Colors
                                                                               .red)
-                                                                      : null,
+                                                                      : Border.all(
+                                                                          color: Colors
+                                                                              .green,
+                                                                          width:
+                                                                              2.0),
                                                                   borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10)),
+                                                                      BorderRadius.circular(
+                                                                          10)),
                                                               // dropdown below..
                                                               child:
                                                                   DropdownButtonFormField<

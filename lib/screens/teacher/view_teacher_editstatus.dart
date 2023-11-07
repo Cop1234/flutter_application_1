@@ -188,6 +188,14 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
+                                            const Center(
+                                                child: Text(
+                                                    "แก้ไขสถานะการเข้าเรียน",
+                                                    style: CustomTextStyle
+                                                        .Textheader)),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
                                             Text(
                                               "รหัสวิชา : ${subjectid.text}",
                                               style:
@@ -333,7 +341,7 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                           maincolor),
                                               dataRowColor: MaterialStateColor
                                                   .resolveWith(
-                                                      (states) => Colors.black),
+                                                      (states) => Colors.white),
                                               columns: const <DataColumn>[
                                                 DataColumn(
                                                   label: SizedBox(
@@ -429,7 +437,7 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                         child: Text(
                                                           row['userid'],
                                                           style: CustomTextStyle
-                                                              .TextGeneral,
+                                                              .TextGeneral2,
                                                         ),
                                                       ),
                                                     )),
@@ -441,9 +449,8 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                               Alignment.center,
                                                           child: Text(
                                                             row['fname'],
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -456,9 +463,8 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                               Alignment.center,
                                                           child: Text(
                                                             row['lname'],
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -476,9 +482,8 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                                         .parse(row[
                                                                             'time'])
                                                                     .toLocal()),
-                                                            style:
-                                                                CustomTextStyle
-                                                                    .TextGeneral,
+                                                            style: CustomTextStyle
+                                                                .TextGeneral2,
                                                           ),
                                                         ),
                                                       ),
@@ -498,7 +503,7 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                               child: Text(
                                                                 status,
                                                                 style: CustomTextStyle
-                                                                    .TextGeneral,
+                                                                    .TextGeneral2,
                                                               ),
                                                             );
                                                           }).toList(),
@@ -515,7 +520,7 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
                                                                   color: Colors
                                                                       .white), // กำหนดสีข้อความของ Dropdown เมื่อไม่เปิดออกมา
                                                           dropdownColor:
-                                                              Colors.grey,
+                                                              Colors.white,
                                                         ),
                                                       ),
                                                     ),
