@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/room_controller.dart';
 import 'package:flutter_application_1/model/room.dart';
@@ -28,6 +29,38 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   bool passToggle = true;
   bool? isLoaded = false;
   List<Room>? rooms;
+
+  Alignment textHeaderbar = Alignment.centerLeft;
+  bool? inputroomName = false;
+
+  var items = [
+    'อาคารจุฬาภรณ์',
+    'อาคารเทพ พงษ์พานิช',
+    'อาคารสำนักงานบัณฑิตวิทยาลัยและศูนย์ภาษา',
+    'อาคารเพิ่มพูล',
+    'อาคารเรียนรวม 60 ปี',
+    'อาคารเรียนรวมแม่โจ้ 70 ปี',
+    'อาคารเสาวรัจ นิตยวรรธนะ',
+    'อาคาร 75 ปี',
+    'อาคารช่วงเกษตรศิลป์',
+    'อาคารเรียนรวมสุวรรณวาจกกสิกิจ',
+    'อาคารเฉลิมพระเกียรตสมพระเทพฯ',
+    'อาคารเฉลิมพระเกียรติสมเด็จพระศรีนครินทร์',
+    'อาคาร 25 ปี คณะธุรกิจการเกษตร',
+    'อาคารประเสริฐ นคร',
+    'อาคารเรียนและปฎิบัติการรวมทางปฐพีวิทยา',
+    'อาคารกำจรบุญแบ่ง',
+    'อาคารรัตนโกสินทร์ 200 ปี',
+    'อาคารคณะเทคโนโลยีการประมงและทรัพยากรน้ำ',
+    'อาคารเทคโนโลยีภูมิทัศน์',
+    'อาคารเกษตรกลวิธาน',
+    'อาคารสมิตตานนท์',
+    'อาคารโรงงานนำร่อง',
+    'อาคารธรรมศักดิ์มนตรี',
+    'อาคารเรียนรวม 80 ปี',
+    'อาคารศูนย์สัตว์ศาสตร์และเทคโนโลยี'
+  ];
+  String dropdownvalue = 'อาคารจุฬาภรณ์';
 
   // ฟังก์ชันเช็ค roomName ว่ามีอยู่ใน rooms หรือไม่
   bool isRoomNameExists(String roomName, String building) {
@@ -87,7 +120,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: kMyAppBar,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 226, 226, 226),
         body: isLoaded == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +148,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                               elevation: 10,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              color: const Color.fromARGB(255, 226, 226, 226),
+                              color: Colors.white,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
@@ -128,209 +161,231 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        //RoomName
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ชื่อห้อง : ",
+                                        const Center(
+                                            child: Text("เพิ่มห้องเรียน",
                                                 style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        roomNameController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      errorStyle: TextStyle(),
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      ),
-                                                    ),
-                                                    validator: (value) {
-                                                      bool roomNameValid = RegExp(
-                                                              r'^[a-zA-Z0-9ก-๙\s\-/]+$')
-                                                          .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกชื่อห้องเรียน*";
-                                                      } else if (!roomNameValid) {
-                                                        return "ชื่อห้องเรียนต้องเป็นภาษาไทย หรือ อังกฤษ หรือ ตัวเลข สามารถใส่อังษรพิเศษ - หรือ / ได้";
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                                    .Textheader)),
+                                        const SizedBox(
+                                          height: 20,
                                         ),
-                                        //Building
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
+                                        Center(
+                                          child: Table(
+                                            // border: TableBorder.all(),
+                                            columnWidths: const {
+                                              0: FractionColumnWidth(0.25),
+                                              1: FractionColumnWidth(0.5),
+                                            },
                                             children: [
-                                              const Text(
-                                                "ตึกเรียน : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        buildingController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "ชื่อห้อง",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
                                                       ),
                                                     ),
-                                                    validator: (value) {
-                                                      bool buildingValid = RegExp(
-                                                              r'^[a-zA-Z0-9ก-๙\s\-/]+$')
-                                                          .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกตึกเรียน*";
-                                                      } else if (!buildingValid) {
-                                                        return "ตึกเรียนต้องเป็นภาษาไทย หรือ อังกฤษ สามารถใส่อังษรพิเศษ - หรือ / ได้";
-                                                      }
-                                                    },
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        //Latitude
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ละติจูด : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        latitudeController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        //borderRadius: BorderRadius.circular(10.0), // กำหนดมุมโค้ง
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8.0,
+                                                          top: 8.0,
+                                                          right: 8.0,
+                                                          bottom: 8.0,
+                                                        ),
+                                                        child: Container(
+                                                          width: 120,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 20.0,
+                                                            top: 15.0,
+                                                            right: 10.0,
+                                                            bottom: 10.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: inputroomName!
+                                                                ? Border.all(
+                                                                    color: Colors
+                                                                        .red)
+                                                                : Border.all(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    width: 2.0),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: TextFormField(
+                                                            controller:
+                                                                roomNameController,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            inputFormatters: <TextInputFormatter>[
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      r'^[a-zA-Z0-9ก-๙\s\-]+$')),
+                                                            ],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+                                                            validator: (String?
+                                                                value) {
+                                                              if (value ==
+                                                                      null ||
+                                                                  value
+                                                                      .isEmpty) {
+                                                                setState(() {
+                                                                  inputroomName =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  inputroomName =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              errorBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'ชื่อห้องต้องเป็นภาษาไทยและมีตัวเลข',
+                                                              hintStyle:
+                                                                  TextStyle(
+                                                                fontSize: 18,
+                                                                color: inputroomName!
+                                                                    ? Colors.red
+                                                                        .withOpacity(
+                                                                            0.5)
+                                                                    : Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                    validator: (value) {
-                                                      bool latitudeValid = RegExp(
-                                                              r'^(?=.*\d)(?=.*\.)[\d.]+$')
-                                                          .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกละติจูด*";
-                                                      } else if (!latitudeValid) {
-                                                        return "ละติจูดต้องเป็นตัวเลขทศนิยมเท่านั้น";
-                                                      }
-                                                    },
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        //Longtitude
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ลองจิจูด : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        longitudeController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "ตึกเรียน",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
                                                       ),
                                                     ),
-                                                    validator: (value) {
-                                                      bool longitudeValid =
-                                                          RegExp(r'^(?=.*\d)(?=.*\.)[\d.]+$')
-                                                              .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกลองติจูด*";
-                                                      } else if (!longitudeValid) {
-                                                        return "ลองติจูดต้องเป็นตัวเลขทศนิยมเท่านั้น";
-                                                      }
-                                                    },
                                                   ),
-                                                ),
-                                              )
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0,
+                                                                top: 8.0,
+                                                                right: 8.0,
+                                                                bottom: 8.0),
+                                                        child: //ปุ่มเลือกระยะเวลาเรียน
+                                                            Container(
+                                                          width: 300,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20.0,
+                                                                  top: 10.0,
+                                                                  right: 10.0,
+                                                                  bottom: 10.0),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .green,
+                                                                width: 2.0),
+                                                          ),
+                                                          // dropdown below..
+                                                          child: DropdownButton<
+                                                              String>(
+                                                            isExpanded: true,
+                                                            value:
+                                                                dropdownvalue,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+                                                            items: items.map(
+                                                              (String items) {
+                                                                return DropdownMenuItem(
+                                                                  value: items,
+                                                                  child: Text(
+                                                                      items),
+                                                                );
+                                                              },
+                                                            ).toList(),
+                                                            onChanged: (String?
+                                                                newValue) {
+                                                              setState(() {
+                                                                dropdownvalue =
+                                                                    newValue!;
+                                                              });
+                                                            },
+                                                            icon: const Icon(Icons
+                                                                .keyboard_arrow_down),
+                                                            underline:
+                                                                const SizedBox(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -339,14 +394,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                              MainAxisAlignment.center,
                                           children: [
                                             InkWell(
                                               onTap: () async {
                                                 roomNameController.text = "";
-                                                buildingController.text = "";
-                                                latitudeController.text = "";
-                                                longitudeController.text = "";
                                               },
                                               child: Container(
                                                   height: 35,
@@ -373,11 +425,12 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                             InkWell(
                                               onTap: () async {
                                                 if (_formfield.currentState!
-                                                    .validate()) {
+                                                        .validate() &&
+                                                    inputroomName == false) {
                                                   String roomName =
                                                       roomNameController.text;
                                                   String building =
-                                                      buildingController.text;
+                                                      dropdownvalue;
                                                   bool isExists =
                                                       isRoomNameExists(
                                                           roomName, building);
@@ -390,11 +443,13 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                             roomNameController
                                                                 .text,
                                                             buildingController
-                                                                .text,
+                                                                    .text =
+                                                                dropdownvalue,
                                                             latitudeController
-                                                                .text,
+                                                                .text = "99.99",
                                                             longitudeController
-                                                                .text);
+                                                                    .text =
+                                                                "99.99");
 
                                                     if (response.statusCode ==
                                                         200) {

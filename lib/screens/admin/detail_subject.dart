@@ -105,7 +105,7 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: kMyAppBar,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 226, 226, 226),
         body: isLoaded == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +133,7 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                               elevation: 10,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              color: const Color.fromARGB(255, 226, 226, 226),
+                              color: Colors.white,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
