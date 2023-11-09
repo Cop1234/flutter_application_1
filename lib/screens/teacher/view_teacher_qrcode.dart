@@ -112,7 +112,7 @@ class _TeacherQRState extends State<TeacherQR> {
 //////////////////////////////////////////////////////////////////////////////
   Timer? QRCode;
   int? timeqrcode;
-  // สร้าง QR code และเปลี่ยนข้อมูลทุก 30 วินาที
+  // สร้าง QR code และเปลี่ยนข้อมูลทุก 300 วินาที
   void generateQRCode() {
     setState(() {
       qrData =
@@ -122,7 +122,7 @@ class _TeacherQRState extends State<TeacherQR> {
 
   void Qrcodereset() {
     if (stop == false) {
-      QRCode = Timer.periodic(const Duration(seconds: 30), (QRCode) {
+      QRCode = Timer.periodic(const Duration(seconds: 300), (QRCode) {
         generateQRCode();
         Qrcodereset();
       });
