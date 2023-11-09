@@ -56,8 +56,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
     allSections = await sectionController.listAllSection();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = 'Tanakorn63@gmail.com';
+    String? username = prefs.getString('username');
+    //String? username = 'Tanakorn63@gmail.com';
 
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
@@ -399,7 +399,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                               border: checkSelectSubjectId!
                                                                   ? Border.all(
                                                                       color: Colors
-                                                                          .red)
+                                                                          .red,
+                                                                      width:
+                                                                          2.0)
                                                                   : Border.all(
                                                                       color: Colors
                                                                           .green,
@@ -410,9 +412,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                       .circular(
                                                                           10)),
                                                           // dropdown below..
-                                                          child:
-                                                              DropdownButtonFormField<
-                                                                  String>(
+                                                          child: DropdownButtonFormField<
+                                                              String>(
                                                             isExpanded: true,
                                                             value:
                                                                 selectedSubjectId,
@@ -522,7 +523,7 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   left: 20.0,
-                                                                  top: 15.0,
+                                                                  top: 12.5,
                                                                   right: 10.0,
                                                                   bottom: 10.0),
                                                           decoration: BoxDecoration(
@@ -531,7 +532,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                               border: inputGroupNumber!
                                                                   ? Border.all(
                                                                       color: Colors
-                                                                          .red)
+                                                                          .red,
+                                                                      width:
+                                                                          2.0)
                                                                   : Border.all(
                                                                       color: Colors
                                                                           .green,
@@ -916,7 +919,9 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                   border: checkSelectRoomName!
                                                                       ? Border.all(
                                                                           color: Colors
-                                                                              .red)
+                                                                              .red,
+                                                                          width:
+                                                                              2.0)
                                                                       : Border.all(
                                                                           color: Colors
                                                                               .green,
@@ -1116,7 +1121,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                             .statusCode ==
                                                                         200) {
                                                                       // เรียก addCourse สำเร็จ
-
                                                                       // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
                                                                       Map<String,
                                                                               dynamic>
@@ -1128,7 +1132,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                       var IdCourse =
                                                                           responseBody[
                                                                               'id'];
-
                                                                       if (selectedRoomName !=
                                                                           null) {
                                                                         var IdRoom =

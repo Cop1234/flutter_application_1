@@ -147,6 +147,22 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                   padding: const EdgeInsets.all(30.0),
                                   child: Column(
                                     children: [
+                                      /*Container(
+                                        width: 400,
+                                        decoration: BoxDecoration(
+                                          color: Colors
+                                              .white, // สีพื้นหลังของ Container
+                                          borderRadius: BorderRadius.circular(
+                                              20.0), // มุมโค้งของ Container
+                                        ),
+                                        child: const Text(
+                                          'คลาสเรียน',
+                                          style: CustomTextStyle.headFontStyle,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),*/
                                       Row(
                                         children: [
                                           const Text(
@@ -421,7 +437,8 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,

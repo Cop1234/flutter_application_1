@@ -99,8 +99,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     print("CheckTime - ${selectedStartTime}");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? username = prefs.getString('username');
-    String? username = "Tanakorn63@gmail.com";
+    String? username = prefs.getString('username');
+    //String? username = "Tanakorn63@gmail.com";
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
       print("ชื่อผู้ใช้ขณะนี้ " + username);
@@ -165,10 +165,11 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   ];
   var durationTime = ['1', '2', '3', '4'];
 
-  void checkForConflicts(List<Section> allSections, String sectionIdToCreate,
-      String typeToCreate, String groupStuToCreate) {
+  void checkForConflicts(String sectionId, List<Section> allSections,
+      String sectionIdToCreate, String typeToCreate, String groupStuToCreate) {
     isConflicting = allSections.any((section) {
-      return section.course?.subject?.subjectId == sectionIdToCreate &&
+      return section.id.toString() != sectionId &&
+          section.course?.subject?.subjectId == sectionIdToCreate &&
           section.type == typeToCreate &&
           section.sectionNumber == groupStuToCreate;
     });
@@ -477,7 +478,9 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                               border: checkSelectSubjectId!
                                                                   ? Border.all(
                                                                       color: Colors
-                                                                          .red)
+                                                                          .red,
+                                                                      width:
+                                                                          2.0)
                                                                   : Border.all(
                                                                       color: Colors
                                                                           .green,
@@ -488,9 +491,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                       .circular(
                                                                           10)),
                                                           // dropdown below..
-                                                          child:
-                                                              DropdownButtonFormField<
-                                                                  String>(
+                                                          child: DropdownButtonFormField<
+                                                              String>(
                                                             isExpanded: true,
                                                             value:
                                                                 selectedSubjectId,
@@ -600,7 +602,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   left: 20.0,
-                                                                  top: 15.0,
+                                                                  top: 12.5,
                                                                   right: 10.0,
                                                                   bottom: 10.0),
                                                           decoration: BoxDecoration(
@@ -609,7 +611,9 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                               border: inputGroupNumber!
                                                                   ? Border.all(
                                                                       color: Colors
-                                                                          .red)
+                                                                          .red,
+                                                                      width:
+                                                                          2.0)
                                                                   : Border.all(
                                                                       color: Colors
                                                                           .green,
@@ -997,7 +1001,9 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                   border: checkSelectRoomName!
                                                                       ? Border.all(
                                                                           color: Colors
-                                                                              .red)
+                                                                              .red,
+                                                                          width:
+                                                                              2.0)
                                                                       : Border.all(
                                                                           color: Colors
                                                                               .green,
@@ -1167,13 +1173,14 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                     inputGroupNumber ==
                                                                         false) {
                                                                   checkForConflicts(
+                                                                      sectionIdNow,
                                                                       allSections,
                                                                       selectedSubjectId,
                                                                       selectedTypeSubject!,
                                                                       selectedGroupStu!);
                                                                   if (isConflicting ==
                                                                       false) {
-                                                                        var IdSubject =
+                                                                    var IdSubject =
                                                                         selectedSubject[
                                                                             'id'];
                                                                     print(
@@ -1244,7 +1251,6 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                   } else {
                                                                     showClassAlreadyHaveAlert();
                                                                   }
-                                                                  
                                                                 } else {
                                                                   print(
                                                                       'ไม่พบ subjectId: $selectedSubjectId ในรายการ');

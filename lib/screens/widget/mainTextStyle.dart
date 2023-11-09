@@ -7,6 +7,12 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
   );
 
+  static const TextStyle headFontStyle = TextStyle(
+    fontSize: 50,
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+  );
+
   static const TextStyle TextHeadBar = TextStyle(
     fontSize: 30,
     color: Color.fromARGB(255, 255, 255, 255),

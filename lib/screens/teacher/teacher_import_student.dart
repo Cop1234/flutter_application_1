@@ -362,7 +362,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 30),
+                                    horizontal: 20, vertical: 10),
                                 child: Card(
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
@@ -385,13 +385,16 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                               child: Row(
                                                 children: [
                                                   Expanded(
-                                                    child: TextFormField(
-                                                      controller: _controller,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                        border:
-                                                            OutlineInputBorder(),
-                                                        labelText: "",
+                                                    child: Container(
+                                                      color: Colors.white,
+                                                      child: TextFormField(
+                                                        controller: _controller,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                          labelText: "",
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -424,7 +427,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                   onTap: () {
                                                     showHideDotsPopup();
                                                   },
-                                                  child: Align(
+                                                  child: const Align(
                                                     alignment: Alignment
                                                         .centerLeft, // กำหนดให้ชิดซ้าย
                                                     child: Text(
@@ -523,12 +526,12 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
 
       return Column(
         children: [
-          Text(
+          const Text(
             'หมายเหตุ * : รายชื่อที่แสดงไม่มีข้อมูลนักศึกษา',
             style: TextStyle(color: Colors.red),
           ),
           DataTable(
-            columns: [
+            columns: const [
               DataColumn(label: Text('รหัสนักศึกษา')),
               DataColumn(label: Text('ชื่อ')),
               DataColumn(label: Text('นามสกุล')),
@@ -538,7 +541,7 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                 cells: row.map((cell) {
                   return DataCell(Text(
                     cell,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ));
                 }).toList(),
               );
@@ -547,7 +550,8 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
         ],
       );
     } else {
-      return SizedBox.shrink(); // Hide the table when showDataStudent is false
+      return const SizedBox
+          .shrink(); // Hide the table when showDataStudent is false
     }
   }
 }

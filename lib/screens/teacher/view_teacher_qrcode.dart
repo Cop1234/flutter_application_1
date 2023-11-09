@@ -306,7 +306,7 @@ class _TeacherQRState extends State<TeacherQR> {
                                               style: TextStyle(
                                                   color: maincolor,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20)),
+                                                  fontSize: 35)),
                                           const SizedBox(
                                             height: 25,
                                           ),

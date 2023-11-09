@@ -130,6 +130,13 @@ class _DetailTeacherProfileState extends State<DetailTeacherProfile> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
+                                        const Center(
+                                            child: Text("โปรไฟล์",
+                                                style: CustomTextStyle
+                                                    .Textheader)),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         Text(
                                           "ชื่อ : ${users?.fname}",
                                           style: CustomTextStyle.mainFontStyle,
@@ -155,7 +162,7 @@ class _DetailTeacherProfileState extends State<DetailTeacherProfile> {
                                           style: CustomTextStyle.mainFontStyle,
                                         ),
                                         const SizedBox(
-                                          height: 15,
+                                          height: 20,
                                         ),
                                         Center(
                                           child: ElevatedButton(
