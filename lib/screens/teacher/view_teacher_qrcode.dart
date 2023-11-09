@@ -221,6 +221,13 @@ class _TeacherQRState extends State<TeacherQR> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
+                                              const Center(
+                                                  child: Text("แสดงคิวอาร์โค้ด",
+                                                      style: CustomTextStyle
+                                                          .Textheader)),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
                                               Text(
                                                 "รหัสวิชา : ${subjectid.text}",
                                                 style: CustomTextStyle
@@ -291,12 +298,8 @@ class _TeacherQRState extends State<TeacherQR> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const Text("สร้างคิวอาร์โค้ด",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 35)),
                                           const SizedBox(
-                                            height: 5,
+                                            height: 20,
                                           ),
                                           const Text(
                                               "เลือกสัปดาห์เพื่อสร้างคิวอาร์โค้ด*",

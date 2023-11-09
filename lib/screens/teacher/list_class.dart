@@ -308,7 +308,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -400,7 +400,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                     child: Text(
                                                       row['subjectId'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -413,7 +413,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                     child: AutoSizeText(
                                                       row['subjectName'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -431,7 +431,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                     child: Text(
                                                       row['type'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -444,7 +444,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                     child: Text(
                                                       row['sectionNumber'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -459,14 +459,13 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .inventory_outlined,
@@ -497,8 +496,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .qr_code_outlined,
@@ -506,7 +504,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                                       .black),
                                                               SizedBox(
                                                                   width: 10.0),
-                                                              Text('QR CODE'),
+                                                              Text(
+                                                                  'แสดงคิวอาร์โค้ด'),
                                                             ],
                                                           ),
                                                           onTap: () async {
@@ -528,8 +527,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .people_alt,
@@ -560,8 +558,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .settings,
@@ -595,8 +592,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .group_add,

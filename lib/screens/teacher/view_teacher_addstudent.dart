@@ -201,6 +201,19 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
+                                                    const Center(
+                                                        child: Text(
+                                                            "เพิ่มรายชื่อนักศึกษา",
+                                                            style: CustomTextStyle
+                                                                .Textheader)),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    const Text(
+                                                      "รหัสนักศึกษา : ",
+                                                      style: CustomTextStyle
+                                                          .createFontStyle,
+                                                    ),
                                                     Text(
                                                       "รหัสวิชา : ${subjectid.text}",
                                                       style: CustomTextStyle
@@ -268,11 +281,6 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                     top: 20, bottom: 5),
                                                 child: Row(
                                                   children: [
-                                                    const Text(
-                                                      "รหัสนักศึกษา : ",
-                                                      style: CustomTextStyle
-                                                          .createFontStyle,
-                                                    ),
                                                     const SizedBox(
                                                         width:
                                                             10), // Adjust the width for spacing
@@ -290,8 +298,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                             const TextInputType
                                                                     .numberWithOptions(
                                                                 decimal: true),
-                                                        inputFormatters: <
-                                                            TextInputFormatter>[
+                                                        inputFormatters: <TextInputFormatter>[
                                                           FilteringTextInputFormatter
                                                               .allow(RegExp(
                                                                   r'^[0-9]\d*')),

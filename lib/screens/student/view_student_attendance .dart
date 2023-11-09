@@ -193,6 +193,14 @@ class _StudentAttenState extends State<StudentAtten> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
+                                            const Center(
+                                                child: Text(
+                                                    "รายงานการเข้าเรียน",
+                                                    style: CustomTextStyle
+                                                        .Textheader)),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
                                             Text(
                                               "รหัสวิชา : ${subjectid.text}",
                                               style:
@@ -261,7 +269,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                                     (states) => maincolor),
                                             dataRowColor:
                                                 MaterialStateColor.resolveWith(
-                                                    (states) => Colors.black),
+                                                    (states) => Colors.white),
                                             columns: const <DataColumn>[
                                               DataColumn(
                                                 label: SizedBox(
@@ -326,7 +334,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                                         child: Text(
                                                           row['week'] ?? "",
                                                           style: CustomTextStyle
-                                                              .TextGeneral,
+                                                              .TextGeneral2,
                                                         ),
                                                       ),
                                                     ),
@@ -347,7 +355,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                                                       .toLocal())
                                                               : "",
                                                           style: CustomTextStyle
-                                                              .TextGeneral,
+                                                              .TextGeneral2,
                                                         ),
                                                       ),
                                                     ),
@@ -366,7 +374,7 @@ class _StudentAttenState extends State<StudentAtten> {
                                                             Text(
                                                               row['status'],
                                                               style: CustomTextStyle
-                                                                  .TextGeneral,
+                                                                  .TextGeneral2,
                                                             ),
                                                             const SizedBox(
                                                               width: 5,

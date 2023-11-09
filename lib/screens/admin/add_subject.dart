@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/subject_controller.dart';
 import 'package:flutter_application_1/model/subject.dart';
@@ -29,6 +30,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
   bool passToggle = true;
   bool? isLoaded = false;
   List<Subject>? subjects;
+
+  Alignment textHeaderbar = Alignment.centerLeft;
+  bool? inputGroupNumber = false;
+  bool? inputSubjectId = false;
+  bool? inputsubjectName = false;
 
   // ฟังก์ชันเช็ค subjectId ว่ามีอยู่ใน subjects หรือไม่
   bool isSubjectIdExists(String subjectId) {
@@ -87,7 +93,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: kMyAppBar,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 226, 226, 226),
         body: isLoaded == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,11 +121,11 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                               elevation: 10,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              color: const Color.fromARGB(255, 226, 226, 226),
+                              color: Colors.white,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SizedBox(
-                                  width: 1000,
+                                  width: 800,
                                   child: Padding(
                                     padding: const EdgeInsets.all(30.0),
                                     child: Column(
@@ -128,215 +134,484 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        //RoomName
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "รหัสวิชา : ",
+                                        const Center(
+                                            child: Text("เพิ่มวิชา",
                                                 style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        subjectIdController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      errorStyle: TextStyle(),
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      ),
-                                                    ),
-                                                    validator: (value) {
-                                                      bool subjectIdValid =
-                                                          RegExp(r'^[0-9ก-๙\s\-/]*$')
-                                                              .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกรหัสวิชา*";
-                                                      } else if (!subjectIdValid) {
-                                                        return "รหัสวิชาต้องเป็นภาษาไทยและมีตัวเลข";
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "ชื่อวิชา : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        subjectNameController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      errorStyle: TextStyle(),
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      ),
-                                                    ),
-                                                    validator: (value) {
-                                                      bool subjectNameValid =
-                                                          RegExp(r'^[a-zA-Z0-9ก-๙\s\-/]+$')
-                                                              .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกชื่อวิชา*";
-                                                      } else if (!subjectNameValid) {
-                                                        return "ชื่อวิชาต้องเป็นภาษาไทย หรือ อังกฤษ หรือ ตัวเลข";
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        //Latitude
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "รายละเอียด : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        detailController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        //borderRadius: BorderRadius.circular(10.0), // กำหนดมุมโค้ง
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        //Longtitude
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 5),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "หน่วยกิต : ",
-                                                style: CustomTextStyle
-                                                    .createFontStyle,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      10), // Adjust the width for spacing
-                                              Container(
-                                                width: 500,
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    controller:
-                                                        creditController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      filled:
-                                                          true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                      fillColor: Colors.white,
-                                                      border: InputBorder
-                                                          .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none, // กำหนดให้ไม่มีเส้นขอบ
-                                                      ),
-                                                    ),
-                                                    validator: (value) {
-                                                      bool creditValid =
-                                                          RegExp(r'^[\d]+$')
-                                                              .hasMatch(value!);
-                                                      if (value.isEmpty) {
-                                                        return "กรุณากรอกหน่วยกิต*";
-                                                      } else if (!creditValid) {
-                                                        return "หน่วยกิตต้องเป็นตัวเลขจำนวนเต็มเท่านั้น";
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                                    .Textheader)),
                                         const SizedBox(
-                                          height: 15,
+                                          height: 20,
+                                        ),
+                                        Center(
+                                          child: Table(
+                                            // border: TableBorder.all(),
+                                            columnWidths: const {
+                                              0: FractionColumnWidth(0.25),
+                                              1: FractionColumnWidth(0.5),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "รหัสวิชา",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8.0,
+                                                          top: 8.0,
+                                                          right: 8.0,
+                                                          bottom: 8.0,
+                                                        ),
+                                                        child: Container(
+                                                          width: 120,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 20.0,
+                                                            top: 15.0,
+                                                            right: 10.0,
+                                                            bottom: 10.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: inputSubjectId!
+                                                                ? Border.all(
+                                                                    color: Colors
+                                                                        .red)
+                                                                : Border.all(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    width: 2.0),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: TextFormField(
+                                                            controller:
+                                                                subjectIdController,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            inputFormatters: <TextInputFormatter>[
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      r'^[ก-๙0-9\s\-/]*$')),
+                                                            ],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+                                                            validator: (String?
+                                                                value) {
+                                                              if (value ==
+                                                                      null ||
+                                                                  value
+                                                                      .isEmpty) {
+                                                                setState(() {
+                                                                  inputSubjectId =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  inputSubjectId =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              errorBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'รหัสวิชาต้องเป็นภาษาไทยและมีตัวเลข',
+                                                              hintStyle:
+                                                                  TextStyle(
+                                                                fontSize: 18,
+                                                                color: inputSubjectId!
+                                                                    ? Colors.red
+                                                                        .withOpacity(
+                                                                            0.5)
+                                                                    : Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "ชื่อวิชา",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8.0,
+                                                          top: 8.0,
+                                                          right: 8.0,
+                                                          bottom: 8.0,
+                                                        ),
+                                                        child: Container(
+                                                          width: 120,
+                                                          height: 50,
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 20.0,
+                                                            top: 15.0,
+                                                            right: 10.0,
+                                                            bottom: 10.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: inputsubjectName!
+                                                                ? Border.all(
+                                                                    color: Colors
+                                                                        .red)
+                                                                : Border.all(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    width: 2.0),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: TextFormField(
+                                                            controller:
+                                                                subjectNameController,
+                                                            // ปรับให้รับตัวอักษรภาษาไทยและตัวเลข
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            inputFormatters: <TextInputFormatter>[
+                                                              FilteringTextInputFormatter
+                                                                  .allow(
+                                                                RegExp(
+                                                                    r'^[a-zA-Z0-9ก-๙\s\-/]+$'),
+                                                              ),
+                                                            ],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 18,
+                                                            ),
+
+                                                            validator: (String?
+                                                                value) {
+                                                              if (value ==
+                                                                      null ||
+                                                                  value
+                                                                      .isEmpty) {
+                                                                setState(() {
+                                                                  inputsubjectName =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  inputsubjectName =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              errorBorder:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  'ชื่อวิชาต้องเป็นภาษาไทย หรือ อังกฤษ หรือ ตัวเลข',
+                                                              hintStyle:
+                                                                  TextStyle(
+                                                                fontSize: 18,
+                                                                color: inputsubjectName!
+                                                                    ? Colors.red
+                                                                        .withOpacity(
+                                                                            0.5)
+                                                                    : Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "หน่วยกิต",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  top: 8.0,
+                                                                  right: 8.0,
+                                                                  bottom: 8.0),
+                                                          child: Container(
+                                                            width: 120,
+                                                            height: 50,
+                                                            alignment:
+                                                                AlignmentDirectional
+                                                                    .centerStart,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 20.0,
+                                                                    top: 15.0,
+                                                                    right: 10.0,
+                                                                    bottom:
+                                                                        10.0),
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: inputGroupNumber!
+                                                                    ? Border.all(
+                                                                        color: Colors
+                                                                            .red)
+                                                                    : Border.all(
+                                                                        color: Colors
+                                                                            .green,
+                                                                        width:
+                                                                            2.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                            // dropdown below..
+                                                            child:
+                                                                TextFormField(
+                                                              controller:
+                                                                  creditController,
+                                                              //ปรับให้กรอกแค่ตัวเลข
+                                                              keyboardType:
+                                                                  const TextInputType
+                                                                          .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
+                                                              inputFormatters: <TextInputFormatter>[
+                                                                FilteringTextInputFormatter
+                                                                    .allow(RegExp(
+                                                                        r'^[1-9]\d*')),
+                                                              ],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 18,
+                                                              ),
+
+                                                              validator:
+                                                                  (String?
+                                                                      value) {
+                                                                if (value ==
+                                                                        null ||
+                                                                    value
+                                                                        .isEmpty) {
+                                                                  setState(() {
+                                                                    inputGroupNumber =
+                                                                        true;
+                                                                  });
+                                                                } else {
+                                                                  setState(() {
+                                                                    inputGroupNumber =
+                                                                        false;
+                                                                  });
+                                                                }
+                                                                return null;
+                                                              },
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    InputBorder
+                                                                        .none,
+                                                                errorBorder:
+                                                                    InputBorder
+                                                                        .none,
+                                                                hintText:
+                                                                    'ระบุกลุ่มเรียนเป็นตัวเลขเช่น 1 2',
+                                                                hintStyle: TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: inputGroupNumber!
+                                                                        ? Colors
+                                                                            .red
+                                                                            .withOpacity(
+                                                                                0.5)
+                                                                        : Colors
+                                                                            .black
+                                                                            .withOpacity(0.5)),
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(
+                                                          "รายละเอียด",
+                                                          style: CustomTextStyle
+                                                              .createFontStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  top: 8.0,
+                                                                  right: 8.0,
+                                                                  bottom: 8.0),
+                                                          child: Container(
+                                                            width: 120,
+                                                            height: 150,
+                                                            alignment:
+                                                                AlignmentDirectional
+                                                                    .centerStart,
+
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    width: 2.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                            // dropdown below..
+                                                            child:
+                                                                TextFormField(
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .multiline,
+                                                              maxLines: 6,
+                                                              controller:
+                                                                  detailController,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                filled: true,
+                                                                fillColor:
+                                                                    Colors
+                                                                        .white,
+                                                                border:
+                                                                    InputBorder
+                                                                        .none,
+                                                                enabledBorder:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                              MainAxisAlignment.center,
                                           children: [
                                             InkWell(
                                               onTap: () async {
+                                                creditController.text = "";
                                                 subjectIdController.text = "";
                                                 subjectNameController.text = "";
                                                 detailController.text = "";
-                                                creditController.text = "";
                                               },
                                               child: Container(
                                                   height: 35,

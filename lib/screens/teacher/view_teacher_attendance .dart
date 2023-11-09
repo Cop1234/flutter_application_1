@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/color.dart';
+import 'package:flutter_application_1/controller/Registration_Controller.dart';
 import 'package:flutter_application_1/controller/attendanceschedule_controller.dart';
+import 'package:flutter_application_1/model/registration.dart';
 import 'package:flutter_application_1/screens/teacher/view_teacher_editstatus.dart';
 
 import 'package:flutter_application_1/screens/widget/mainTextStyle.dart';
@@ -33,6 +35,8 @@ class _TeacherAttenState extends State<TeacherAtten> {
   final SectionController sectionController = SectionController();
   final AttendanceScheduleController attendanceScheduleController =
       AttendanceScheduleController();
+  final RegistrationController registrationController =
+      RegistrationController();
   bool? isLoaded = false;
   String qrData = 'Initial Data'; // ข้อมูล QR code ตั้งต้น
   String? namefile;
@@ -88,6 +92,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
     '15',
   ];
   List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> dataRegStu = [];
   List<AttendanceSchedule>? attendance;
   String? checkInTime;
   String? type;
@@ -97,7 +102,18 @@ class _TeacherAttenState extends State<TeacherAtten> {
     List<AttendanceSchedule> atten =
         await attendanceScheduleController.ReportAttenByWeek(week, secid);
     showAttenExport(week, secid);
+
+    List<Registration> reg =
+        await registrationController.do_getViewStudent(secid);
+
     setState(() {
+      dataRegStu = reg
+          .map((reg) => {
+                'userid': reg.user?.userid ?? "",
+                'fname': reg.user?.fname ?? "",
+                'lname': reg.user?.lname ?? "",
+              })
+          .toList();
       attendance = atten;
       data = atten
           .map((atten) => {
@@ -253,7 +269,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                               MainAxisAlignment.start,
                                           children: [
                                             const Center(
-                                                child: Text("ดูรายการเข้าเรียน",
+                                                child: Text("รายการเข้าเรียน",
                                                     style: CustomTextStyle
                                                         .Textheader)),
                                             const SizedBox(
@@ -462,7 +478,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                         ListattenExport();
                                                       },
                                                       child: const Text(
-                                                          'ExportReport'),
+                                                          'ดาวน์โหลดการเข้าเรียน'),
                                                     ),
                                                   ],
                                                 )
