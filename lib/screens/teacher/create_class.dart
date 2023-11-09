@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/color.dart';
 import 'package:flutter_application_1/controller/course_controller.dart';
@@ -20,6 +19,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/section.dart';
+
 class TeacherCreateClass extends StatefulWidget {
   const TeacherCreateClass({super.key});
 
@@ -37,12 +38,14 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
 
   List<Map<String, dynamic>> dataSubject = [];
   List<Map<String, dynamic>> dataRoom = [];
+  List<Section> allSections = [];
 
   bool? isLoaded = false;
   bool? checkSelectSubjectId = false;
   bool? checkSelectStartTime = false;
   bool? checkSelectRoomName = false;
   bool? inputGroupNumber = false;
+  bool? isConflicting = false;
   List<Room>? rooms;
   List<Subject>? subjects;
   User? userNow;
@@ -50,10 +53,11 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   void fetchData() async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+    allSections = await sectionController.listAllSection();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    //String? username = 'Tanakorn63@gmail.com';
+    //String? username = prefs.getString('username');
+    String? username = 'Tanakorn63@gmail.com';
 
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
@@ -90,8 +94,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   }
 
   String selectedTerm = '1';
-  String? selectedGroupStu;
   dynamic selectedSubjectId;
+  String? selectedGroupStu;
   String selectedStartTime = '08:00';
   String selectedDuration = '1';
   String selectedTypeSubject = 'ปฏิบัติการ';
@@ -99,8 +103,6 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   String selectedSemesterNow = DateFormat('yyyy').format(DateTime.now());
   dynamic formattedTime;
   Alignment textHeaderbar = Alignment.centerLeft;
-
-  // List of items in our dropdown menu
   var terms = ['1', '2'];
   var typesub = ['ปฏิบัติการ', 'บรรยาย'];
   var startTime = [
@@ -128,6 +130,21 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
   ];
   var durationTime = ['1', '2', '3', '4'];
 
+  void checkForConflicts(List<Section> allSections, String sectionIdToCreate,
+      String typeToCreate, String groupStuToCreate) {
+    isConflicting = allSections.any((section) {
+      return section.course?.subject?.subjectId == sectionIdToCreate &&
+          section.type == typeToCreate &&
+          section.sectionNumber == groupStuToCreate;
+    });
+
+    /*if (isConflicting == true) {
+      print('มี Section ที่ทำซ้ำ');
+    } else {
+      print('ไม่มี Section ที่ทำซ้ำ');
+    }*/
+  }
+
   void showSuccessToCreateClassAlert() {
     QuickAlert.show(
       context: context,
@@ -144,6 +161,17 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
           ),
         );
       },
+    );
+  }
+
+  void showClassAlreadyHaveAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน!",
+      text:
+          "คลาสเรียนรหัส $selectedSubjectId และประเภท $selectedTypeSubject ของกลุ่ม $selectedGroupStu มีอยู่แล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -521,7 +549,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                         .numberWithOptions(
                                                                     decimal:
                                                                         true),
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[1-9]\d*')),
@@ -1058,80 +1087,86 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                         false &&
                                                                     inputGroupNumber ==
                                                                         false) {
-                                                                  var IdSubject =
-                                                                      selectedSubject[
-                                                                          'id'];
-                                                                  //print('คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
-
-                                                                  // เรียก addCourse และรอการตอบกลับ
-                                                                  http.Response
-                                                                      response =
-                                                                      await courseController
-                                                                          .addCourse(
-                                                                    IdSubject
-                                                                        .toString(),
-                                                                    IdUser,
-                                                                    selectedTerm
-                                                                        .toString(),
-                                                                    selectedSemesterNow
-                                                                        .toString(),
-                                                                  );
-
-                                                                  if (response
-                                                                          .statusCode ==
-                                                                      200) {
-                                                                    // เรียก addCourse สำเร็จ
-
-                                                                    // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
-                                                                    Map<String,
-                                                                            dynamic>
-                                                                        responseBody =
-                                                                        json.decode(
-                                                                            response.body);
-
-                                                                    // ดึง IdCourse ที่ได้รับจาก response ออกมา
-                                                                    var IdCourse =
-                                                                        responseBody[
+                                                                  // เรียกใช้งานฟังก์ชันเพื่อตรวจสอบ
+                                                                  checkForConflicts(
+                                                                      allSections,
+                                                                      selectedSubjectId,
+                                                                      selectedTypeSubject,
+                                                                      selectedGroupStu!);
+                                                                  if (isConflicting ==
+                                                                      false) {
+                                                                    var IdSubject =
+                                                                        selectedSubject[
                                                                             'id'];
+                                                                    // เรียก addCourse และรอการตอบกลับ
+                                                                    http.Response
+                                                                        response =
+                                                                        await courseController
+                                                                            .addCourse(
+                                                                      IdSubject
+                                                                          .toString(),
+                                                                      IdUser,
+                                                                      selectedTerm
+                                                                          .toString(),
+                                                                      selectedSemesterNow
+                                                                          .toString(),
+                                                                    );
 
-                                                                    if (selectedRoomName !=
-                                                                        null) {
-                                                                      var IdRoom =
-                                                                          selectedRoomName[
+                                                                    if (response
+                                                                            .statusCode ==
+                                                                        200) {
+                                                                      // เรียก addCourse สำเร็จ
+
+                                                                      // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
+                                                                      Map<String,
+                                                                              dynamic>
+                                                                          responseBody =
+                                                                          json.decode(
+                                                                              response.body);
+
+                                                                      // ดึง IdCourse ที่ได้รับจาก response ออกมา
+                                                                      var IdCourse =
+                                                                          responseBody[
                                                                               'id'];
-                                                                      print(
-                                                                          'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
 
-                                                                      // เรียก addSection และรอการตอบกลับ
-                                                                      http.Response
-                                                                          sectionResponse =
-                                                                          await sectionController
-                                                                              .addSection(
-                                                                        selectedStartTime
-                                                                            .toString(),
-                                                                        selectedDuration
-                                                                            .toString(),
-                                                                        selectedGroupStu
-                                                                            .toString(),
-                                                                        selectedTypeSubject
-                                                                            .toString(),
-                                                                        IdUser
-                                                                            .toString(),
-                                                                        IdCourse
-                                                                            .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
-                                                                        IdRoom
-                                                                            .toString(),
-                                                                      );
-
-                                                                      if (sectionResponse
-                                                                              .statusCode ==
-                                                                          200) {
-                                                                        // เรียก addSection สำเร็จ
-                                                                        showSuccessToCreateClassAlert();
+                                                                      if (selectedRoomName !=
+                                                                          null) {
+                                                                        var IdRoom =
+                                                                            selectedRoomName['id'];
                                                                         print(
-                                                                            "บันทึกสำเร็จ");
+                                                                            'คุณเลือก roomName: $selectedRoom โดยมี id: $IdRoom');
+
+                                                                        // เรียก addSection และรอการตอบกลับ
+                                                                        http.Response
+                                                                            sectionResponse =
+                                                                            await sectionController.addSection(
+                                                                          selectedStartTime
+                                                                              .toString(),
+                                                                          selectedDuration
+                                                                              .toString(),
+                                                                          selectedGroupStu
+                                                                              .toString(),
+                                                                          selectedTypeSubject
+                                                                              .toString(),
+                                                                          IdUser
+                                                                              .toString(),
+                                                                          IdCourse
+                                                                              .toString(), // ใช้ IdCourse ที่ได้จาก response จาก addCourse
+                                                                          IdRoom
+                                                                              .toString(),
+                                                                        );
+
+                                                                        if (sectionResponse.statusCode ==
+                                                                            200) {
+                                                                          // เรียก addSection สำเร็จ
+                                                                          showSuccessToCreateClassAlert();
+                                                                          print(
+                                                                              "บันทึกสำเร็จ");
+                                                                        }
                                                                       }
                                                                     }
+                                                                  } else {
+                                                                    showClassAlreadyHaveAlert();
                                                                   }
                                                                 } else {
                                                                   print(
@@ -1180,8 +1215,8 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                                 }));
                                                               });
                                                             },
-                                                            child:
-                                                                Text("ยกเลิก"),
+                                                            child: const Text(
+                                                                "ยกเลิก"),
                                                           ),
                                                         ],
                                                       ),

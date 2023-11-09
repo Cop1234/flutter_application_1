@@ -44,12 +44,14 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
 
   List<Map<String, dynamic>> dataSubject = [];
   List<Map<String, dynamic>> dataRoom = [];
+  List<Section> allSections = [];
 
   bool? isLoaded = false;
   bool? checkSelectSubjectId = false;
   bool? checkSelectStartTime = false;
   bool? checkSelectRoomName = false;
   bool? inputGroupNumber = false;
+  bool? isConflicting = false;
   List<Room>? rooms;
   List<Subject>? subjects;
   Course? course;
@@ -71,6 +73,7 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   void fetchData(String courseId, String sectionId) async {
     List<Room> fetchedRooms = await roomController.listAllRooms();
     List<Subject> fetchedSubjects = await subjectController.listAllSubjects();
+    allSections = await sectionController.listAllSection();
 
     course = await courseController.get_Course(courseId);
     section = await sectionController.get_Section(sectionId);
@@ -96,8 +99,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
     print("CheckTime - ${selectedStartTime}");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    //String? username = "Tanakorn63@gmail.com";
+    //String? username = prefs.getString('username');
+    String? username = "Tanakorn63@gmail.com";
     if (username != null) {
       userNow = await userController.get_UserByUsername(username);
       print("ชื่อผู้ใช้ขณะนี้ " + username);
@@ -162,6 +165,15 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
   ];
   var durationTime = ['1', '2', '3', '4'];
 
+  void checkForConflicts(List<Section> allSections, String sectionIdToCreate,
+      String typeToCreate, String groupStuToCreate) {
+    isConflicting = allSections.any((section) {
+      return section.course?.subject?.subjectId == sectionIdToCreate &&
+          section.type == typeToCreate &&
+          section.sectionNumber == groupStuToCreate;
+    });
+  }
+
   void showSuccessToUpdateClassAlert() {
     QuickAlert.show(
       context: context,
@@ -178,6 +190,17 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
           ),
         );
       },
+    );
+  }
+
+  void showClassAlreadyHaveAlert() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน!",
+      text:
+          "คลาสเรียนรหัส $selectedSubjectId และประเภท $selectedTypeSubject ของกลุ่ม $selectedGroupStu มีอยู่แล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -604,7 +627,8 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                         .numberWithOptions(
                                                                     decimal:
                                                                         true),
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[1-9]\d*')),
@@ -1142,77 +1166,85 @@ class _TeacherUpdateClassState extends State<TeacherUpdateClass> {
                                                                         false &&
                                                                     inputGroupNumber ==
                                                                         false) {
-                                                                  var IdSubject =
-                                                                      selectedSubject[
-                                                                          'id'];
-                                                                  print(
-                                                                      'คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
-
-                                                                  http.Response
-                                                                      response =
-                                                                      await courseController
-                                                                          .updateCourse(
-                                                                    courseIdNow
-                                                                        .toString(),
-                                                                    IdSubject
-                                                                        .toString(),
-                                                                    IdUser,
-                                                                    selectedTerm
-                                                                        .toString(),
-                                                                    selectedSemesterNow
-                                                                        .toString(),
-                                                                  );
-
-                                                                  if (response
-                                                                          .statusCode ==
-                                                                      200) {
-                                                                    // เรียก addCourse สำเร็จ
+                                                                  checkForConflicts(
+                                                                      allSections,
+                                                                      selectedSubjectId,
+                                                                      selectedTypeSubject!,
+                                                                      selectedGroupStu!);
+                                                                  if (isConflicting ==
+                                                                      false) {
+                                                                        var IdSubject =
+                                                                        selectedSubject[
+                                                                            'id'];
                                                                     print(
-                                                                        "addCourse สำเร็จ");
-                                                                    // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
-                                                                    Map<String,
-                                                                            dynamic>
-                                                                        responseBody =
-                                                                        json.decode(
-                                                                            response.body);
+                                                                        'คุณเลือก subjectId: $selectedSubjectId โดยมี id: $IdSubject');
 
-                                                                    if (selectedRoomName !=
-                                                                        null) {
-                                                                      var IdRoom =
-                                                                          selectedRoomName[
-                                                                              'id'];
+                                                                    http.Response
+                                                                        response =
+                                                                        await courseController
+                                                                            .updateCourse(
+                                                                      courseIdNow
+                                                                          .toString(),
+                                                                      IdSubject
+                                                                          .toString(),
+                                                                      IdUser,
+                                                                      selectedTerm
+                                                                          .toString(),
+                                                                      selectedSemesterNow
+                                                                          .toString(),
+                                                                    );
 
-                                                                      http.Response
-                                                                          sectionResponse =
-                                                                          await sectionController
-                                                                              .updateSection(
-                                                                        sectionIdNow
-                                                                            .toString(),
-                                                                        selectedStartTime
-                                                                            .toString(),
-                                                                        selectedDuration
-                                                                            .toString(),
-                                                                        selectedGroupStu
-                                                                            .toString(),
-                                                                        selectedTypeSubject
-                                                                            .toString(),
-                                                                        IdUser,
-                                                                        courseIdNow
-                                                                            .toString(),
-                                                                        IdRoom
-                                                                            .toString(),
-                                                                      );
+                                                                    if (response
+                                                                            .statusCode ==
+                                                                        200) {
+                                                                      // เรียก addCourse สำเร็จ
+                                                                      print(
+                                                                          "addCourse สำเร็จ");
+                                                                      // แปลง response.body ให้อยู่ในรูปแบบ JSON (หาก response เป็น JSON)
+                                                                      Map<String,
+                                                                              dynamic>
+                                                                          responseBody =
+                                                                          json.decode(
+                                                                              response.body);
 
-                                                                      if (sectionResponse
-                                                                              .statusCode ==
-                                                                          200) {
-                                                                        // เรียก addSection สำเร็จ
-                                                                        showSuccessToUpdateClassAlert();
-                                                                        print(
-                                                                            "แก้ไขสำเร็จ");
+                                                                      if (selectedRoomName !=
+                                                                          null) {
+                                                                        var IdRoom =
+                                                                            selectedRoomName['id'];
+
+                                                                        http.Response
+                                                                            sectionResponse =
+                                                                            await sectionController.updateSection(
+                                                                          sectionIdNow
+                                                                              .toString(),
+                                                                          selectedStartTime
+                                                                              .toString(),
+                                                                          selectedDuration
+                                                                              .toString(),
+                                                                          selectedGroupStu
+                                                                              .toString(),
+                                                                          selectedTypeSubject
+                                                                              .toString(),
+                                                                          IdUser,
+                                                                          courseIdNow
+                                                                              .toString(),
+                                                                          IdRoom
+                                                                              .toString(),
+                                                                        );
+
+                                                                        if (sectionResponse.statusCode ==
+                                                                            200) {
+                                                                          // เรียก addSection สำเร็จ
+                                                                          showSuccessToUpdateClassAlert();
+                                                                          print(
+                                                                              "แก้ไขสำเร็จ");
+                                                                        }
                                                                       }
                                                                     }
+                                                                  } else {
+                                                                    showClassAlreadyHaveAlert();
                                                                   }
+                                                                  
                                                                 } else {
                                                                   print(
                                                                       'ไม่พบ subjectId: $selectedSubjectId ในรายการ');

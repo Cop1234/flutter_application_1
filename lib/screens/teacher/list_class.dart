@@ -57,8 +57,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
 
   void fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    //String? username = "Tanakorn63@gmail.com";
+    //String? username = prefs.getString('username');
+    String? username = "Tanakorn63@gmail.com";
     if (username != null) {
       User? user = await userController.get_UserByUsername(username);
       if (user != null) {
@@ -142,10 +142,7 @@ class _ListClassScreenState extends State<ListClassScreen> {
   void initState() {
     super.initState();
     fetchUserId();
-    //print(combinedData);
   }
-
-  //static const double columnWidth = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -465,7 +462,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .inventory_outlined,
@@ -496,7 +494,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .qr_code_outlined,
@@ -527,7 +526,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .people_alt,
@@ -558,7 +558,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .settings,
@@ -592,7 +593,8 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                         ),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(
                                                                   Icons
                                                                       .group_add,

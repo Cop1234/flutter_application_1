@@ -42,9 +42,9 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                 }));
               });
             },
-            child: const Icon(
+            child: Icon(
               Icons.menu_book,
-              color: Colors.white,
+              color: pressed1 ? Colors.white : Colors.black,
               size: 30.0,
             ),
           ),
@@ -81,9 +81,9 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                 }));
               });
             },
-            child: const Icon(
+            child: Icon(
               Icons.class_,
-              color: Colors.white,
+              color: pressed2 ? Colors.white : Colors.black,
               size: 24.0,
             ),
           ),
@@ -119,9 +119,9 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                 }));
               });
             },
-            child: const Icon(
+            child: Icon(
               Icons.perm_contact_cal,
-              color: Colors.white,
+              color: pressed3 ? Colors.white : Colors.black,
               size: 24.0,
             ),
           ),
@@ -157,9 +157,9 @@ class _NavbarTeacherState extends State<NavbarTeacher> {
                 }));
               });
             },
-            child: const Icon(
+            child: Icon(
               Icons.logout,
-              color: Colors.white,
+              color: pressed4 ? Colors.white : Colors.black,
               size: 24.0,
             ),
           ),
