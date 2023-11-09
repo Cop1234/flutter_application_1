@@ -35,6 +35,7 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
   int? sectionid;
   Section? section;
   bool? isLoaded = false;
+  bool? inputStuNumber = false;
 
   TextEditingController subjectid = TextEditingController();
   TextEditingController subjectName = TextEditingController();
@@ -209,11 +210,6 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
-                                                    const Text(
-                                                      "รหัสนักศึกษา : ",
-                                                      style: CustomTextStyle
-                                                          .createFontStyle,
-                                                    ),
                                                     Text(
                                                       "รหัสวิชา : ${subjectid.text}",
                                                       style: CustomTextStyle
@@ -282,12 +278,35 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                 child: Row(
                                                   children: [
                                                     const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    const Text(
+                                                      "รหัสนักศึกษา : ",
+                                                      style: CustomTextStyle
+                                                          .createFontStyle,
+                                                    ),
+                                                    const SizedBox(
                                                         width:
                                                             10), // Adjust the width for spacing
                                                     Container(
                                                       width: 500,
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20.0,
+                                                              top: 10.0,
+                                                              right: 10.0,
+                                                              bottom: 10.0),
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
+                                                          border: inputStuNumber!
+                                                              ? Border.all(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  width: 2.0)
+                                                              : Border.all(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  width: 2.0),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -298,7 +317,8 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                             const TextInputType
                                                                     .numberWithOptions(
                                                                 decimal: true),
-                                                        inputFormatters: <TextInputFormatter>[
+                                                        inputFormatters: <
+                                                            TextInputFormatter>[
                                                           FilteringTextInputFormatter
                                                               .allow(RegExp(
                                                                   r'^[0-9]\d*')),
@@ -306,25 +326,38 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                         controller:
                                                             useridController,
                                                         decoration:
-                                                            const InputDecoration(
-                                                          filled:
-                                                              true, // เปิดการใช้งานการเติมพื้นหลัง
-                                                          fillColor:
-                                                              Colors.white,
+                                                            InputDecoration(
+                                                          hintText:
+                                                              'กรอกรหัสประจำตัวของนักศึกษา',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 18,
+                                                              color: inputStuNumber!
+                                                                  ? Colors.red
+                                                                      .withOpacity(
+                                                                          0.5)
+                                                                  : Colors.black
+                                                                      .withOpacity(
+                                                                          0.5)),
                                                           border:
-                                                              OutlineInputBorder(),
+                                                              InputBorder.none,
+                                                          errorBorder:
+                                                              InputBorder.none,
                                                         ),
-                                                        validator: (value) {
-                                                          bool subjectIdValid =
-                                                              RegExp(r'^[\d]+$')
-                                                                  .hasMatch(
-                                                                      value!);
+                                                        validator:
+                                                            (String? value) {
                                                           if (value == null ||
                                                               value.isEmpty) {
-                                                            return "กรุณากรอกรหัสประจำตัวของนักศึกษา*";
-                                                          } else if (!subjectIdValid) {
-                                                            return "รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น";
+                                                            setState(() {
+                                                              inputStuNumber =
+                                                                  true;
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              inputStuNumber =
+                                                                  false;
+                                                            });
                                                           }
+                                                          return null;
                                                         },
                                                       ),
                                                     ),
@@ -389,35 +422,38 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                           String userId =
                                                               useridController
                                                                   .text;
-                                                          // เช็คว่า userId มีอยู่ใน registration หรือไม่
-                                                          bool isExists =
-                                                              isUserIdExists(
+                                                          if (inputStuNumber ==
+                                                              false) {
+                                                            // เช็คว่า userId มีอยู่ใน registration หรือไม่
+                                                            bool isExists =
+                                                                isUserIdExists(
+                                                                    userId);
+                                                            if (isExists) {
+                                                              // แสดง Alert หรือข้อความว่า userId มีอยู่ในระบบแล้ว
+                                                              showErrorUserIdExistsAlert(
                                                                   userId);
-                                                          if (isExists) {
-                                                            // แสดง Alert หรือข้อความว่า userId มีอยู่ในระบบแล้ว
-                                                            showErrorUserIdExistsAlert(
-                                                                userId);
-                                                          } else {
-                                                            // ทำการ addUser เมื่อ userId ไม่ซ้ำ
-                                                            http.Response
-                                                                response =
-                                                                await registrationController
-                                                                    .do_update(
-                                                              useridController
-                                                                  .text,
-                                                              '${section?.id}',
-                                                            );
-
-                                                            if (response
-                                                                    .statusCode ==
-                                                                200) {
-                                                              showSuccessToAddUserAlert(
-                                                                  '${section?.id}');
-                                                              print(
-                                                                  "บันทึกสำเร็จ");
                                                             } else {
-                                                              showErrorUserIdNotInDataBaseAlert(
-                                                                  userId);
+                                                              // ทำการ addUser เมื่อ userId ไม่ซ้ำ
+                                                              http.Response
+                                                                  response =
+                                                                  await registrationController
+                                                                      .do_update(
+                                                                useridController
+                                                                    .text,
+                                                                '${section?.id}',
+                                                              );
+
+                                                              if (response
+                                                                      .statusCode ==
+                                                                  200) {
+                                                                showSuccessToAddUserAlert(
+                                                                    '${section?.id}');
+                                                                print(
+                                                                    "บันทึกสำเร็จ");
+                                                              } else {
+                                                                showErrorUserIdNotInDataBaseAlert(
+                                                                    userId);
+                                                              }
                                                             }
                                                           }
                                                         }

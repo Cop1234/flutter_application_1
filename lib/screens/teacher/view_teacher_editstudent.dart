@@ -320,7 +320,7 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                   (states) => maincolor),
                                           dataRowColor:
                                               MaterialStateColor.resolveWith(
-                                                  (states) => Colors.black),
+                                                  (states) => Colors.white),
                                           columns: const <DataColumn>[
                                             DataColumn(
                                               label: SizedBox(
@@ -393,7 +393,7 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                     child: Text(
                                                       row['userid'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 )),
@@ -406,7 +406,7 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                       child: Text(
                                                         row['fname'],
                                                         style: CustomTextStyle
-                                                            .TextGeneral,
+                                                            .TextGeneral2,
                                                       ),
                                                     ),
                                                   ),
@@ -420,7 +420,7 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                       child: Text(
                                                         row['lname'],
                                                         style: CustomTextStyle
-                                                            .TextGeneral,
+                                                            .TextGeneral2,
                                                       ),
                                                     ),
                                                   ),
@@ -436,13 +436,14 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                       child: PopupMenuButton(
                                                         icon: const Icon(
                                                           Icons.settings,
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                         ),
                                                         itemBuilder:
                                                             (context) => [
                                                           PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .delete,
