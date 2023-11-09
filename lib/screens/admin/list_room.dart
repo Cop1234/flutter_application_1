@@ -218,7 +218,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -294,7 +294,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                   alignment: Alignment.center,
                                                   child: Text(index.toString(),
                                                       style: CustomTextStyle
-                                                          .TextGeneral),
+                                                          .TextGeneral2),
                                                 ),
                                               )),
                                               DataCell(
@@ -305,7 +305,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                     child: Text(
                                                       row['roomName'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -318,7 +318,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                     child: Text(
                                                       row['building'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -333,14 +333,13 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -369,8 +368,7 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <
-                                                                Widget>[
+                                                            children: const <Widget>[
                                                               Icon(Icons.delete,
                                                                   color: Colors
                                                                       .black),

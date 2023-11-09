@@ -193,6 +193,14 @@ class _StudentAttenState extends State<StudentAtten> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
+                                            const Center(
+                                                child: Text(
+                                                    "รายงานการเข้าเรียน",
+                                                    style: CustomTextStyle
+                                                        .Textheader)),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
                                             Text(
                                               "รหัสวิชา : ${subjectid.text}",
                                               style:

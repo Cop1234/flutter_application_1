@@ -197,6 +197,14 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
+                                              const Center(
+                                                  child: Text(
+                                                      "แก้ไขรายชื่อนักศึกษา",
+                                                      style: CustomTextStyle
+                                                          .Textheader)),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
                                               Text(
                                                 "รหัสวิชา : ${subjectid.text}",
                                                 style: CustomTextStyle
@@ -434,8 +442,7 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                                             (context) => [
                                                           PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .delete,

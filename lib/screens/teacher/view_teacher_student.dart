@@ -142,6 +142,13 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
+                                              const Center(
+                                                  child: Text("รายชื่อนักศึกษา",
+                                                      style: CustomTextStyle
+                                                          .Textheader)),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
                                               Text(
                                                 "รหัสวิชา : ${subjectid.text}",
                                                 style: CustomTextStyle
@@ -257,7 +264,7 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                                   (states) => maincolor),
                                           dataRowColor:
                                               MaterialStateColor.resolveWith(
-                                                  (states) => Colors.black),
+                                                  (states) => Colors.white),
                                           columns: const <DataColumn>[
                                             DataColumn(
                                               label: SizedBox(
@@ -316,7 +323,7 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                                     child: Text(
                                                       row['userid'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 )),
@@ -329,7 +336,7 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                                       child: Text(
                                                         row['fname'],
                                                         style: CustomTextStyle
-                                                            .TextGeneral,
+                                                            .TextGeneral2,
                                                       ),
                                                     ),
                                                   ),
@@ -343,7 +350,7 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                                       child: Text(
                                                         row['lname'],
                                                         style: CustomTextStyle
-                                                            .TextGeneral,
+                                                            .TextGeneral2,
                                                       ),
                                                     ),
                                                   ),

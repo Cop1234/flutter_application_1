@@ -220,7 +220,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                 (states) => maincolor),
                                         dataRowColor:
                                             MaterialStateColor.resolveWith(
-                                                (states) => Colors.black),
+                                                (states) => Colors.white),
                                         columns: const <DataColumn>[
                                           DataColumn(
                                             label: SizedBox(
@@ -296,7 +296,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                   alignment: Alignment.center,
                                                   child: Text(index.toString(),
                                                       style: CustomTextStyle
-                                                          .TextGeneral),
+                                                          .TextGeneral2),
                                                 ),
                                               )),
                                               DataCell(
@@ -307,7 +307,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                     child: Text(
                                                       row['subjectId'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                     ),
                                                   ),
                                                 ),
@@ -320,7 +320,7 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                     child: AutoSizeText(
                                                       row['subjectName'],
                                                       style: CustomTextStyle
-                                                          .TextGeneral,
+                                                          .TextGeneral2,
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -340,14 +340,13 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                     child: PopupMenuButton(
                                                       icon: const Icon(
                                                         Icons.settings,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       itemBuilder: (context) =>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <
-                                                                  Widget>[
+                                                              children: const <Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,

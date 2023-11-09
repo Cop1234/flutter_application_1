@@ -269,7 +269,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                               MainAxisAlignment.start,
                                           children: [
                                             const Center(
-                                                child: Text("ดูรายการเข้าเรียน",
+                                                child: Text("รายการเข้าเรียน",
                                                     style: CustomTextStyle
                                                         .Textheader)),
                                             const SizedBox(
@@ -478,7 +478,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                         ListattenExport();
                                                       },
                                                       child: const Text(
-                                                          'ExportReport'),
+                                                          'ดาวน์โหลดการเข้าเรียน'),
                                                     ),
                                                   ],
                                                 )
