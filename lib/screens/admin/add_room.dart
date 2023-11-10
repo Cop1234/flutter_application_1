@@ -110,7 +110,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     QuickAlert.show(
       context: context,
       title: "แจ้งเตือน",
-      text: "ชื่อห้อง $roomName มีอยู่ในระบบแล้ว",
+      text: "ชื่อห้อง $roomName ของตึก $dropdownvalue มีอยู่ในระบบแล้ว",
       type: QuickAlertType.error,
       confirmBtnText: "ตกลง",
     );
@@ -224,7 +224,8 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                             border: inputroomName!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -240,7 +241,8 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[a-zA-Z0-9ก-๙\s\-]+$')),

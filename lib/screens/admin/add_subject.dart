@@ -143,7 +143,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                         ),
                                         Center(
                                           child: Table(
-                                            // border: TableBorder.all(),
+                                            //border: TableBorder.all(),
                                             columnWidths: const {
                                               0: FractionColumnWidth(0.25),
                                               1: FractionColumnWidth(0.5),
@@ -156,8 +156,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                       child: Container(
                                                         alignment:
                                                             textHeaderbar,
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
                                                         child: const Text(
                                                           "รหัสวิชา",
                                                           style: CustomTextStyle
@@ -197,7 +198,8 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                             border: inputSubjectId!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -213,7 +215,8 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[ก-๙0-9\s\-/]*$')),
@@ -277,8 +280,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                       child: Container(
                                                         alignment:
                                                             textHeaderbar,
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
                                                         child: const Text(
                                                           "ชื่อวิชา",
                                                           style: CustomTextStyle
@@ -318,7 +322,8 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                             border: inputsubjectName!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -335,7 +340,8 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(
                                                                 RegExp(
@@ -442,7 +448,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                                 border: inputGroupNumber!
                                                                     ? Border.all(
                                                                         color: Colors
-                                                                            .red)
+                                                                            .red,
+                                                                        width:
+                                                                            2.0)
                                                                     : Border.all(
                                                                         color: Colors
                                                                             .green,
@@ -463,7 +471,8 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                                           .numberWithOptions(
                                                                       decimal:
                                                                           true),
-                                                              inputFormatters: <TextInputFormatter>[
+                                                              inputFormatters: <
+                                                                  TextInputFormatter>[
                                                                 FilteringTextInputFormatter
                                                                     .allow(RegExp(
                                                                         r'^[1-9]\d*')),
@@ -527,8 +536,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                                       child: Container(
                                                         alignment:
                                                             textHeaderbar,
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
                                                         child: const Text(
                                                           "รายละเอียด",
                                                           style: CustomTextStyle
@@ -599,7 +609,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 30,
                                         ),
                                         Row(

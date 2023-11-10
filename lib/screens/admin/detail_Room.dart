@@ -32,7 +32,7 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
   bool? isLoaded = false;
   List<Room>? rooms;
   Alignment textHeaderbar = Alignment.centerLeft;
-  bool? inputroomName = false;
+  bool? inputRoomName = false;
 
   var items = [
     'อาคารจุฬาภรณ์',
@@ -233,10 +233,11 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                                           decoration:
                                                               BoxDecoration(
                                                             color: Colors.white,
-                                                            border: inputroomName!
+                                                            border: inputRoomName!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -252,7 +253,8 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[a-zA-Z0-9ก-๙\s\-]+$')),
@@ -268,12 +270,12 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                                                   value
                                                                       .isEmpty) {
                                                                 setState(() {
-                                                                  inputroomName =
+                                                                  inputRoomName =
                                                                       true;
                                                                 });
                                                               } else {
                                                                 setState(() {
-                                                                  inputroomName =
+                                                                  inputRoomName =
                                                                       false;
                                                                 });
                                                               }
@@ -292,7 +294,7 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                                               hintStyle:
                                                                   TextStyle(
                                                                 fontSize: 18,
-                                                                color: inputroomName!
+                                                                color: inputRoomName!
                                                                     ? Colors.red
                                                                         .withOpacity(
                                                                             0.5)
@@ -447,48 +449,52 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                               onTap: () async {
                                                 if (_formfield.currentState!
                                                     .validate()) {
-                                                  String roomName =
-                                                      roomNameController.text;
-                                                  String building =
-                                                      buildingController.text;
-                                                  int? roomId = room?.id;
-                                                  bool isExists =
-                                                      isRoomNameExists(roomName,
-                                                          building, roomId!);
-                                                  if (isExists) {
-                                                    showErrorRoomNameExistsAlert(
-                                                        roomName);
-                                                  } else {
-                                                    double? latitude =
-                                                        double.tryParse(
-                                                            latitudeController
-                                                                .text);
-                                                    double? longitude =
-                                                        double.tryParse(
-                                                            longitudeController
-                                                                .text);
-                                                    Room updateRoom = Room(
-                                                      id: room?.id,
-                                                      roomName:
-                                                          roomNameController
-                                                              .text,
-                                                      building:
-                                                          buildingController
-                                                                  .text =
-                                                              dropdownvalue
-                                                                  .toString(),
-                                                      latitude: latitude,
-                                                      longitude: longitude,
-                                                    );
-                                                    http.Response response =
-                                                        (await roomController
-                                                            .update_Room(
-                                                                updateRoom));
+                                                  if (inputRoomName == false) {
+                                                    String roomName =
+                                                        roomNameController.text;
+                                                    String building =
+                                                        buildingController.text;
+                                                    int? roomId = room?.id;
+                                                    bool isExists =
+                                                        isRoomNameExists(
+                                                            roomName,
+                                                            building,
+                                                            roomId!);
+                                                    if (isExists) {
+                                                      showErrorRoomNameExistsAlert(
+                                                          roomName);
+                                                    } else {
+                                                      double? latitude =
+                                                          double.tryParse(
+                                                              latitudeController
+                                                                  .text);
+                                                      double? longitude =
+                                                          double.tryParse(
+                                                              longitudeController
+                                                                  .text);
+                                                      Room updateRoom = Room(
+                                                        id: room?.id,
+                                                        roomName:
+                                                            roomNameController
+                                                                .text,
+                                                        building:
+                                                            buildingController
+                                                                    .text =
+                                                                dropdownvalue
+                                                                    .toString(),
+                                                        latitude: latitude,
+                                                        longitude: longitude,
+                                                      );
+                                                      http.Response response =
+                                                          (await roomController
+                                                              .update_Room(
+                                                                  updateRoom));
 
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      showSuccessToChangeRoomAlert();
-                                                      print("แก้ไขสำเร็จ");
+                                                      if (response.statusCode ==
+                                                          200) {
+                                                        showSuccessToChangeRoomAlert();
+                                                        print("แก้ไขสำเร็จ");
+                                                      }
                                                     }
                                                   }
                                                 }

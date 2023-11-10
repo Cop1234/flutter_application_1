@@ -117,6 +117,7 @@ class _loginScreenState extends State<LoginScreen> {
                           controller: usernameController,
                           decoration: const InputDecoration(
                             labelText: "ชื่อผู้ใช้",
+                            labelStyle: TextStyle(fontSize: 20),
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.person),
                           ),
@@ -144,6 +145,7 @@ class _loginScreenState extends State<LoginScreen> {
                           obscureText: passToggle,
                           decoration: InputDecoration(
                               labelText: "รหัสผ่าน",
+                              labelStyle: const TextStyle(fontSize: 20),
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.lock),
                               suffixIcon: InkWell(
