@@ -36,9 +36,9 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
   List<Subject>? subjects;
 
   Alignment textHeaderbar = Alignment.centerLeft;
-  bool? inputGroupNumber = false;
   bool? inputSubjectId = false;
   bool? inputsubjectName = false;
+  bool? inputCredit = false;
 
   void setDataToText() {
     subjectIdController.text = subject?.subjectId ?? "";
@@ -209,7 +209,8 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                             border: inputSubjectId!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -225,7 +226,8 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(RegExp(
                                                                       r'^[ก-๙0-9\s\-/]*$')),
@@ -289,8 +291,9 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                       child: Container(
                                                         alignment:
                                                             textHeaderbar,
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
                                                         child: const Text(
                                                           "ชื่อวิชา",
                                                           style: CustomTextStyle
@@ -330,7 +333,8 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                             border: inputsubjectName!
                                                                 ? Border.all(
                                                                     color: Colors
-                                                                        .red)
+                                                                        .red,
+                                                                    width: 2.0)
                                                                 : Border.all(
                                                                     color: Colors
                                                                         .green,
@@ -347,7 +351,8 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            inputFormatters: <TextInputFormatter>[
+                                                            inputFormatters: <
+                                                                TextInputFormatter>[
                                                               FilteringTextInputFormatter
                                                                   .allow(
                                                                 RegExp(
@@ -414,8 +419,9 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                       child: Container(
                                                         alignment:
                                                             textHeaderbar,
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
                                                         child: const Text(
                                                           "หน่วยกิต",
                                                           style: CustomTextStyle
@@ -451,10 +457,12 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                             decoration: BoxDecoration(
                                                                 color: Colors
                                                                     .white,
-                                                                border: inputGroupNumber!
+                                                                border: inputCredit!
                                                                     ? Border.all(
                                                                         color: Colors
-                                                                            .red)
+                                                                            .red,
+                                                                        width:
+                                                                            2.0)
                                                                     : Border.all(
                                                                         color: Colors
                                                                             .green,
@@ -475,7 +483,8 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                                           .numberWithOptions(
                                                                       decimal:
                                                                           true),
-                                                              inputFormatters: <TextInputFormatter>[
+                                                              inputFormatters: <
+                                                                  TextInputFormatter>[
                                                                 FilteringTextInputFormatter
                                                                     .allow(RegExp(
                                                                         r'^[1-9]\d*')),
@@ -493,12 +502,12 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                                     value
                                                                         .isEmpty) {
                                                                   setState(() {
-                                                                    inputGroupNumber =
+                                                                    inputCredit =
                                                                         true;
                                                                   });
                                                                 } else {
                                                                   setState(() {
-                                                                    inputGroupNumber =
+                                                                    inputCredit =
                                                                         false;
                                                                   });
                                                                 }
@@ -517,7 +526,7 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                                 hintStyle: TextStyle(
                                                                     fontSize:
                                                                         18,
-                                                                    color: inputGroupNumber!
+                                                                    color: inputCredit!
                                                                         ? Colors
                                                                             .red
                                                                             .withOpacity(
@@ -660,42 +669,48 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
 
                                                 if (_formfield.currentState!
                                                     .validate()) {
-                                                  String subjectId =
-                                                      subjectIdController.text;
-                                                  int? id = subject?.id;
+                                                  if (inputSubjectId == false &&
+                                                      inputsubjectName ==
+                                                          false &&
+                                                      inputCredit == false) {
+                                                    String subjectId =
+                                                        subjectIdController
+                                                            .text;
+                                                    int? id = subject?.id;
 
-                                                  // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
-                                                  bool isExists =
-                                                      isSubjectIdExists(
-                                                          subjectId, id!);
-                                                  if (isExists) {
-                                                    // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
-                                                    showErrorSubjectIdExistsAlert(
-                                                        subjectId);
-                                                  } else {
-                                                    // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
-                                                    Subject updateSubject =
-                                                        Subject(
-                                                      id: subject?.id,
-                                                      subjectId:
-                                                          subjectIdController
-                                                              .text,
-                                                      subjectName:
-                                                          subjectNameController
-                                                              .text,
-                                                      detail:
-                                                          detailController.text,
-                                                      credit: credit,
-                                                    );
-                                                    http.Response response =
-                                                        (await subjectController
-                                                            .update_Subject(
-                                                                updateSubject));
+                                                    // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                                    bool isExists =
+                                                        isSubjectIdExists(
+                                                            subjectId, id!);
+                                                    if (isExists) {
+                                                      // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                                      showErrorSubjectIdExistsAlert(
+                                                          subjectId);
+                                                    } else {
+                                                      // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
+                                                      Subject updateSubject =
+                                                          Subject(
+                                                        id: subject?.id,
+                                                        subjectId:
+                                                            subjectIdController
+                                                                .text,
+                                                        subjectName:
+                                                            subjectNameController
+                                                                .text,
+                                                        detail: detailController
+                                                            .text,
+                                                        credit: credit,
+                                                      );
+                                                      http.Response response =
+                                                          (await subjectController
+                                                              .update_Subject(
+                                                                  updateSubject));
 
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      showSuccessToChangeSubjectAlert();
-                                                      print("แก้ไขสำเร็จ");
+                                                      if (response.statusCode ==
+                                                          200) {
+                                                        showSuccessToChangeSubjectAlert();
+                                                        print("แก้ไขสำเร็จ");
+                                                      }
                                                     }
                                                   }
                                                 }
