@@ -262,19 +262,6 @@ class _InsertDataStudent extends State<InsertDataStudent> {
                                           ),
                                         ),
                                         onPressed: () async {
-                                          // if (uploadfile != null) {
-                                          //   print("Upload to API!");
-
-                                          //   var response =
-                                          //       await studentController.upload(
-                                          //           uploadfile!, fileName);
-                                          //   if (response == 200) {
-                                          //     showSuccessToAddStudentAlert();
-                                          //     print("บันทึกสำเร็จ");
-                                          //   }
-                                          // } else {
-                                          //   showErrorUserNameExistsAlert();
-                                          // }
                                           try {
                                             var response =
                                                 await studentController.upload(

@@ -136,33 +136,6 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
     );
   }
 
-  void showErrorValueError() {
-    QuickAlert.show(
-      context: context,
-      title: "แจ้งเตือน",
-      text: "ข้อความในไฟล์มีข้อผิดพลาด",
-      type: QuickAlertType.error,
-      confirmBtnText: "ตกลง",
-      //barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
-    );
-  }
-
-  // void setuserData() async {
-
-  //   List<Map<String, dynamic>> data = [];
-  //   setDataToText();
-  //   setState(() {
-
-  //     data = userstudent
-  //         .map((user) => {
-  //               'userid': user.userid ?? "",
-  //               'fname': user.fname ?? "",
-  //               'lname': user.lname ?? "",
-  //             })
-  //         .toList();
-  //   });
-  // }
-
   List<List<String>> tableData = [];
   Future<void> _pickFile(BuildContext context) async {
     try {
@@ -469,6 +442,23 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                       ),
                                                     ),
                                                     onPressed: () async {
+                                                      // if (uploadfile != null) {
+                                                      //   print("Upload to API!");
+
+                                                      //   var response =
+                                                      //       await registrationController
+                                                      //           .upload(
+                                                      //               uploadfile!,
+                                                      //               fileName,
+                                                      //               '${section?.id.toString()}');
+                                                      //   if (response == 200) {
+                                                      //     showSuccessToAddStudentAlert();
+                                                      //     print("บันทึกสำเร็จ");
+                                                      //   }
+                                                      // } else {
+                                                      //   showErrorUserNameExistsAlert();
+                                                      // }
+
                                                       try {
                                                         var response =
                                                             await registrationController
@@ -476,11 +466,10 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
                                                                     uploadfile!,
                                                                     fileName,
                                                                     '${section?.id.toString()}');
+
                                                         if (response == 200) {
                                                           showSuccessToAddStudentAlert();
                                                           print("บันทึกสำเร็จ");
-                                                        } else {
-                                                          showErrorValueError();
                                                         }
                                                       } on DioError catch (e) {
                                                         // จัดการข้อผิดพลาดจาก Dio
