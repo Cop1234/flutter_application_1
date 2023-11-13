@@ -183,14 +183,15 @@ class _DetailTeacherProfileState extends State<DetailTeacherProfile> {
                                             onPressed: () async {
                                               await Future.delayed(Duration
                                                   .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                      MaterialPageRoute(builder:
-                                                          (BuildContext
-                                                              context) {
-                                                return EditPasswordTeacherScreen(
-                                                    id: '${users?.id.toString()}');
-                                              }));
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                                  return EditPasswordTeacherScreen(
+                                                      id: '${users?.id.toString()}');
+                                                }),
+                                                (route) => false,
+                                              );
                                             },
                                             child: const Text("แก้ไขรหัสผ่าน"),
                                           ),

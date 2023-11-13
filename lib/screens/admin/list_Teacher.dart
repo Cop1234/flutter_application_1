@@ -112,8 +112,11 @@ class _ListTeacherState extends State<ListTeacher>
         confirmBtnText: "ตกลง",
         barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const ListTeacher()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ListTeacher()),
+            (route) => false,
+          );
         });
   }
 
@@ -182,14 +185,13 @@ class _ListTeacherState extends State<ListTeacher>
                                             child: InkWell(
                                               onTap: () async {
                                                 setState(() {
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                    return const AddTeacher();
-                                                  }));
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const AddTeacher()),
+                                                    (route) => false,
+                                                  );
                                                 });
                                               },
                                               child: Container(
@@ -345,7 +347,8 @@ class _ListTeacherState extends State<ListTeacher>
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -361,20 +364,24 @@ class _ListTeacherState extends State<ListTeacher>
                                                               await Future.delayed(
                                                                   Duration
                                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return DetailTeacher(
-                                                                    id: row['id']
-                                                                        .toString());
-                                                              }));
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                  return DetailTeacher(
+                                                                      id: row['id']
+                                                                          .toString());
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(Icons.delete,
                                                                   color: Colors
                                                                       .black),

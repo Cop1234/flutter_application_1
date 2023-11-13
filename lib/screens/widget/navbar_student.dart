@@ -30,11 +30,12 @@ class _NavbarStudentState extends State<NavbarStudent> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
+                Navigator.pushAndRemoveUntil(
+                  context,
                   MaterialPageRoute(
-                    builder: (BuildContext context){
-                      return subjectScreen();}
-                    ));*/
+                      builder: (context) => const ViewStudentSubject()),
+                  (route) => false,
+                );
               });
             },
             child: const Icon(
@@ -50,10 +51,12 @@ class _NavbarStudentState extends State<NavbarStudent> {
               onTap: () {
                 setState(() {
                   pressed1 = !pressed1;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const ViewStudentSubject();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ViewStudentSubject()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -70,10 +73,12 @@ class _NavbarStudentState extends State<NavbarStudent> {
           GestureDetector(
             onTap: () {
               setState(() {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const ViewStudentSubject();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DetailStudentProfile()),
+                  (route) => false,
+                );
               });
             },
             child: const Icon(
@@ -88,10 +93,12 @@ class _NavbarStudentState extends State<NavbarStudent> {
               onTap: () {
                 setState(() {
                   pressed2 = !pressed2;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const DetailStudentProfile();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const DetailStudentProfile()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -108,11 +115,11 @@ class _NavbarStudentState extends State<NavbarStudent> {
           GestureDetector(
             onTap: () {
               setState(() {
-                /*Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (BuildContext context){
-                      return LoginScreen();}
-                  ));*/
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
               });
             },
             child: const Icon(
@@ -130,10 +137,12 @@ class _NavbarStudentState extends State<NavbarStudent> {
                 prefs.remove('username');
                 setState(() {
                   pressed3 = !pressed3;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const LoginScreen();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(

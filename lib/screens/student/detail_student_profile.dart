@@ -208,15 +208,16 @@ class _DetailStudentProfileState extends State<DetailStudentProfile> {
                                                     onPressed: () async {
                                                       await Future.delayed(Duration
                                                           .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                      Navigator.of(context)
-                                                          .pushReplacement(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                        return EditPasswordStudent(
-                                                            id: '${users?.id.toString()}');
-                                                      }));
+                                                      Navigator
+                                                          .pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                          return EditPasswordStudent(
+                                                              id: '${users?.id.toString()}');
+                                                        }),
+                                                        (route) => false,
+                                                      );
                                                     },
                                                     child: const Text(
                                                         "แก้ไขรหัสผ่าน"),

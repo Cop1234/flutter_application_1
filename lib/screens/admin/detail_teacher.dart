@@ -98,12 +98,32 @@ class _DetailTeacherState extends State<DetailTeacher> {
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListTeacher(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListTeacher()),
+          (route) => false,
         );
       },
+    );
+  }
+
+  void showErrorUserNameExistsAlert(String email) {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "อีเมล $email ถูกใช้งานแล้ว",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
+    );
+  }
+
+  void showErrorDatetime() {
+    QuickAlert.show(
+      context: context,
+      title: "แจ้งเตือน",
+      text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      type: QuickAlertType.error,
+      confirmBtnText: "ตกลง",
     );
   }
 
@@ -245,14 +265,14 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                 ),
                                                 validator: (value) {
                                                   bool subjectNameValid =
-                                                      RegExp(r'^[ก-์]+$')
+                                                      RegExp(r'^[ก-์A-Za-z]+$')
                                                           .hasMatch(
                                                               value ?? "");
                                                   if (value == null ||
                                                       value.isEmpty) {
                                                     return "กรุณากรอกชื่อ*";
                                                   } else if (!subjectNameValid) {
-                                                    return "ชื่อต้องเป็นภาษาไทยเท่านั้น";
+                                                    return "ชื่อต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น";
                                                   }
                                                   return null; // รีเทิร์น null เมื่อไม่มีข้อผิดพลาด
                                                 },
@@ -296,12 +316,12 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                 ),
                                                 validator: (value) {
                                                   bool subjectNameValid =
-                                                      RegExp(r'^[ก-์]+$')
+                                                      RegExp(r'^[ก-์A-Za-z]+$')
                                                           .hasMatch(value!);
                                                   if (value.isEmpty) {
-                                                    return "กรุณากรอกนามกุล*";
+                                                    return "กรุณากรอกนามกุลหรือถ้าไม่มีให้ใส่คำว่า ไม่มีนามสกุล*";
                                                   } else if (!subjectNameValid) {
-                                                    return "ชื่อนามกุลต้องเป็นภาษาไทย";
+                                                    return "นามกุลต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น";
                                                   }
                                                   return null; // รีเทิร์น null เมื่อไม่มีข้อผิดพลาด
                                                 },
@@ -504,14 +524,13 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                 onTap: () async {
                                                   await Future.delayed(Duration
                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                    return const ListTeacher();
-                                                  }));
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ListTeacher()),
+                                                    (route) => false,
+                                                  );
                                                 },
                                                 child: Container(
                                                     height: 35,
@@ -565,7 +584,12 @@ class _DetailTeacherState extends State<DetailTeacher> {
                                                         200) {
                                                       showSuccessToChangeUserAlert();
                                                       print("บันทึกสำเร็จ");
+                                                    } else {
+                                                      showErrorUserNameExistsAlert(
+                                                          emailController.text);
                                                     }
+                                                  } else {
+                                                    showErrorDatetime();
                                                   }
                                                 },
                                                 child: Container(

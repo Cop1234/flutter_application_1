@@ -455,21 +455,24 @@ class _ViewStudentSubjectState extends State<ViewStudentSubject> {
                                                               await Future.delayed(
                                                                   Duration
                                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return StudentAtten(
-                                                                  sectionId: row[
-                                                                          'id']
-                                                                      .toString(),
-                                                                  regid: row[
-                                                                          'regid']
-                                                                      .toString(),
-                                                                );
-                                                              }));
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                  return StudentAtten(
+                                                                    sectionId: row[
+                                                                            'id']
+                                                                        .toString(),
+                                                                    regid: row[
+                                                                            'regid']
+                                                                        .toString(),
+                                                                  );
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             }),
                                                       ],
                                                     ),

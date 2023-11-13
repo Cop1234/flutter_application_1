@@ -219,16 +219,17 @@ class _TeacherViewStudentState extends State<TeacherViewStudent> {
                                               child: InkWell(
                                                 onTap: () async {
                                                   setState(() {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                      return TeacherEditStudent(
-                                                          sectionId:
-                                                              '${section?.id}');
-                                                    }));
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                        return TeacherEditStudent(
+                                                            sectionId:
+                                                                '${section?.id}');
+                                                      }),
+                                                      (route) => false,
+                                                    );
                                                   });
                                                 },
                                                 child: Container(

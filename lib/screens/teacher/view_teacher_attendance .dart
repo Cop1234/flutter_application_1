@@ -71,6 +71,9 @@ class _TeacherAttenState extends State<TeacherAtten> {
   void userData(String sectionId) async {
     section = await sectionController.get_Section(sectionId);
     setDataToText();
+    setState(() {
+      isLoaded = true;
+    });
   }
 
 /////////////////////////////////////////////////////////////
@@ -159,6 +162,7 @@ class _TeacherAttenState extends State<TeacherAtten> {
                   'status': atten.status ?? "",
                 })
             .toList();
+
         namefile =
             '${subjectName.text}_Section${sectionNumber.text}_${sectiontype.text}_Week${week.toString()}';
       });
@@ -287,9 +291,6 @@ class _TeacherAttenState extends State<TeacherAtten> {
     super.initState();
     userData(widget.sectionId);
     showAtten(weekNum, widget.sectionId);
-    setState(() {
-      isLoaded = true;
-    });
   }
 
   @override
@@ -298,7 +299,6 @@ class _TeacherAttenState extends State<TeacherAtten> {
       appBar: kMyAppBar,
       backgroundColor: Colors.white,
       body: isLoaded == false
-          // ignore: prefer_const_constructors
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -548,19 +548,23 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                               await Future.delayed(
                                                                   Duration
                                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return TeacherEditstatus(
-                                                                  sectionId: widget
-                                                                      .sectionId,
-                                                                  weeknum:
-                                                                      weekNum,
-                                                                );
-                                                              }));
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                  return TeacherEditstatus(
+                                                                    sectionId:
+                                                                        widget
+                                                                            .sectionId,
+                                                                    weeknum:
+                                                                        weekNum,
+                                                                  );
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             },
                                                             child: const Text(
                                                                 'แก้ไขสถานะ'),
@@ -830,26 +834,32 @@ class _TeacherAttenState extends State<TeacherAtten> {
                                                             Container(
                                                               width: 150,
                                                               child: Align(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      row['status'],
-                                                                      style: CustomTextStyle
-                                                                          .TextGeneral2,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 5,
-                                                                    ),
-                                                                    statusIconWidget =
-                                                                        getStatusIcon(
-                                                                            row['status']),
-                                                                  ],
+                                                                alignment: Alignment
+                                                                    .centerRight,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          10),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Text(
+                                                                        row['status'],
+                                                                        style: CustomTextStyle
+                                                                            .TextGeneral2,
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            5,
+                                                                      ),
+                                                                      statusIconWidget =
+                                                                          getStatusIcon(
+                                                                              row['status']),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),

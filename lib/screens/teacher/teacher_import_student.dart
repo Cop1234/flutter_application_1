@@ -105,10 +105,10 @@ class _TeacherImportStuState extends State<TeacherImportStu> {
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListClassScreen(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListClassScreen()),
+          (route) => false,
         );
       },
     );

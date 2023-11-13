@@ -364,25 +364,31 @@ class _StudentAttenState extends State<StudentAtten> {
                                                     Container(
                                                       width: 150,
                                                       child: Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              row['status'],
-                                                              style: CustomTextStyle
-                                                                  .TextGeneral2,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            statusIconWidget =
-                                                                getStatusIcon(row[
-                                                                    'status']),
-                                                          ],
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 10),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                row['status'],
+                                                                style: CustomTextStyle
+                                                                    .TextGeneral2,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              statusIconWidget =
+                                                                  getStatusIcon(
+                                                                      row['status']),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

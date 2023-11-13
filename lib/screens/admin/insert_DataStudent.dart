@@ -61,10 +61,10 @@ class _InsertDataStudent extends State<InsertDataStudent> {
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListStudent(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListStudent()),
+          (route) => false,
         );
       },
     );

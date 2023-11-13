@@ -60,11 +60,10 @@ class _EditPasswordTeacherScreenState extends State<EditPasswordTeacherScreen> {
       confirmBtnText: "ตกลง",
       barrierDismissible: false,
       onConfirmBtnTap: () {
-        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const DetailTeacherProfile(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const DetailTeacherProfile()),
+          (route) => false,
         );
       },
     );
@@ -256,6 +255,11 @@ class _EditPasswordTeacherScreenState extends State<EditPasswordTeacherScreen> {
                                                           return "กรุณากรอกรหัสผ่านใหม่*";
                                                         } else if (!subjectNameValid) {
                                                           return "กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษอักษรพิเศษ\nและตัวเลขความยาว 8-16 ตัว";
+                                                        } else if (newPasswordController
+                                                                .text ==
+                                                            oldPasswordController
+                                                                .text) {
+                                                          return "รหัสผ่านใหม่ต้องไม่เหมือนรหัสผ่านเดิม!!";
                                                         }
                                                       },
                                                     ),
@@ -350,14 +354,16 @@ class _EditPasswordTeacherScreenState extends State<EditPasswordTeacherScreen> {
                                                             await Future.delayed(
                                                                 Duration
                                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                                    MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                              return const DetailTeacherProfile();
-                                                            }));
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                return const DetailTeacherProfile();
+                                                              }),
+                                                              (route) => false,
+                                                            );
                                                           },
                                                           child: const Text(
                                                               "ยกเลิก",

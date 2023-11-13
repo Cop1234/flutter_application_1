@@ -154,11 +154,10 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
       barrierDismissible: false,
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
-        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListClassScreen(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListClassScreen()),
+          (route) => false,
         );
       },
     );
@@ -1209,13 +1208,16 @@ class _TeacherCreateClassState extends State<TeacherCreateClass> {
                                                             ),
                                                             onPressed: () {
                                                               setState(() {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushReplacement(MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                  return const ListClassScreen();
-                                                                }));
+                                                                Navigator
+                                                                    .pushAndRemoveUntil(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const ListClassScreen()),
+                                                                  (route) =>
+                                                                      false,
+                                                                );
                                                               });
                                                             },
                                                             child: const Text(

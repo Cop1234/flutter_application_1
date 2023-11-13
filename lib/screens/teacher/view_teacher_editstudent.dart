@@ -128,10 +128,14 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
         type: QuickAlertType.success,
         confirmBtnText: "ตกลง",
         onConfirmBtnTap: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => TeacherViewStudent(
-                    sectionId: secid,
-                  )));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TeacherViewStudent(
+                      sectionId: secid,
+                    )),
+            (route) => false,
+          );
         });
   }
 
@@ -275,16 +279,17 @@ class _TeacherEditStudentState extends State<TeacherEditStudent> {
                                               child: InkWell(
                                                 onTap: () async {
                                                   setState(() {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                      return TeacherAddStudent(
-                                                          sectionId:
-                                                              '${section?.id}');
-                                                    }));
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                        return TeacherAddStudent(
+                                                            sectionId:
+                                                                '${section?.id}');
+                                                      }),
+                                                      (route) => false,
+                                                    );
                                                   });
                                                 },
                                                 child: Container(

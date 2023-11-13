@@ -480,17 +480,20 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                               await Future.delayed(
                                                                   Duration
                                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return TeacherAtten(
-                                                                    sectionId: row[
-                                                                            'sectionId']
-                                                                        .toString());
-                                                              }));
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                  return TeacherAtten(
+                                                                      sectionId:
+                                                                          row['sectionId']
+                                                                              .toString());
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
@@ -511,17 +514,19 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             await Future.delayed(
                                                                 Duration
                                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                                    MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                              return TeacherQR(
-                                                                  sectionId: row[
-                                                                          'sectionId']
-                                                                      .toString());
-                                                            }));
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                return TeacherQR(
+                                                                    sectionId: row[
+                                                                            'sectionId']
+                                                                        .toString());
+                                                              }),
+                                                              (route) => false,
+                                                            );
                                                           },
                                                         ),
                                                         PopupMenuItem(
@@ -543,17 +548,19 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             await Future.delayed(
                                                                 Duration
                                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                                    MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                              return TeacherViewStudent(
-                                                                  sectionId: row[
-                                                                          'sectionId']
-                                                                      .toString());
-                                                            }));
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                return TeacherViewStudent(
+                                                                    sectionId: row[
+                                                                            'sectionId']
+                                                                        .toString());
+                                                              }),
+                                                              (route) => false,
+                                                            );
                                                           },
                                                         ),
                                                         PopupMenuItem(
@@ -575,20 +582,22 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             await Future.delayed(
                                                                 Duration
                                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                                    MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                              return TeacherUpdateClass(
-                                                                  courseId: row[
-                                                                          'courseId']
-                                                                      .toString(),
-                                                                  sectionId: row[
-                                                                          'sectionId']
-                                                                      .toString());
-                                                            }));
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                return TeacherUpdateClass(
+                                                                    courseId: row[
+                                                                            'courseId']
+                                                                        .toString(),
+                                                                    sectionId: row[
+                                                                            'sectionId']
+                                                                        .toString());
+                                                              }),
+                                                              (route) => false,
+                                                            );
                                                           },
                                                         ),
                                                         PopupMenuItem(
@@ -610,17 +619,19 @@ class _ListClassScreenState extends State<ListClassScreen> {
                                                             await Future.delayed(
                                                                 Duration
                                                                     .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushReplacement(
-                                                                    MaterialPageRoute(builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                              return TeacherImportStu(
-                                                                  sectionId: row[
-                                                                          'sectionId']
-                                                                      .toString());
-                                                            }));
+                                                            Navigator
+                                                                .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                return TeacherImportStu(
+                                                                    sectionId: row[
+                                                                            'sectionId']
+                                                                        .toString());
+                                                              }),
+                                                              (route) => false,
+                                                            );
                                                           },
                                                         ),
                                                       ],

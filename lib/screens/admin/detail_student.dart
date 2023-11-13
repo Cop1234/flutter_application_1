@@ -100,10 +100,10 @@ class _DetailStudentState extends State<DetailStudent> {
       confirmBtnText: "ตกลง",
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListStudent(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListStudent()),
+          (route) => false,
         );
       },
     );
@@ -499,14 +499,13 @@ class _DetailStudentState extends State<DetailStudent> {
                                                 onTap: () async {
                                                   await Future.delayed(Duration
                                                       .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                    return const ListStudent();
-                                                  }));
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ListStudent()),
+                                                    (route) => false,
+                                                  );
                                                 },
                                                 child: Container(
                                                     height: 35,

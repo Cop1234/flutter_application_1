@@ -97,10 +97,10 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
       barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListRoomScreen(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListRoomScreen()),
+          (route) => false,
         );
       },
     );
@@ -170,9 +170,9 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                         ),
                                         Center(
                                           child: Table(
-                                            // border: TableBorder.all(),
+                                            //border: TableBorder.all(),
                                             columnWidths: const {
-                                              0: FractionColumnWidth(0.25),
+                                              0: FractionColumnWidth(0.24),
                                               1: FractionColumnWidth(0.5),
                                             },
                                             children: [
@@ -278,7 +278,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                                                   InputBorder
                                                                       .none,
                                                               hintText:
-                                                                  'ชื่อห้องต้องเป็นภาษาไทยและมีตัวเลข',
+                                                                  'กรอกเฉพาะภาษาไทย ภาษาอังกฤษ ตัวเลข อักษรพิเศษ -',
                                                               hintStyle:
                                                                   TextStyle(
                                                                 fontSize: 18,

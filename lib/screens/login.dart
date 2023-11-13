@@ -117,7 +117,6 @@ class _loginScreenState extends State<LoginScreen> {
                           controller: usernameController,
                           decoration: const InputDecoration(
                             labelText: "ชื่อผู้ใช้",
-                            labelStyle: TextStyle(fontSize: 20),
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.person),
                           ),
@@ -145,7 +144,6 @@ class _loginScreenState extends State<LoginScreen> {
                           obscureText: passToggle,
                           decoration: InputDecoration(
                               labelText: "รหัสผ่าน",
-                              labelStyle: const TextStyle(fontSize: 20),
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.lock),
                               suffixIcon: InkWell(
@@ -187,11 +185,13 @@ class _loginScreenState extends State<LoginScreen> {
                               SharedPreferences spf =
                                   await SharedPreferences.getInstance();
                               spf.setString('platform', platform ?? '-');
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                return const ListRoomScreen();
-                              }));
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ListRoomScreen()),
+                                (route) => false,
+                              );
                             } else if (_formfield.currentState!.validate()) {
                               http.Response response =
                                   await loginController.doLogin(
@@ -209,17 +209,21 @@ class _loginScreenState extends State<LoginScreen> {
                                 List<dynamic> roles = jsonResponse['role'];
                                 roleName = roles[0]['role'];
                                 if (roleName == "Student") {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                    return const ViewStudentSubject();
-                                  }));
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ViewStudentSubject()),
+                                    (route) => false,
+                                  );
                                 } else if (roleName == "Teacher") {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                    return const ListClassScreen();
-                                  }));
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ListClassScreen()),
+                                    (route) => false,
+                                  );
                                 }
                               } else if (response.statusCode == 409) {
                                 showLoginFailAlert();

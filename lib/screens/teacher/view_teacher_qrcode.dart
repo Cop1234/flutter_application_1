@@ -327,10 +327,11 @@ class _TeacherQRState extends State<TeacherQR> {
                                                 height: 40,
                                                 alignment: AlignmentDirectional
                                                     .centerStart,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0,
+                                                    top: 10.0,
+                                                    right: 10.0,
+                                                    bottom: 10.0),
                                                 decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:

@@ -118,12 +118,15 @@ class _TeacherEditstatusState extends State<TeacherEditstatus> {
       text: "ข้อมูลสถานะถูกแก้ไขเรียบร้อยแล้ว",
       type: QuickAlertType.success,
       confirmBtnText: "ตกลง",
+      barrierDismissible: false,
       onConfirmBtnTap: () {
-        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
-          return TeacherAtten(sectionId: widget.sectionId);
-        }));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return TeacherAtten(sectionId: widget.sectionId);
+          }),
+          (route) => false,
+        );
       },
     );
   }

@@ -122,8 +122,11 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
         confirmBtnText: "ตกลง",
         barrierDismissible: false,
         onConfirmBtnTap: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const ListSubjectScreen()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ListSubjectScreen()),
+            (route) => false,
+          );
         });
   }
 
@@ -179,14 +182,13 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                             child: InkWell(
                                               onTap: () async {
                                                 setState(() {
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                    return const AddSubjectScreen();
-                                                  }));
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const AddSubjectScreen()),
+                                                    (route) => false,
+                                                  );
                                                 });
                                               },
                                               child: Container(
@@ -346,7 +348,8 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -359,19 +362,23 @@ class _ListSubjectScreenState extends State<ListSubjectScreen> {
                                                               ],
                                                             ),
                                                             onTap: () async {
-                                                              await Future.delayed(
-                                                                  Duration
-                                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return DetailSubjectScreen(
-                                                                    id: row['id']
-                                                                        .toString());
-                                                              }));
+                                                              await Future
+                                                                  .delayed(
+                                                                      Duration
+                                                                          .zero);
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                  return DetailSubjectScreen(
+                                                                      id: row['id']
+                                                                          .toString());
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(

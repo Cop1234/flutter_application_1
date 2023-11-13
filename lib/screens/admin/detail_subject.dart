@@ -82,10 +82,10 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
       barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
         // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListSubjectScreen(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListSubjectScreen()),
+          (route) => false,
         );
       },
     );
@@ -617,124 +617,177 @@ class _DetailSubjectScreenState extends State<DetailSubjectScreen> {
                                                   ),
                                                 ],
                                               ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
+                                                        child: const Text(''),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 8.0,
+                                                                top: 8.0,
+                                                                right: 8.0,
+                                                                bottom: 8.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                await Future
+                                                                    .delayed(
+                                                                        Duration
+                                                                            .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
+                                                                Navigator
+                                                                    .pushAndRemoveUntil(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const ListSubjectScreen()),
+                                                                  (route) =>
+                                                                      false,
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                  height: 35,
+                                                                  width: 110,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                  ),
+                                                                  child:
+                                                                      const Center(
+                                                                    child: Text(
+                                                                        "ยกเลิก",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.bold)),
+                                                                  )),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                int? credit =
+                                                                    int.tryParse(
+                                                                        creditController
+                                                                            .text);
+
+                                                                if (_formfield
+                                                                    .currentState!
+                                                                    .validate()) {
+                                                                  if (inputSubjectId == false &&
+                                                                      inputsubjectName ==
+                                                                          false &&
+                                                                      inputCredit ==
+                                                                          false) {
+                                                                    String
+                                                                        subjectId =
+                                                                        subjectIdController
+                                                                            .text;
+                                                                    int? id =
+                                                                        subject
+                                                                            ?.id;
+
+                                                                    // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
+                                                                    bool
+                                                                        isExists =
+                                                                        isSubjectIdExists(
+                                                                            subjectId,
+                                                                            id!);
+                                                                    if (isExists) {
+                                                                      // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
+                                                                      showErrorSubjectIdExistsAlert(
+                                                                          subjectId);
+                                                                    } else {
+                                                                      // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
+                                                                      Subject
+                                                                          updateSubject =
+                                                                          Subject(
+                                                                        id: subject
+                                                                            ?.id,
+                                                                        subjectId:
+                                                                            subjectIdController.text,
+                                                                        subjectName:
+                                                                            subjectNameController.text,
+                                                                        detail:
+                                                                            detailController.text,
+                                                                        credit:
+                                                                            credit,
+                                                                      );
+                                                                      http.Response
+                                                                          response =
+                                                                          (await subjectController
+                                                                              .update_Subject(updateSubject));
+
+                                                                      if (response
+                                                                              .statusCode ==
+                                                                          200) {
+                                                                        showSuccessToChangeSubjectAlert();
+                                                                        print(
+                                                                            "แก้ไขสำเร็จ");
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                                  height: 35,
+                                                                  width: 110,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        maincolor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                  ),
+                                                                  child:
+                                                                      const Center(
+                                                                    child: Text(
+                                                                        "แก้ไข",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.bold)),
+                                                                  )),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                await Future.delayed(Duration
-                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                  return const ListSubjectScreen();
-                                                }));
-                                              },
-                                              child: Container(
-                                                  height: 35,
-                                                  width: 110,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text("ยกเลิก",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                int? credit = int.tryParse(
-                                                    creditController.text);
-
-                                                if (_formfield.currentState!
-                                                    .validate()) {
-                                                  if (inputSubjectId == false &&
-                                                      inputsubjectName ==
-                                                          false &&
-                                                      inputCredit == false) {
-                                                    String subjectId =
-                                                        subjectIdController
-                                                            .text;
-                                                    int? id = subject?.id;
-
-                                                    // เช็คว่า subjectId มีอยู่ใน subjects หรือไม่
-                                                    bool isExists =
-                                                        isSubjectIdExists(
-                                                            subjectId, id!);
-                                                    if (isExists) {
-                                                      // แสดง Alert หรือข้อความว่า subjectId มีอยู่ในระบบแล้ว
-                                                      showErrorSubjectIdExistsAlert(
-                                                          subjectId);
-                                                    } else {
-                                                      // ทำการ addSubject เมื่อ subjectId ไม่ซ้ำ
-                                                      Subject updateSubject =
-                                                          Subject(
-                                                        id: subject?.id,
-                                                        subjectId:
-                                                            subjectIdController
-                                                                .text,
-                                                        subjectName:
-                                                            subjectNameController
-                                                                .text,
-                                                        detail: detailController
-                                                            .text,
-                                                        credit: credit,
-                                                      );
-                                                      http.Response response =
-                                                          (await subjectController
-                                                              .update_Subject(
-                                                                  updateSubject));
-
-                                                      if (response.statusCode ==
-                                                          200) {
-                                                        showSuccessToChangeSubjectAlert();
-                                                        print("แก้ไขสำเร็จ");
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              child: Container(
-                                                  height: 35,
-                                                  width: 110,
-                                                  decoration: BoxDecoration(
-                                                    color: maincolor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text("แก้ไข",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )),
-                                            ),
-                                          ],
                                         ),
                                       ],
                                     ),

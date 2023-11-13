@@ -108,11 +108,10 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
       confirmBtnText: "ตกลง",
       barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
-        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const ListRoomScreen(),
-          ),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ListRoomScreen()),
+          (route) => false,
         );
       },
     );
@@ -400,125 +399,173 @@ class _DetailRoomScreenState extends State<DetailRoomScreen> {
                                                   ),
                                                 ],
                                               ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        alignment:
+                                                            textHeaderbar,
+                                                        padding: EdgeInsets.all(
+                                                            12.0),
+                                                        child: const Text(''),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: IntrinsicWidth(
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0,
+                                                                top: 8.0,
+                                                                right: 8.0,
+                                                                bottom: 8.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                await Future
+                                                                    .delayed(
+                                                                        Duration
+                                                                            .zero);
+                                                                Navigator
+                                                                    .pushAndRemoveUntil(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const ListRoomScreen()),
+                                                                  (route) =>
+                                                                      false,
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                  height: 35,
+                                                                  width: 110,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                  ),
+                                                                  child:
+                                                                      const Center(
+                                                                    child: Text(
+                                                                        "ยกเลิก",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.bold)),
+                                                                  )),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                if (_formfield
+                                                                    .currentState!
+                                                                    .validate()) {
+                                                                  if (inputRoomName ==
+                                                                      false) {
+                                                                    String
+                                                                        roomName =
+                                                                        roomNameController
+                                                                            .text;
+                                                                    String
+                                                                        building =
+                                                                        buildingController
+                                                                            .text;
+                                                                    int?
+                                                                        roomId =
+                                                                        room?.id;
+                                                                    bool isExists = isRoomNameExists(
+                                                                        roomName,
+                                                                        building,
+                                                                        roomId!);
+                                                                    if (isExists) {
+                                                                      showErrorRoomNameExistsAlert(
+                                                                          roomName);
+                                                                    } else {
+                                                                      double?
+                                                                          latitude =
+                                                                          double.tryParse(
+                                                                              latitudeController.text);
+                                                                      double?
+                                                                          longitude =
+                                                                          double.tryParse(
+                                                                              longitudeController.text);
+                                                                      Room
+                                                                          updateRoom =
+                                                                          Room(
+                                                                        id: room
+                                                                            ?.id,
+                                                                        roomName:
+                                                                            roomNameController.text,
+                                                                        building:
+                                                                            buildingController.text =
+                                                                                dropdownvalue.toString(),
+                                                                        latitude:
+                                                                            latitude,
+                                                                        longitude:
+                                                                            longitude,
+                                                                      );
+                                                                      http.Response
+                                                                          response =
+                                                                          (await roomController
+                                                                              .update_Room(updateRoom));
+
+                                                                      if (response
+                                                                              .statusCode ==
+                                                                          200) {
+                                                                        showSuccessToChangeRoomAlert();
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                                  height: 35,
+                                                                  width: 110,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        maincolor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                  ),
+                                                                  child:
+                                                                      const Center(
+                                                                    child: Text(
+                                                                        "แก้ไข",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.bold)),
+                                                                  )),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                await Future.delayed(Duration
-                                                    .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                  return const ListRoomScreen();
-                                                }));
-                                              },
-                                              child: Container(
-                                                  height: 35,
-                                                  width: 110,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text("ยกเลิก",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                if (_formfield.currentState!
-                                                    .validate()) {
-                                                  if (inputRoomName == false) {
-                                                    String roomName =
-                                                        roomNameController.text;
-                                                    String building =
-                                                        buildingController.text;
-                                                    int? roomId = room?.id;
-                                                    bool isExists =
-                                                        isRoomNameExists(
-                                                            roomName,
-                                                            building,
-                                                            roomId!);
-                                                    if (isExists) {
-                                                      showErrorRoomNameExistsAlert(
-                                                          roomName);
-                                                    } else {
-                                                      double? latitude =
-                                                          double.tryParse(
-                                                              latitudeController
-                                                                  .text);
-                                                      double? longitude =
-                                                          double.tryParse(
-                                                              longitudeController
-                                                                  .text);
-                                                      Room updateRoom = Room(
-                                                        id: room?.id,
-                                                        roomName:
-                                                            roomNameController
-                                                                .text,
-                                                        building:
-                                                            buildingController
-                                                                    .text =
-                                                                dropdownvalue
-                                                                    .toString(),
-                                                        latitude: latitude,
-                                                        longitude: longitude,
-                                                      );
-                                                      http.Response response =
-                                                          (await roomController
-                                                              .update_Room(
-                                                                  updateRoom));
-
-                                                      if (response.statusCode ==
-                                                          200) {
-                                                        showSuccessToChangeRoomAlert();
-                                                        print("แก้ไขสำเร็จ");
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              child: Container(
-                                                  height: 35,
-                                                  width: 110,
-                                                  decoration: BoxDecoration(
-                                                    color: maincolor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text("แก้ไข",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )),
-                                            ),
-                                          ],
                                         ),
                                       ],
                                     ),

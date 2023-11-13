@@ -100,13 +100,14 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
       confirmBtnText: "ตกลง",
       barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
       onConfirmBtnTap: () {
-        // ทำการนำทางไปยังหน้าใหม่ที่คุณต้องการ
-        Navigator.of(context).pushReplacement(
+        Navigator.pushAndRemoveUntil(
+          context,
           MaterialPageRoute(
             builder: (context) => TeacherViewStudent(
               sectionId: secid,
             ),
           ),
+          (route) => false,
         );
       },
     );
@@ -376,16 +377,19 @@ class _TeacherAddStudentState extends State<TeacherAddStudent> {
                                                         await Future.delayed(
                                                             Duration
                                                                 .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                        Navigator.of(context)
-                                                            .pushReplacement(
-                                                                MaterialPageRoute(builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                          return TeacherViewStudent(
-                                                            sectionId:
-                                                                '${section?.id}',
-                                                          );
-                                                        }));
+                                                        Navigator
+                                                            .pushAndRemoveUntil(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                            return TeacherViewStudent(
+                                                              sectionId:
+                                                                  '${section?.id}',
+                                                            );
+                                                          }),
+                                                          (route) => false,
+                                                        );
                                                       },
                                                       child: Container(
                                                           height: 35,

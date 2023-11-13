@@ -34,10 +34,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const ListRoomScreen();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ListRoomScreen()),
+                  (route) => false,
+                );
               });
             },
             child: Icon(
@@ -62,10 +64,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                     pressed4 = true;
                     pressed5 = true;
                   }
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return ListRoomScreen();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListRoomScreen()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -82,10 +86,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const ListSubjectScreen();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ListSubjectScreen()),
+                  (route) => false,
+                );
               });
             },
             child: Icon(
@@ -101,10 +107,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed2 = !pressed2;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const ListSubjectScreen();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListSubjectScreen()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -122,10 +130,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
             onTap: () {
               setState(() {
                 pressed3 = !pressed3;
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const ListStudent();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ListStudent()),
+                  (route) => false,
+                );
               });
             },
             child: Icon(
@@ -141,10 +150,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed3 = !pressed3;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const ListStudent();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListStudent()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -162,10 +173,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
             onTap: () {
               setState(() {
                 pressed4 = !pressed4;
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const ListTeacher();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ListTeacher()),
+                  (route) => false,
+                );
               });
             },
             child: Icon(
@@ -180,10 +192,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
               onTap: () {
                 setState(() {
                   pressed4 = !pressed4;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const ListTeacher();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListTeacher()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(
@@ -200,10 +214,11 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
           GestureDetector(
             onTap: () {
               setState(() {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const LoginScreen();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
               });
             },
             child: Icon(
@@ -221,10 +236,12 @@ class _NavbarAdminnState extends State<NavbarAdmin> {
                 prefs.remove('username');
                 setState(() {
                   pressed5 = !pressed5;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const LoginScreen();
-                  }));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
                 });
               },
               child: Text(

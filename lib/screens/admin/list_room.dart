@@ -90,7 +90,6 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
           http.Response response = await roomController.deleteRoom(id);
 
           if (response.statusCode == 200) {
-            Navigator.pop(context);
             showUpDeleteRoomSuccessAlert();
           } else {
             showFailToDeleteRoomAlert();
@@ -119,8 +118,11 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
         confirmBtnText: "ตกลง",
         barrierDismissible: false, // ปิดการคลิกพื้นหลังเพื่อป้องกันการปิด Alert
         onConfirmBtnTap: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const ListRoomScreen()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ListRoomScreen()),
+            (route) => false,
+          );
         });
   }
 
@@ -339,7 +341,8 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                           [
                                                         PopupMenuItem(
                                                             child: Row(
-                                                              children: const <Widget>[
+                                                              children: const <
+                                                                  Widget>[
                                                                 Icon(
                                                                     Icons
                                                                         .change_circle,
@@ -352,23 +355,28 @@ class _ListRoomScreenState extends State<ListRoomScreen> {
                                                               ],
                                                             ),
                                                             onTap: () async {
-                                                              await Future.delayed(
-                                                                  Duration
-                                                                      .zero); // รอเวลาเล็กน้อยก่อนไปหน้า DetailRoomScreen
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushReplacement(
-                                                                      MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                return DetailRoomScreen(
-                                                                    id: row['id']
-                                                                        .toString());
-                                                              }));
+                                                              await Future
+                                                                  .delayed(
+                                                                      Duration
+                                                                          .zero);
+                                                              Navigator
+                                                                  .pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return DetailRoomScreen(
+                                                                      id: row['id']
+                                                                          .toString());
+                                                                }),
+                                                                (route) =>
+                                                                    false,
+                                                              );
                                                             }),
                                                         PopupMenuItem(
                                                           child: Row(
-                                                            children: const <Widget>[
+                                                            children: const <
+                                                                Widget>[
                                                               Icon(Icons.delete,
                                                                   color: Colors
                                                                       .black),
